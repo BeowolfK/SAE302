@@ -1,0 +1,5 @@
+mysql-connector-python==8.0.29
+Flask==2.2.2
+gunicorn==20.1.0
+Kivy==2.1.0
+

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes</title>
+    <style>
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            background-color: #2196F3;
+            padding : 10px;
+            grid-auto-rows: minmax(100px, auto);
+        }
+        .grid-item {
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            font-size: 30px;
+            text-align: center;
+        }
+        </style>
+</head>
+<body>
+    <div class="grid-container">
+        <div class="grid-item">Nom</div>
+        <div class="grid-item">Année</div>
+        <div class="grid-item">Moyenne Générale</div>
+
+        {% for etudiant in result %}
+            <div class="grid-item"><a href="/{{ etudiant[0] }}">{% if etudiant[3] == "M" %} Mr {% else %} Mme {% endif %}{{ etudiant[1] }} {{ etudiant[2] }}</a></div>
+            <div class="grid-item">{{ etudiant[4] }}A</div>
+            <div class="grid-item">{{ etudiant[5] }}</div>
+        {% endfor %}
+
+    </div>
+</body>
+</html>

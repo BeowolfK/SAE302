@@ -1,1 +1,5 @@
 .vscode/
+database/tc.log
+database/ib_logfile0
+database/ib_logfile1
+database/ib_buffer_pool

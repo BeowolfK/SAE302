@@ -26,7 +26,7 @@ def new_account(username, password, type, id):
     assert isinstance(password, str)
     assert isinstance(type, str)
     assert isinstance(id, int)
-    
+
     cur.execute(f"SELECT type FROM login WHERE id_personne = '{id}'")
     res = cur.fetchall()
     if res != []:
@@ -47,7 +47,11 @@ def new_account(username, password, type, id):
         hash = ph.hash(password)
 
     try:
-        cur.execute(f"INSERT INTO `login` (`id_login`, `username`, `password`, `type`, `id_personne`) VALUES (NULL, '{username}', '{hash}', '{type}', '{id}'); ")
+        cur.execute(
+            f"INSERT INTO `login` \
+            (`id_login`, `username`, `password`, `type`, `id_personne`) \
+            VALUES (NULL, '{username}', '{hash}', '{type}', '{id}'); "
+        )
     except mysql.connector.Error:
         return
     con.commit()
@@ -65,9 +69,12 @@ def verify(username, password):
     except argon2.exceptions.VerifyMismatchError:
         return
 
-    cur.execute(f"SELECT type, id_personne FROM login WHERE username = '{username}'")
+    cur.execute(
+        f"SELECT type, id_personne FROM login WHERE username = '{username}'"
+        )
     id = cur.fetchone()
     return id
+
 
 def create():
     # ack = new_account("prof", "prof", "prof", 1)
@@ -77,7 +84,8 @@ def create():
     else:
         print("Votre compte a été créé")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     # create()
     id = verify("etu", "etu")
     if not id:

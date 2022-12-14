@@ -1,0 +1,65 @@
+
+
+FloatLayout : 
+    orientation : "vertical"
+    size : root.width, root.height
+    canvas.before : 
+        Color:
+            rgba: 1,1,1,1
+        Rectangle :      
+            pos: self.pos
+            size: self.size
+  
+    spacing : 1
+
+
+
+    Label : 
+        color : 192,192,192,1
+        text : "Bienvenue" 
+        font_size : 40
+        size_hint_x : 1
+        size_hint_y : .3
+        pos_hint : {"x": 0.0,"y" : 0.8}
+
+    Label : 
+        color : 192,192,192,1
+        text : "Username : "
+        font_size : 30
+        size_hint_x : 1
+        size_hint_y : .25
+        pos_hint :  {"x" : 0, "y" : 0.5}
+    
+    TextInput : 
+        id : username
+        multiline : False
+        font_size : 25
+        size_hint_x : 0.5
+        size_hint_y : .07
+        halign : "center" 
+        pos_hint :  {"x" : 0.245, "y" : 0.5}
+    
+    Label : 
+        color : 192,192,192,1
+        text : "Mot de passe : "
+        font_size : 30
+        size_hint_x : 1
+        size_hint_y : .25
+        pos_hint :  {"x" : 0, "y" : 0.3}
+    
+    TextInput : 
+        id : mdp
+        multiline : False
+        font_size : 25
+        size_hint_x : 0.5
+        size_hint_y : .07
+        halign : "center" 
+        pos_hint :  {"x" : 0.245, "y" : 0.3}
+
+    Button : 
+        id : valide 
+        text : "Valider"
+        background_color : .225,0.225,.225,.3
+        size_hint_x : 0.3
+        size_hint_y : 0.07
+        pos_hint : {"x" : 0.35, "y" : 0.15}

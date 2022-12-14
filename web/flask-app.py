@@ -36,16 +36,31 @@ def home():
     return render_template('home.html', result=result)
 
 
-@app.route("/<etudiant>")
+@app.route("/etudiant/<etudiant>")
 def note_student(etudiant):
     try:
-        cur.execute(f"SELECT matiere.nom, AVG(NOTE) FROM note INNER JOIN matiere ON note.id_matiere = matiere.id_matiere WHERE id_etudiant = {etudiant} GROUP BY note.id_matiere;")
+        cur.execute(f"SELECT etudiant.nom, etudiant.prenom, etudiant.sexe, matiere.nom, AVG(NOTE) FROM note INNER JOIN matiere ON note.id_matiere = matiere.id_matiere INNER JOIN etudiant ON note.id_etudiant = etudiant.id_etudiant WHERE note.id_etudiant = {etudiant} GROUP BY note.id_matiere; ")
         result = cur.fetchall()
         if result == []:
-            return redirect('/404.html')
+            return redirect('/error404')
         return render_template('etudiant.html', result=result)
-    except mysql.connector.errors.ProgrammingError:
-        return redirect('/404')
+    except mysql.connector.errors.ProgrammingError as e:
+        print(e)
+        return redirect('/error404')
+
+
+@app.route("/matiere/<matiere>")
+def note_matiere(matiere):
+    try:
+        print(matiere)
+        cur.execute(f"SELECT etudiant.id_etudiant, matiere.nom, etudiant.nom, etudiant.prenom, etudiant.sexe, AVG(note) FROM matiere INNER JOIN note ON matiere.id_matiere = note.id_matiere INNER JOIN etudiant ON note.id_etudiant = etudiant.id_etudiant WHERE matiere.nom = '{matiere.lower()}' GROUP BY note.id_etudiant ORDER BY AVG(note) DESC;")
+        result = cur.fetchall()
+        if result == []:
+            return redirect('/error404')
+        return render_template('matiere.html', result=result)
+    except mysql.connector.errors.ProgrammingError as e:
+        print(e)
+        return redirect('/error404')
 
 
 @app.route("/error404")

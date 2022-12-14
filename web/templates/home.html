@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notes</title>
     <style>
+
         .grid-container {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -29,7 +30,7 @@
         <div class="grid-item">Moyenne Générale</div>
 
         {% for etudiant in result %}
-            <div class="grid-item"><a href="/{{ etudiant[0] }}">{% if etudiant[3] == "M" %} Mr {% else %} Mme {% endif %}{{ etudiant[1] }} {{ etudiant[2] }}</a></div>
+            <div class="grid-item"><a href="/etudiant/{{ etudiant[0] }}">{% if etudiant[3] == "M" %} Mr {% else %} Mme {% endif %}{{ etudiant[1] | title}} {{ etudiant[2] | title}}</a></div>
             <div class="grid-item">{{ etudiant[4] }}A</div>
             <div class="grid-item">{{ etudiant[5] }}</div>
         {% endfor %}

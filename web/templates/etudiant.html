@@ -6,9 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notes</title>
     <style>
+        h1 {
+            text-align: center;
+            padding: 5px;
+            margin: 0 auto;
+            width: 50%;
+        }
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(2, 1fr);  
             background-color: #2196F3;
             padding : 10px;
             grid-auto-rows: minmax(100px, auto);
@@ -23,12 +29,13 @@
         </style>
 </head>
 <body>
+    <h1>{% if result[0][2] == "M" %} Mr {% else %} Mme {% endif %} {{ result[0][0] | title}} {{ result[0][1] | title}}</h1>
     <div class="grid-container">
         <div class="grid-item">Matiere</div>
         <div class="grid-item">Note</div>
         {% for note in result %}
-            <div class="grid-item">{{ note[0] }}</div>
-            <div class="grid-item">{{ note[1] }}</div>
+            <div class="grid-item"><a href="/matiere/{{ note[3] }}">{{ note[3] | title}}</a></div>
+            <div class="grid-item">{{ note[4] }}</div>
         {% endfor %}
     </div>
 </body>

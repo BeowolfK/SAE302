@@ -33,7 +33,9 @@ class Application(App):
                 if verif[0] == 'etu':
                     self.root.get_screen("second").ids.nom.text = str(verif[1]) 
                     return "second"
-
+    def resetchamp(self):
+        self.root.get_screen("hub").ids.identif.text = "" 
+        self.root.get_screen("hub").ids.mdp.text = ""
        
 if __name__ == "__main__":
     app = Application()

@@ -86,7 +86,15 @@ def verify(username, password):
     id = cur.fetchone()
     return id
     # Sinon, on récupère l'ID de l'étudiant qui va nous servir sur le panel
-
+def nom_prenom(type, id): 
+    assert isinstance(type, str)
+    assert isinstance(int(id), int)
+    
+    if type == "etu":
+        cur.execute(f"SELECT nom,prenom,sexe FROM etudiant WHERE id_etudiant = '{id}'")
+    elif type == "prof": 
+        cur.execute(f"SELECT nom,prenom,sexe FROM prof WHERE id_prof = '{id}'")
+    return cur.fetchone()
 
 def create():
     # ack = new_account("prof", "prof", "prof", 1)

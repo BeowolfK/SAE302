@@ -60,7 +60,8 @@ WindowManager:
             size_hint_y : .07
             halign : "center" 
             pos_hint :  {"x" : 0.245, "y" : 0.3}
-
+            password : True
+            password_mask : '·'
         Button : 
             id : valide 
             text : "Valider"
@@ -68,8 +69,9 @@ WindowManager:
             size_hint_x : 0.3
             size_hint_y : 0.07
             pos_hint : {"x" : 0.35, "y" : 0.15}
-            on_press : app.root.current = app.valider()
-                
+            on_press : 
+                app.root.current = app.valider()
+                root.manager.transition.direction = "left"
                     
 
 <StudWindow>
@@ -88,6 +90,7 @@ WindowManager:
                 size: self.size
 
         Label:
+            id : nom
             color :  192,192,192,1
             text : "Nom , Prenom"
             font_size : 32 
@@ -386,4 +389,22 @@ WindowManager:
                         size:(root.ids.n4.size[0],root.ids.n4.size[1])  
 
 
+        Button : 
+            text : "Planning"
+            background_color : .225,0.225,.225,.3
+            font_size : 35
+            size_hint_x : .2
+            size_hint_y : .1
+            pos_hint : {"x" : 0, "y": .005}   
+        Button : 
+            text : "Déconnexion"
+            background_color : .225,0.225,.225,.3
+            font_size : 25
+            size_hint_x : .2
+            size_hint_y : .1
+            pos_hint : {"x" : .8, "y": 0.005} 
+            on_press : 
+                app.resetchamp()
+                app.root.current = "hub"
+                root.manager.transition.direction = "right"
 <TeachWindow>

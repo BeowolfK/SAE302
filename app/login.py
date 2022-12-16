@@ -14,14 +14,24 @@ try:
 except mysql.connector.Error as e:
     print("Exception : ", e)
     sys.exit(1)
-else:
-    print("Connexion réussie")
 
 cur = con.cursor()
 ph = argon2.PasswordHasher()
 
 
 def new_account(username, password, type, id):
+    """permet de créer un utilisateur lier a un compte en fonction de l'id
+        et du type
+
+    Args:
+        username (str): nom d'utilisateur
+        password (str): mot de passe
+        type (str): only "prof" ou "etu"
+        id (str): id de la personne
+
+    Returns:
+        bool: renvoie True seulement quand le compte est créer
+    """
     assert isinstance(username, str)
     assert isinstance(password, str)
     assert isinstance(type, str)
@@ -82,19 +92,26 @@ def verify(username, password):
     # On récupère le hash de l'utilisateur on est vérifie les mot de passes
     # Si les mots de passes sont différent on return
 
-    cur.execute(f"SELECT type, id_personne FROM login WHERE username = '{username}'")
+    cur.execute(
+        f"SELECT type, id_personne FROM login WHERE username = '{username}'"
+        )
     id = cur.fetchone()
     return id
     # Sinon, on récupère l'ID de l'étudiant qui va nous servir sur le panel
-def nom_prenom(type, id): 
+
+
+def nom_prenom(type, id):
     assert isinstance(type, str)
     assert isinstance(int(id), int)
-    
+
     if type == "etu":
-        cur.execute(f"SELECT nom,prenom,sexe FROM etudiant WHERE id_etudiant = '{id}'")
-    elif type == "prof": 
+        cur.execute(
+            f"SELECT nom,prenom,sexe FROM etudiant WHERE id_etudiant = '{id}'"
+        )
+    elif type == "prof":
         cur.execute(f"SELECT nom,prenom,sexe FROM prof WHERE id_prof = '{id}'")
     return cur.fetchone()
+
 
 def create():
     # ack = new_account("prof", "prof", "prof", 1)

@@ -3,8 +3,9 @@ from flask import Flask, render_template, redirect
 import sys
 
 """
-Need to improve database select 
+Need to improve database select
 website is not dynamic
+callback, rest API, ...
 """
 
 app = Flask(__name__)
@@ -26,12 +27,12 @@ else:
 cur = con.cursor()
 
 
-@app.route("/")
+@app.route("/", methods=['GET'])
 def home():
     cur.execute(
         "SELECT etudiant.id_etudiant, nom, prenom, sexe, annee, \
         AVG(note) FROM etudiant \
-        INNER JOIN note ON etudiant.id_etudiant = note.id_etudiant \
+        LEFT JOIN note ON etudiant.id_etudiant = note.id_etudiant \
         GROUP BY etudiant.id_etudiant"
     )
     result = cur.fetchall()

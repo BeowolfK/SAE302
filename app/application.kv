@@ -1,6 +1,9 @@
+#: import NoTransition kivy.uix.screenmanager.NoTransition
+
 WindowManager:
     FirstWindow:
     StudWindow: 
+    AddStudent: 
     TeachWindow:
 
 <FirstWindow>
@@ -74,7 +77,22 @@ WindowManager:
             on_press : 
                 app.root.current = app.valider()
                 root.manager.transition.direction = "left"
-                    
+        
+        Button : 
+            id : new_student
+            text : "Nouvelle étudiant"
+            background_color : 255, 255, 255 , 1
+            border : 1,1,1,1
+            color : 0,0,0,.5
+            font_size : 15
+            size_hint_x : 0.2
+            size_hint_y : 0.03
+            pos_hint : {"x" : 0.545, "y" : 0.269}
+            halign : "right"
+            on_press : 
+                root.manager.transition = NoTransition()
+                app.root.current = "addstudent"
+                
 
 <StudWindow>
     name : "second"
@@ -85,7 +103,7 @@ WindowManager:
 
         FloatLayout:
             
-            id = "panel_etu"
+            id : panel_etu
             size : root.width, root.height
 
             canvas.before : 
@@ -399,4 +417,64 @@ WindowManager:
                 on_press : 
                     app.root.current = "hub"
                     root.manager.transition.direction = "right"
+
+<AddStudent>
+    name : "addstudent"
+
+
+    FloatLayout:
+        
+        id : panel_etu
+        size : root.width, root.height
+
+        canvas.before : 
+            Color:
+                rgba: 1,1,1,1
+            Rectangle :      
+                pos: self.pos
+                size: self.size
+
+        Label:
+            color :  192,192,192,1
+            font_size : 32 
+            text : "Information étudiant"
+            pos_hint : {"x" : 0 , "y": 0.35 }
+
+        Label : 
+            color :  192,192,192,1
+            text : "Nom"
+            pos_hint : {"x" : 0, "y" : 0.20}
+            font_size : 25
+        TextInput : 
+            pos_hint : {"x" : .5-(self.size_hint_x/2), "y" : 0.6}
+            size_hint_x : .15
+            size_hint_y : .06
+            halign : "center"
+        
+        Label : 
+            color :  192,192,192,1
+            text : "Prénom"
+            pos_hint : {"x" : 0, "y" : 0.05}
+            font_size : 25
+        TextInput : 
+            pos_hint : {"x" : .5-(self.size_hint_x/2), "y" : 0.45}
+            size_hint_x : .15
+            size_hint_y : .06
+            halign : "center"
+
+        Label : 
+            id : l_sexe
+            color :  192,192,192,1
+            text : "Sexe"
+            pos_hint : {"x" : 0, "y" : -.10}
+            font_size : 25
+
+        Label : 
+            color : 192,192,192,1
+            text : "Homme"
+            font_size : 15
+            
+            pos_hint : {"x" : -.1, "y" : -.15}
+        
+        
 <TeachWindow>

@@ -2,7 +2,8 @@ from login import verify
 from management import info_etu
 from kivy.app import App
 from kivy.lang import Builder
-from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.uix.screenmanager import ScreenManager, Screen, NoTransition
+
 
 
 # CREATION DES CLASS REPRESENTANT NOS WINDOWS
@@ -22,6 +23,8 @@ class StudWindow(Screen):
 class TeachWindow(Screen):
     pass
 
+class AddStudent(Screen): 
+    pass
 
 class WindowManager(ScreenManager):
     pass

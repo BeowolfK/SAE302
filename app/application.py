@@ -48,7 +48,14 @@ class Application(App):
             lbl.color = (192, 192, 192, 1)
             lbl.underline = False
 
+    def solo_check(self): 
+        if self.root.get_screen("addstudent").ids.ck_h.active == True:
 
+            self.root.get_screen("addstudent").ids.ck_h.active = False
+    def solo_check2(self):    
+        if self.root.get_screen("addstudent").ids.ck_f.active == True:
+ 
+            self.root.get_screen("addstudent").ids.ck_f.active = False
     def valider(self):
         """Fait une requete pour savoir si c'est un étudiant, un prof, autre et
         en fonction renvoie la valeur pour switch faire la bonne fenêtre.

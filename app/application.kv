@@ -5,6 +5,7 @@ WindowManager:
     StudWindow: 
     AddStudent: 
     TeachWindow:
+    FileChose: 
 
 <FirstWindow>
     name: "hub"
@@ -438,15 +439,15 @@ WindowManager:
             color :  192,192,192,1
             font_size : 32 
             text : "Information étudiant"
-            pos_hint : {"x" : 0 , "y": 0.35 }
+            pos_hint : {"x" : 0 , "y": 0.40 }
 
         Label : 
             color :  192,192,192,1
             text : "Nom"
-            pos_hint : {"x" : 0, "y" : 0.20}
+            pos_hint : {"x" : 0, "y" : 0.31}
             font_size : 25
         TextInput : 
-            pos_hint : {"x" : .5-(self.size_hint_x/2), "y" : 0.6}
+            pos_hint : {"x" : .5-(self.size_hint_x/2), "y" : 0.71}
             size_hint_x : .15
             size_hint_y : .06
             halign : "center"
@@ -455,20 +456,32 @@ WindowManager:
         Label : 
             color :  192,192,192,1
             text : "Prénom"
-            pos_hint : {"x" : 0, "y" : 0.05}
+            pos_hint : {"x" : 0, "y" : 0.18}
             font_size : 25
         TextInput : 
-            pos_hint : {"x" : .5-(self.size_hint_x/2), "y" : 0.45}
+            pos_hint : {"x" : .5-(self.size_hint_x/2), "y" : 0.58}
             size_hint_x : .15
             size_hint_y : .06
             halign : "center"
             font_size : 20
 
+        Button : 
+            id : b_filechose
+            text : "Choisir la photo"
+           
+            size_hint_x : 0.15
+            size_hint_y : 0.055
+            pos_hint : {"x" : .5-(self.size_hint_x/2), "y" : 0.4}
+            background_color : .225,0.225,.225,.4
+            on_press :  
+                root.manager.transition = NoTransition()
+                app.root.current = "file_chose"
+
         Label : 
             id : l_sexe
             color :  192,192,192,1
             text : "Sexe"
-            pos_hint : {"x" : 0, "y" : -.10}
+            pos_hint : {"x" : 0, "y" : -.15}
             font_size : 25
 
         Label : 
@@ -476,20 +489,20 @@ WindowManager:
             text : "Homme"
             font_size : 15
             
-            pos_hint : {"x" : -.1, "y" : -.15}
+            pos_hint : {"x" : -.1, "y" : -.195}
 
         Label : 
             color : 192,192,192,1
             text : "Femme"
             font_size : 15
             
-            pos_hint : {"x" : .1, "y" : -.15}
+            pos_hint : {"x" : .1, "y" : -.195}
 
         BoxLayout : 
             orientation : "horizontal"
             size_hint_x : 0.1
-            size_hint_y : .3
-            pos_hint :  {"x": .45, "y": .245}
+            size_hint_y : .1
+            pos_hint :  {"x": .45, "y": .27}
             spacing : 20
             CheckBox :  
                 id : ck_h
@@ -535,4 +548,21 @@ WindowManager:
             on_press :  
                 root.manager.transition = NoTransition()
                 app.root.current = "hub"
+<FileChose>
+    name : "file_chose"
+    id : f_filechose
+    BoxLayout: 
+        orientation: "vertical" 
+        size : root.width, root.height
+
+        padding: 50
+        spacing : 20
+    
+
+        FileChooserIconView:
+            id: filechoser
+            on_selection : f_filechose.selected(filechoser.selection)
+            
+
+
 <TeachWindow>

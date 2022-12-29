@@ -18,7 +18,8 @@ class StudWindow(Screen):
     def test(self):
         print("test")
 
-
+class FileChose(Screen):
+    pass
 
 class TeachWindow(Screen):
     pass

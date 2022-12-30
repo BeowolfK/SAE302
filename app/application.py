@@ -1,7 +1,7 @@
 from login import verify
 from management import info_etu
 from kivy.app import App
-from kivy.lang import Builder
+
 from kivy.uix.screenmanager import ScreenManager, Screen, NoTransition
 
 
@@ -20,11 +20,19 @@ class StudWindow(Screen):
 
 class FileChose(Screen):
     def selected(self, filename): 
+        
+        
         try:
-            self.root.get_screen('file_chose').ids.my_image.source = filename[0]
+           
+            self.ids.i_image.source = filename[0]
+       
             print(filename[0])
+           
+         
         except: 
+          
             pass
+        
 class TeachWindow(Screen):
     pass
 
@@ -35,7 +43,7 @@ class WindowManager(ScreenManager):
     pass
 
 
-Builder.load_file("application.kv")
+
 
 
 class Application(App):
@@ -92,7 +100,19 @@ class Application(App):
             else:
                 self.resetchamp(False)
 
-
+    def reset_addstudent(self): 
+        self.root.get_screen("addstudent").ids.t_nom.text = ""
+        self.root.get_screen("addstudent").ids.t_prenom.text = ""
+        self.root.get_screen("addstudent").ids.i_etu.source = ""
+        self.root.get_screen("addstudent").ids.ck_h.active = False
+        self.root.get_screen("addstudent").ids.ck_f.active = False
+        self.root.get_screen("addstudent").ids.i_year.text = ""
+    def save_image(self,filename): 
+        try : 
+            self.root.get_screen("addstudent").ids.i_etu.source = filename[0]
+            print(filename[0])
+        except : 
+            pass
 
 
 if __name__ == "__main__":

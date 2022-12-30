@@ -447,6 +447,7 @@ WindowManager:
             pos_hint : {"x" : 0, "y" : 0.31}
             font_size : 25
         TextInput : 
+            id : t_nom
             pos_hint : {"x" : .5-(self.size_hint_x/2), "y" : 0.71}
             size_hint_x : .15
             size_hint_y : .06
@@ -459,12 +460,18 @@ WindowManager:
             pos_hint : {"x" : 0, "y" : 0.18}
             font_size : 25
         TextInput : 
+            id : t_prenom
             pos_hint : {"x" : .5-(self.size_hint_x/2), "y" : 0.58}
             size_hint_x : .15
             size_hint_y : .06
             halign : "center"
             font_size : 20
-
+        Image : 
+            id : i_etu
+            source : ""
+            size_hint_x : .1
+            size_hint_y : .1
+            pos_hint : {"x" : .45, "y" : .46}
         Button : 
             id : b_filechose
             text : "Choisir la photo"
@@ -473,7 +480,7 @@ WindowManager:
             size_hint_y : 0.055
             pos_hint : {"x" : .5-(self.size_hint_x/2), "y" : 0.4}
             background_color : .225,0.225,.225,.4
-            on_press :  
+            on_release :  
                 root.manager.transition = NoTransition()
                 app.root.current = "file_chose"
 
@@ -548,21 +555,52 @@ WindowManager:
             on_press :  
                 root.manager.transition = NoTransition()
                 app.root.current = "hub"
+                app.reset_addstudent()
 <FileChose>
     name : "file_chose"
     id : f_filechose
     BoxLayout: 
         orientation: "vertical" 
         size : root.width, root.height
-
+        canvas.before : 
+            Color:
+                rgba: 0,0,0,1
+            Rectangle :      
+                pos: self.pos
+                size: self.size
         padding: 50
         spacing : 20
     
+        Image:
+            id : i_image
+            source : ""
+            background_color : 0,0,0,1
 
         FileChooserIconView:
             id: filechoser
-            on_selection : f_filechose.selected(filechoser.selection)
+            on_selection : root.selected(filechoser.selection) 
             
-
+            
+        BoxLayout : 
+            orientation : "horizontal"
+            spacing : 1
+       
+            size_hint_y: .3
+            Button : 
+                text : "Fermé" 
+                size_hint_x : .6
+                size_hint_y : .5
+                on_release : 
+                    root.manager.transition = NoTransition()
+                    app.root.current = "addstudent"
+            Button : 
+                text : "Valider" 
+                size_hint_x : .6
+                size_hint_y : .5
+                on_release :  
+                    app.save_image(filechoser.selection) 
+                    root.manager.transition = NoTransition()
+                    app.root.current = "addstudent"
+        
 
 <TeachWindow>

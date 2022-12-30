@@ -19,8 +19,12 @@ class StudWindow(Screen):
         print("test")
 
 class FileChose(Screen):
-    pass
-
+    def selected(self, filename): 
+        try:
+            self.root.get_screen('file_chose').ids.my_image.source = filename[0]
+            print(filename[0])
+        except: 
+            pass
 class TeachWindow(Screen):
     pass
 

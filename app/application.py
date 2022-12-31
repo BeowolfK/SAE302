@@ -2,11 +2,10 @@ from login import verify
 from management import info_etu
 from kivy.app import App
 from kivy.lang import Builder
-from kivy.uix.screenmanager import ScreenManager, Screen, NoTransition
+from kivy.uix.screenmanager import ScreenManager, Screen
 
 
-
-# CREATION DES CLASS REPRESENTANT NOS WINDOWS
+# CREATION DES CLASS REPRÉSENTANT NOS WINDOWS
 class FirstWindow(Screen):
     pass
 
@@ -14,17 +13,18 @@ class FirstWindow(Screen):
 class StudWindow(Screen):
     def build(self):
         pass
-    
+
     def test(self):
         print("test")
-
 
 
 class TeachWindow(Screen):
     pass
 
-class AddStudent(Screen): 
+
+class AddStudent(Screen):
     pass
+
 
 class WindowManager(ScreenManager):
     pass
@@ -48,14 +48,13 @@ class Application(App):
             lbl.color = (192, 192, 192, 1)
             lbl.underline = False
 
-
     def valider(self):
-        """Fait une requete pour savoir si c'est un étudiant, un prof, autre et
+        """Fait une requête pour savoir si c'est un étudiant, un prof, autre et
         en fonction renvoie la valeur pour switch faire la bonne fenêtre.
 
 
         Returns:
-            str: nom du prochain ecran
+            str: nom du prochain écran
         """
 
         if (
@@ -79,8 +78,6 @@ class Application(App):
                     print("wtf not implement yet, how can you be admin")
             else:
                 self.resetchamp(False)
-
-
 
 
 if __name__ == "__main__":

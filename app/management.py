@@ -34,6 +34,28 @@ def info_etu(id):
     info = cur.fetchone()
     return f"{info[0].title()} - {info[1]}"
 
+def prof_nom(res):
+    """_summary_
+
+    Args:
+        res (list): _description_
+
+    Returns:
+        list: _description_
+    """
+    final = []
+    for tup in res:
+        cur.execute(
+            f"SELECT CASE prof.sexe \
+            WHEN 'M' THEN CONCAT('Mr', ' ', prof.nom, ' ', prof.prenom) \
+            ELSE CONCAT('Mme', ' ', prof.nom, ' ', prof.prenom) END \
+            FROM enseigne INNER JOIN prof ON enseigne.id_prof = prof.id_prof \
+            WHERE id_matiere = {tup[0]};")
+        list_name = []
+        for tuple_name in cur.fetchall():
+            list_name.append(tuple_name[0])
+        final.append([tup[1], list_name, *tup[2:]])
+    return final
 
 def panel_note(id):
     """Renvoie une liste contenant une liste [matiere, [prof], moyenne]
@@ -51,21 +73,19 @@ def panel_note(id):
         INNER JOIN matiere ON note.id_matiere = matiere.id_matiere \
         WHERE note.id_etudiant = {id} GROUP BY note.id_matiere;"
     )
-    res = cur.fetchall()
-    final = []
-    for tup in res:
-        cur.execute(
-            f"SELECT CASE prof.sexe \
-            WHEN 'M' THEN CONCAT('Mr', ' ', prof.nom, ' ', prof.prenom) \
-            ELSE CONCAT('Mme', ' ', prof.nom, ' ', prof.prenom) END \
-            FROM enseigne INNER JOIN prof ON enseigne.id_prof = prof.id_prof \
-            WHERE id_matiere = {tup[0]};")
-        list_name = []
-        for tuple_name in cur.fetchall():
-            list_name.append(tuple_name[0])
-        final.append([tup[1], list_name, tup[2]])
-    return final
+    res = prof_nom(cur.fetchall())
+    return res
+
+
+def matiere(id):
+    cur.execute(
+        f"SELECT matiere.id_matiere, matiere.nom FROM etudiant \
+        INNER JOIN matiere ON etudiant.annee = matiere.annee \
+        WHERE id_etudiant = {id} GROUP BY id_matiere;")
+    res = prof_nom(cur.fetchall())
+    return res
 
 
 if __name__ == "__main__":
-    print(info_etu(1))
+    print(matiere(2))
+    print(matiere(1))

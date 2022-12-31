@@ -22,9 +22,7 @@ def main():
     res = cur.fetchall()
     for people in res:
         filename = "images/{}-{}-{}.png".format(
-            people[0],
-            people[1].upper(),
-            people[2].upper()
+            people[0], people[1].upper(), people[2].upper()
         )
 
         if not exists(filename):

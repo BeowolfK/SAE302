@@ -19,8 +19,8 @@ class FileChose(Screen):
         try:
             self.ids.i_image.source = filename[0]
             print(filename[0])
-        except:
-            pass
+        except Exception as e:
+            print(e)
 
 
 class TeachWindow(Screen):
@@ -51,12 +51,12 @@ class Application(App):
             lbl.underline = False
 
     def solo_check(self):
-        if self.root.get_screen("addstudent").ids.ck_h.active == True:
+        if self.root.get_screen("addstudent").ids.ck_h.active:
 
             self.root.get_screen("addstudent").ids.ck_h.active = False
 
     def solo_check2(self):
-        if self.root.get_screen("addstudent").ids.ck_f.active == True:
+        if self.root.get_screen("addstudent").ids.ck_f.active:
 
             self.root.get_screen("addstudent").ids.ck_f.active = False
 

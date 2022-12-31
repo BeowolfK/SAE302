@@ -92,7 +92,9 @@ def verify(username, password):
     # On récupère le hash de l'utilisateur on est vérifie les mot de passes
     # Si les mots de passes sont différent on return
 
-    cur.execute(f"SELECT type, id_personne FROM login WHERE username = '{username}'")
+    cur.execute(
+        f"SELECT type, id_personne FROM login WHERE username = '{username}'"
+        )
     id = cur.fetchone()
     return id
     # Sinon, on récupère l'ID de l'étudiant qui va nous servir sur le panel
@@ -103,9 +105,13 @@ def nom_prenom(type, id):
     assert isinstance(int(id), int)
 
     if type == "etu":
-        cur.execute(f"SELECT nom,prenom,sexe FROM etudiant WHERE id_etudiant = '{id}'")
+        cur.execute(
+            f"SELECT nom,prenom,sexe FROM etudiant WHERE id_etudiant = '{id}'"
+        )
     elif type == "prof":
-        cur.execute(f"SELECT nom,prenom,sexe FROM prof WHERE id_prof = '{id}'")
+        cur.execute(
+            f"SELECT nom,prenom,sexe FROM prof WHERE id_prof = '{id}'"
+        )
     return cur.fetchone()
 
 

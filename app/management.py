@@ -118,7 +118,7 @@ def new_etudiant(nom, prenom, annee, sexe, filename):
 
 
 def add_note(note, id_matiere, id_etu):
-    try :
+    try:
         cur.execute(
             f"INSERT INTO note (note, id_matiere, id_etudiant) \
             VALUES ({note}, {id_matiere}, {id_etu});"

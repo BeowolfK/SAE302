@@ -27,7 +27,7 @@ else:
 cur = con.cursor()
 
 
-@app.route("/", methods=['GET'])
+@app.route("/", methods=["GET"])
 def home():
     cur.execute(
         "SELECT etudiant.id_etudiant, nom, prenom, sexe, annee, \

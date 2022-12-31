@@ -1,13 +1,7 @@
 from login import verify
 from management import info_etu
 from kivy.app import App
-<<<<<<< HEAD
-from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
-=======
-
-from kivy.uix.screenmanager import ScreenManager, Screen, NoTransition
->>>>>>> 6fa8d465c570583563adf0fa482c804e0264af4a
 
 
 # CREATION DES CLASS REPRÉSENTANT NOS WINDOWS
@@ -16,27 +10,19 @@ class FirstWindow(Screen):
 
 
 class StudWindow(Screen):
-    def build(self):
-        pass
+    pass
 
-    def test(self):
-        print("test")
 
 class FileChose(Screen):
-    def selected(self, filename): 
-        
-        
+    def selected(self, filename):
+
         try:
-           
             self.ids.i_image.source = filename[0]
-       
             print(filename[0])
-           
-         
-        except: 
-          
+        except:
             pass
-        
+
+
 class TeachWindow(Screen):
     pass
 
@@ -47,9 +33,6 @@ class AddStudent(Screen):
 
 class WindowManager(ScreenManager):
     pass
-
-
-
 
 
 class Application(App):
@@ -67,17 +50,16 @@ class Application(App):
             lbl.color = (192, 192, 192, 1)
             lbl.underline = False
 
-<<<<<<< HEAD
-=======
-    def solo_check(self): 
+    def solo_check(self):
         if self.root.get_screen("addstudent").ids.ck_h.active == True:
 
             self.root.get_screen("addstudent").ids.ck_h.active = False
-    def solo_check2(self):    
+
+    def solo_check2(self):
         if self.root.get_screen("addstudent").ids.ck_f.active == True:
- 
+
             self.root.get_screen("addstudent").ids.ck_f.active = False
->>>>>>> 6fa8d465c570583563adf0fa482c804e0264af4a
+
     def valider(self):
         """Fait une requête pour savoir si c'est un étudiant, un prof, autre et
         en fonction renvoie la valeur pour switch faire la bonne fenêtre.
@@ -103,29 +85,27 @@ class Application(App):
                     self.resetchamp(True)
                     return "second"
                 if verif[0] == "prof":
-                    print("prof but no panel")
+                    print(verif)
                 if verif[0] == "admin":
                     print("wtf not implement yet, how can you be admin")
             else:
                 self.resetchamp(False)
 
-<<<<<<< HEAD
-=======
-    def reset_addstudent(self): 
+    def reset_addstudent(self):
         self.root.get_screen("addstudent").ids.t_nom.text = ""
         self.root.get_screen("addstudent").ids.t_prenom.text = ""
         self.root.get_screen("addstudent").ids.i_etu.source = ""
         self.root.get_screen("addstudent").ids.ck_h.active = False
         self.root.get_screen("addstudent").ids.ck_f.active = False
         self.root.get_screen("addstudent").ids.i_year.text = ""
-    def save_image(self,filename): 
-        try : 
+
+    def save_image(self, filename):
+        try:
             self.root.get_screen("addstudent").ids.i_etu.source = filename[0]
             print(filename[0])
-        except : 
-            pass
+        except Exception as e:
+            print(e)
 
->>>>>>> 6fa8d465c570583563adf0fa482c804e0264af4a
 
 if __name__ == "__main__":
     app = Application()

@@ -1,0 +1,9 @@
+from os import get_terminal_size
+
+def cut(line, n):
+    return [line[i:i+n] for i in range(0, len(line), n)]
+
+
+string = "foo bar "*500
+size = get_terminal_size()[0]
+[print(f"{number} : {line.strip()}") for number, line in enumerate(cut(string, size - 5))]

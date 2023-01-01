@@ -1,4 +1,4 @@
 from login import *
 
 
-print(nom_prenom("prof", 1))
+print(verify("etu", "etu"))

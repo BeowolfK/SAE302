@@ -1,606 +1,655 @@
-#: import NoTransition kivy.uix.screenmanager.NoTransition
+#:import NoTransition kivy.uix.screenmanager.NoTransition
 
 WindowManager:
     FirstWindow:
-    StudWindow: 
-    AddStudent: 
+    StudWindow:
+    AddStudent:
     TeachWindow:
-    FileChose: 
+    FileChose:
+    AdminWindow:
 
 <FirstWindow>
-    name: "hub"
-    FloatLayout : 
-        
-        size : root.width, root.height
-        canvas.before : 
+    name:"hub"
+    FloatLayout:
+        size:root.width, root.height
+        canvas.before:
             Color:
-                rgba: 1,1,1,1
-            Rectangle :      
-                pos: self.pos
-                size: self.size
+                rgba:1,1,1,1
+            Rectangle:
+                pos:self.pos
+                size:self.size
 
-        spacing : 1
+        spacing:1
 
-        Label : 
-            color : 192,192,192,1
-            text : "Bienvenue" 
-            font_size : 40
-            size_hint_x : 1
-            size_hint_y : .3
-            pos_hint : {"x": 0.0,"y" : 0.7}
+        Label:
+            color:192,192,192,1
+            text:"Bienvenue"
+            font_size:40
+            size_hint_x:1
+            size_hint_y:.3
+            pos_hint:{"x":0.0,"y":0.7}
 
-        Label : 
-            color : 192,192,192,1
-            text : "Identifiant : "
-            font_size : 30
-            size_hint_x : 1
-            size_hint_y : .25
-            pos_hint :  {"x" : 0, "y" : 0.5}
-        
-        TextInput : 
-            id: identif
-            text: "etu"
-            multiline : False
-            font_size : 25
-            size_hint_x : 0.5
-            size_hint_y : .07
-            halign : "center" 
-            pos_hint :  {"x" : 0.245, "y" : 0.5}
-        
-        Label : 
-            id: mdp_lbl
-            color : 192,192,192,1
-            text : "Mot de passe : "
-            font_size : 30
-            size_hint_x : 1
-            size_hint_y : .25
-            pos_hint :  {"x" : 0, "y" : 0.3}
-        
-        TextInput : 
-            id : mdp
-            text : "etu"
-            multiline : False
-            font_size : 25
-            size_hint_x : 0.5
-            size_hint_y : .07
-            halign : "center" 
-            pos_hint :  {"x" : 0.245, "y" : 0.3}
-            password : True
-            password_mask : '•'
+        Label:
+            color:192,192,192,1
+            text:"Identifiant:"
+            font_size:30
+            size_hint_x:1
+            size_hint_y:.25
+            pos_hint:{"x":0, "y":0.5}
+        TextInput:
+            id:identif
+            text:"admin"
+            multiline:False
+            font_size:25
+            size_hint_x:0.5
+            size_hint_y:.07
+            halign:"center"
+            pos_hint:{"x":0.245, "y":0.5}
+        Label:
+            id:mdp_lbl
+            color:192,192,192,1
+            text:"Mot de passe:"
+            font_size:30
+            size_hint_x:1
+            size_hint_y:.25
+            pos_hint:{"x":0, "y":0.3}
+        TextInput:
+            id:mdp
+            text:"admin"
+            multiline:False
+            font_size:25
+            size_hint_x:0.5
+            size_hint_y:.07
+            halign:"center"
+            pos_hint:{"x":0.245, "y":0.3}
+            password:True
+            password_mask:'•'
 
-        Button : 
-            id : valide 
-            text : "Valider"
-            background_color : .225,0.225,.225,.3
-            size_hint_x : 0.3
-            size_hint_y : 0.07
-            pos_hint : {"x" : 0.35, "y" : 0.15}
-            on_press : 
+        Button:
+            id:valide
+            text:"Valider"
+            background_color:.225,0.225,.225,.3
+            size_hint_x:0.3
+            size_hint_y:0.07
+            pos_hint:{"x":0.35, "y":0.15}
+            on_press:
                 app.root.current = app.valider()
                 root.manager.transition.direction = "left"
-        
-        Button : 
-            id : new_student
-            text : "Nouvelle étudiant"
-            background_color : 255, 255, 255 , 1
-            border : 1,1,1,1
-            color : 0,0,0,.5
-            font_size : 15
-            size_hint_x : 0.2
-            size_hint_y : 0.03
-            pos_hint : {"x" : 0.545, "y" : 0.269}
-            halign : "right"
-            on_press : 
+        Button:
+            id:new_student
+            text:"Nouvelle étudiant"
+            background_color:255, 255, 255 , 1
+            border:1,1,1,1
+            color:0,0,0,.5
+            font_size:15
+            size_hint_x:0.2
+            size_hint_y:0.03
+            pos_hint:{"x":0.545, "y":0.269}
+            halign:"right"
+            on_press:
                 root.manager.transition = NoTransition()
                 app.root.current = "addstudent"
-                
 
 <StudWindow>
-    name : "second"
+    name:"second"
 
     ScrollView:
-        do_scroll_y : True
-        do_scroll_x : False
+        do_scroll_y:True
+        do_scroll_x:False
 
         FloatLayout:
-            
-            id : panel_etu
-            size : root.width, root.height
+            id:panel_etu
+            size:root.width, root.height
 
-            canvas.before : 
+            canvas.before:
                 Color:
-                    rgba: 1,1,1,1
-                Rectangle :      
-                    pos: self.pos
-                    size: self.size
+                    rgba:1,1,1,1
+                Rectangle:
+                    pos:self.pos
+                    size:self.size
 
             Label:
-                id : nom
-                color :  192,192,192,1
-                font_size : 32 
-                pos_hint : {"x" : 0 , "y": 0.35 }
+                id:nom
+                color:192,192,192,1
+                font_size:32
+                pos_hint:{"x":0 , "y":0.35 }
 
-            TextInput: 
-                hint_text : "Recherche"
-                
-                multiline : False
-                font_size : 25
-                size_hint_x : 0.5
-                size_hint_y : .07
-                halign : "center" 
-                pos_hint : {"x" : 0.02 , "y": 0.7} 
+            TextInput:
+                hint_text:"Recherche"
+                multiline:False
+                font_size:25
+                size_hint_x:0.5
+                size_hint_y:.07
+                halign:"center"
+                pos_hint:{"x":0.02 , "y":0.7}
 
             BoxLayout:
-                id : box
-                orientation: "horizontal"
-                pos_hint : {"x" : 0, "y": 0.085}
-                size_hint_x : 1
-                size_hint_y : .6
-                
-                canvas.before : 
+                id:box
+                orientation:"horizontal"
+                pos_hint:{"x":0, "y":0.085}
+                size_hint_x:1
+                size_hint_y:.6
+                canvas.before:
                     Color:
-                        rgba: .60,.60,.60,1
-                    Rectangle :      
-                        pos: (self.pos[0], self.pos[1]+36)
+                        rgba:.60,.60,.60,1
+                    Rectangle:
+                        pos:(self.pos[0], self.pos[1]+36)
                         size:(root.ids.box.size[0],root.ids.box.size[1]-36)
 
 
-                Label : 
-                    id : matiere
-                    color :  192,192,192,1
-                    text : "Matière"
-                    font_size : 25
-                    size_hint_x : .1
-                    size_hint_y : .22
-                
-                    pos_hint : {"x" : 0, "y": .78} 
-                    canvas.before : 
+                Label:
+                    id:matiere
+                    color:192,192,192,1
+                    text:"Matière"
+                    font_size:25
+                    size_hint_x:.1
+                    size_hint_y:.22
+                    pos_hint:{"x":0, "y":.78}
+                    canvas.before:
                         Color:
-                            rgba: 1,1,1,1
-                        Rectangle :      
-                            pos: self.pos
-                            size: (root.ids.matiere.size[0]-5,root.ids.matiere.size[1])
-                Label : 
-                    id : prof 
-                    color :  192,192,192,1
-                    text : "Professeur"
-                    font_size : 25
-                    size_hint_x : .1
-                    size_hint_y : .22
-                    pos_hint : {"x" : 0, "y": .78} 
-                    canvas.before : 
+                            rgba:1,1,1,1
+                        Rectangle:
+                            pos:self.pos
+                            size:(root.ids.matiere.size[0]-5,root.ids.matiere.size[1])
+                Label:
+                    id:prof
+                    color:192,192,192,1
+                    text:"Professeur"
+                    font_size:25
+                    size_hint_x:.1
+                    size_hint_y:.22
+                    pos_hint:{"x":0, "y":.78}
+                    canvas.before:
                         Color:
-                            rgba: 1,1,1,1
-                        Rectangle :      
-                            pos: self.pos
-                            size: (root.ids.prof.size[0]-5,root.ids.prof.size[1])   
-                Label : 
-                    id : note
-                    color :  192,192,192,1
-                    text : "Note"
-                    font_size : 25
-                    size_hint_x : .1
-                    size_hint_y : .22
-                    pos_hint : {"x" : 0, "y": .78} 
-                    canvas.before : 
+                            rgba:1,1,1,1
+                        Rectangle:
+                            pos:self.pos
+                            size:(root.ids.prof.size[0]-5,root.ids.prof.size[1])
+                Label:
+                    id:note
+                    color:192,192,192,1
+                    text:"Note"
+                    font_size:25
+                    size_hint_x:.1
+                    size_hint_y:.22
+                    pos_hint:{"x":0, "y":.78}
+                    canvas.before:
                         Color:
-                            rgba: 1,1,1,1
-                        Rectangle :      
-                            pos: self.pos
-                            size:(root.ids.note.size[0],root.ids.note.size[1])  
-            
+                            rgba:1,1,1,1
+                        Rectangle:
+                            pos:self.pos
+                            size:(root.ids.note.size[0],root.ids.note.size[1])
             BoxLayout:
-                id : box2
-                orientation: "horizontal"
-                pos_hint : {"x" : 0, "y": 0.070}
-                size_hint_x : 1
-                size_hint_y : .6
+                id:box2
+                orientation:"horizontal"
+                pos_hint:{"x":0, "y":0.070}
+                size_hint_x:1
+                size_hint_y:.6
 
 
-                Label : 
-                    id : m1
-                    color :  192,192,192,1
-                    text : "Mathématique"
-                    font_size : 20
-                    size_hint_x : .1
-                    size_hint_y : .2
-                
-                    pos_hint : {"x" : 0, "y": .59} 
-                    canvas.before : 
+                Label:
+                    id:m1
+                    color:192,192,192,1
+                    text:"Mathématique"
+                    font_size:20
+                    size_hint_x:.1
+                    size_hint_y:.2
+                    pos_hint:{"x":0, "y":.59}
+                    canvas.before:
                         Color:
-                            rgba: 1,1,1,1
-                        Rectangle :      
-                            pos: self.pos
-                            size: (root.ids.m1.size[0]-5,root.ids.m1.size[1])
-                Label : 
-                    id : p1
-                    color :  192,192,192,1
-                    text : "M.TEST"
-                    font_size : 20
-                    size_hint_x : .1
-                    size_hint_y : .2
-                    pos_hint : {"x" : 0, "y": .59} 
-                    canvas.before : 
+                            rgba:1,1,1,1
+                        Rectangle:
+                            pos:self.pos
+                            size:(root.ids.m1.size[0]-5,root.ids.m1.size[1])
+                Label:
+                    id:p1
+                    color:192,192,192,1
+                    text:"M.TEST"
+                    font_size:20
+                    size_hint_x:.1
+                    size_hint_y:.2
+                    pos_hint:{"x":0, "y":.59}
+                    canvas.before:
                         Color:
-                            rgba: 1,1,1,1
-                        Rectangle :      
-                            pos: self.pos
-                            size: (root.ids.p1.size[0]-5,root.ids.p1.size[1])   
-                Label : 
-                    id : n1
-                    color :  192,192,192,1
-                    text : "15"
-                    font_size : 20
-                    size_hint_x : .1
-                    size_hint_y : .2
-                    pos_hint : {"x" : 0, "y": .59} 
-                    canvas.before : 
+                            rgba:1,1,1,1
+                        Rectangle:
+                            pos:self.pos
+                            size:(root.ids.p1.size[0]-5,root.ids.p1.size[1])
+                Label:
+                    id:n1
+                    color:192,192,192,1
+                    text:"15"
+                    font_size:20
+                    size_hint_x:.1
+                    size_hint_y:.2
+                    pos_hint:{"x":0, "y":.59}
+                    canvas.before:
                         Color:
-                            rgba: 1,1,1,1
-                        Rectangle :      
-                            pos: self.pos
-                            size:(root.ids.n1.size[0],root.ids.n1.size[1])  
+                            rgba:1,1,1,1
+                        Rectangle:
+                            pos:self.pos
+                            size:(root.ids.n1.size[0],root.ids.n1.size[1])
             BoxLayout:
-                id : box3
-                orientation: "horizontal"
-                pos_hint : {"x" : 0, "y": 0.055}
-                size_hint_x : 1
-                size_hint_y : .6
+                id:box3
+                orientation:"horizontal"
+                pos_hint:{"x":0, "y":0.055}
+                size_hint_x:1
+                size_hint_y:.6
 
 
-                Label : 
-                    id : m2
-                    color :  192,192,192,1
-                    text : "Python"
-                    font_size : 20
-                    size_hint_x : .1
-                    size_hint_y : .2
-                
-                    pos_hint : {"x" : 0, "y": .40} 
-                    canvas.before : 
+                Label:
+                    id:m2
+                    color:192,192,192,1
+                    text:"Python"
+                    font_size:20
+                    size_hint_x:.1
+                    size_hint_y:.2
+
+                    pos_hint:{"x":0, "y":.40}
+                    canvas.before:
                         Color:
-                            rgba: 1,1,1,1
-                        Rectangle :      
-                            pos: self.pos
-                            size: (root.ids.m2.size[0]-5,root.ids.m2.size[1])
-                Label : 
-                    id : p2
-                    color :  192,192,192,1
-                    text : "M.TEST2"
-                    font_size : 20
-                    size_hint_x : .1
-                    size_hint_y : .2
-                    pos_hint : {"x" : 0, "y": .40} 
-                    canvas.before : 
+                            rgba:1,1,1,1
+                        Rectangle:
+                            pos:self.pos
+                            size:(root.ids.m2.size[0]-5,root.ids.m2.size[1])
+                Label:
+                    id:p2
+                    color:192,192,192,1
+                    text:"M.TEST2"
+                    font_size:20
+                    size_hint_x:.1
+                    size_hint_y:.2
+                    pos_hint:{"x":0, "y":.40}
+                    canvas.before:
                         Color:
-                            rgba: 1,1,1,1
-                        Rectangle :      
-                            pos: self.pos
-                            size: (root.ids.p2.size[0]-5,root.ids.p2.size[1])   
-                Label : 
-                    id : n2
-                    color :  192,192,192,1
-                    text : "16"
-                    font_size : 20
-                    size_hint_x : .1
-                    size_hint_y : .2
-                    pos_hint : {"x" : 0, "y": .40} 
-                    canvas.before : 
+                            rgba:1,1,1,1
+                        Rectangle:
+                            pos:self.pos
+                            size:(root.ids.p2.size[0]-5,root.ids.p2.size[1])
+                Label:
+                    id:n2
+                    color:192,192,192,1
+                    text:"16"
+                    font_size:20
+                    size_hint_x:.1
+                    size_hint_y:.2
+                    pos_hint:{"x":0, "y":.40}
+                    canvas.before:
                         Color:
-                            rgba: 1,1,1,1
-                        Rectangle :      
-                            pos: self.pos
-                            size:(root.ids.n2.size[0],root.ids.n2.size[1])  
+                            rgba:1,1,1,1
+                        Rectangle:
+                            pos:self.pos
+                            size:(root.ids.n2.size[0],root.ids.n2.size[1])
 
 
             BoxLayout:
-                id : box4
-                orientation: "horizontal"
-                pos_hint : {"x" : 0, "y": 0.04}
-                size_hint_x : 1
-                size_hint_y : .6
-                    
-                Label : 
-                    id : m3
-                    color :  192,192,192,1
-                    text : "Télécom"
-                    font_size : 20
-                    size_hint_x : .1
-                    size_hint_y : .2
-                
-                    pos_hint : {"x" : 0, "y": .21} 
-                    canvas.before : 
+                id:box4
+                orientation:"horizontal"
+                pos_hint:{"x":0, "y":0.04}
+                size_hint_x:1
+                size_hint_y:.6
+
+                Label:
+                    id:m3
+                    color:192,192,192,1
+                    text:"Télécom"
+                    font_size:20
+                    size_hint_x:.1
+                    size_hint_y:.2
+
+                    pos_hint:{"x":0, "y":.21}
+                    canvas.before:
                         Color:
-                            rgba: 1,1,1,1
-                        Rectangle :      
-                            pos: self.pos
-                            size: (root.ids.m3.size[0]-5,root.ids.m3.size[1])
-                Label : 
-                    id : p3
-                    color :  192,192,192,1
-                    text : "M.TESt3"
-                    font_size : 20
-                    size_hint_x : .1
-                    size_hint_y : .2
-                    pos_hint : {"x" : 0, "y": .21} 
-                    canvas.before : 
+                            rgba:1,1,1,1
+                        Rectangle:
+                            pos:self.pos
+                            size:(root.ids.m3.size[0]-5,root.ids.m3.size[1])
+                Label:
+                    id:p3
+                    color:192,192,192,1
+                    text:"M.TESt3"
+                    font_size:20
+                    size_hint_x:.1
+                    size_hint_y:.2
+                    pos_hint:{"x":0, "y":.21}
+                    canvas.before:
                         Color:
-                            rgba: 1,1,1,1
-                        Rectangle :      
-                            pos: self.pos
-                            size: (root.ids.p3.size[0]-5,root.ids.p3.size[1])   
-                Label : 
-                    id : n3
-                    color :  192,192,192,1
-                    text : "17"
-                    font_size : 20
-                    size_hint_x : .1
-                    size_hint_y : .2
-                    pos_hint : {"x" : 0, "y": .21} 
-                    canvas.before : 
+                            rgba:1,1,1,1
+                        Rectangle:
+                            pos:self.pos
+                            size:(root.ids.p3.size[0]-5,root.ids.p3.size[1])
+                Label:
+                    id:n3
+                    color:192,192,192,1
+                    text:"17"
+                    font_size:20
+                    size_hint_x:.1
+                    size_hint_y:.2
+                    pos_hint:{"x":0, "y":.21}
+                    canvas.before:
                         Color:
-                            rgba: 1,1,1,1
-                        Rectangle :      
-                            pos: self.pos
-                            size:(root.ids.n3.size[0],root.ids.n3.size[1])  
+                            rgba:1,1,1,1
+                        Rectangle:
+                            pos:self.pos
+                            size:(root.ids.n3.size[0],root.ids.n3.size[1])
 
 
             BoxLayout:
-                id : box5
-                orientation: "horizontal"
-                pos_hint : {"x" : 0, "y": 0.025}
-                size_hint_x : 1
-                size_hint_y : .6
+                id:box5
+                orientation:"horizontal"
+                pos_hint:{"x":0, "y":0.025}
+                size_hint_x:1
+                size_hint_y:.6
 
 
-                Label : 
-                    id : m4
-                    color :  192,192,192,1
-                    text : "Réseau"
-                    font_size : 20
-                    size_hint_x : .1
-                    size_hint_y : .2
-                
-                    pos_hint : {"x" : 0, "y": .2} 
-                    canvas.before : 
+                Label:
+                    id:m4
+                    color:192,192,192,1
+                    text:"Réseau"
+                    font_size:20
+                    size_hint_x:.1
+                    size_hint_y:.2
+
+                    pos_hint:{"x":0, "y":.2}
+                    canvas.before:
                         Color:
-                            rgba: 1,1,1,1
-                        Rectangle :      
-                            pos: self.pos
-                            size: (root.ids.m4.size[0]-5,root.ids.m4.size[1])
-                Label : 
-                    id : p4
-                    color :  192,192,192,1
-                    text : "M.TEST4"
-                    font_size : 20
-                    size_hint_x : .1
-                    size_hint_y : .2
-                    pos_hint : {"x" : 0, "y": .2} 
-                    canvas.before : 
+                            rgba:1,1,1,1
+                        Rectangle:
+                            pos:self.pos
+                            size:(root.ids.m4.size[0]-5,root.ids.m4.size[1])
+                Label:
+                    id:p4
+                    color:192,192,192,1
+                    text:"M.TEST4"
+                    font_size:20
+                    size_hint_x:.1
+                    size_hint_y:.2
+                    pos_hint:{"x":0, "y":.2}
+                    canvas.before:
                         Color:
-                            rgba: 1,1,1,1
-                        Rectangle :      
-                            pos: self.pos
-                            size: (root.ids.p4.size[0]-5,root.ids.p4.size[1])   
-                Label : 
-                    id : n4
-                    color :  192,192,192,1
-                    text : "12"
-                    font_size : 20
-                    size_hint_x : .1
-                    size_hint_y : .2
-                    pos_hint : {"x" : 0, "y": .2} 
-                    canvas.before : 
+                            rgba:1,1,1,1
+                        Rectangle:
+                            pos:self.pos
+                            size:(root.ids.p4.size[0]-5,root.ids.p4.size[1])
+                Label:
+                    id:n4
+                    color:192,192,192,1
+                    text:"12"
+                    font_size:20
+                    size_hint_x:.1
+                    size_hint_y:.2
+                    pos_hint:{"x":0, "y":.2}
+                    canvas.before:
                         Color:
-                            rgba: 1,1,1,1
-                        Rectangle :      
-                            pos: self.pos
-                            size:(root.ids.n4.size[0],root.ids.n4.size[1])  
+                            rgba:1,1,1,1
+                        Rectangle:
+                            pos:self.pos
+                            size:(root.ids.n4.size[0],root.ids.n4.size[1])
 
 
-            
-            
-            
-            Button : 
-                text : "Planning"
-                background_color : .225,0.225,.225,.3
-                font_size : 35
-                size_hint_x : .2
-                size_hint_y : .1
-                pos_hint : {"x" : 0, "y": .005}   
-            Button : 
-                text : "Déconnexion"
-                background_color : .225,0.225,.225,.3
-                font_size : 25
-                size_hint_x : .2
-                size_hint_y : .1
-                pos_hint : {"x" : .8, "y": 0.005} 
-                on_press : 
+
+
+
+            Button:
+                text:"Planning"
+                background_color:.225,0.225,.225,.3
+                font_size:35
+                size_hint_x:.2
+                size_hint_y:.1
+                pos_hint:{"x":0, "y":.005}
+            Button:
+                text:"Déconnexion"
+                background_color:.225,0.225,.225,.3
+                font_size:25
+                size_hint_x:.2
+                size_hint_y:.1
+                pos_hint:{"x":.8, "y":0.005}
+                on_press:
                     app.root.current = "hub"
                     root.manager.transition.direction = "right"
 
 <AddStudent>
-    name : "addstudent"
+    name:"addstudent"
 
 
     FloatLayout:
-        
-        id : panel_etu
-        size : root.width, root.height
+        size:root.width, root.height
 
-        canvas.before : 
+        canvas.before:
             Color:
-                rgba: 1,1,1,1
-            Rectangle :      
-                pos: self.pos
-                size: self.size
+                rgba:1,1,1,1
+            Rectangle:
+                pos:self.pos
+                size:self.size
 
         Label:
-            color :  192,192,192,1
-            font_size : 32 
-            text : "Information étudiant"
-            pos_hint : {"x" : 0 , "y": 0.40 }
+            color:192,192,192,1
+            font_size:32
+            text:"Information étudiant"
+            pos_hint:{"x":0 , "y":0.40 }
 
-        Label : 
-            color :  192,192,192,1
-            text : "Nom"
-            pos_hint : {"x" : 0, "y" : 0.31}
-            font_size : 25
-        TextInput : 
-            id : t_nom
-            pos_hint : {"x" : .5-(self.size_hint_x/2), "y" : 0.71}
-            size_hint_x : .15
-            size_hint_y : .06
-            halign : "center"
-            font_size : 20
-        
-        Label : 
-            color :  192,192,192,1
-            text : "Prénom"
-            pos_hint : {"x" : 0, "y" : 0.18}
-            font_size : 25
-        TextInput : 
-            id : t_prenom
-            pos_hint : {"x" : .5-(self.size_hint_x/2), "y" : 0.58}
-            size_hint_x : .15
-            size_hint_y : .06
-            halign : "center"
-            font_size : 20
-        Image : 
-            id : i_etu
-            source : ""
-            size_hint_x : .1
-            size_hint_y : .1
-            pos_hint : {"x" : .45, "y" : .46}
-        Button : 
-            id : b_filechose
-            text : "Choisir la photo"
-           
-            size_hint_x : 0.15
-            size_hint_y : 0.055
-            pos_hint : {"x" : .5-(self.size_hint_x/2), "y" : 0.4}
-            background_color : .225,0.225,.225,.4
-            on_release :  
+        Label:
+            color:192,192,192,1
+            text:"Nom"
+            pos_hint:{"x":0, "y":0.31}
+            font_size:25
+        TextInput:
+            id:t_nom
+            pos_hint:{"x":.5-(self.size_hint_x/2), "y":0.71}
+            size_hint_x:.15
+            size_hint_y:.06
+            halign:"center"
+            font_size:20
+        Label:
+            color:192,192,192,1
+            text:"Prénom"
+            pos_hint:{"x":0, "y":0.18}
+            font_size:25
+        TextInput:
+            id:t_prenom
+            pos_hint:{"x":.5-(self.size_hint_x/2), "y":0.58}
+            size_hint_x:.15
+            size_hint_y:.06
+            halign:"center"
+            font_size:20
+        Image:
+            id:i_etu
+            source:""
+            size_hint_x:.1
+            size_hint_y:.1
+            pos_hint:{"x":.45, "y":.46}
+        Button:
+            id:b_filechose
+            text:"Choisir la photo"
+            size_hint_x:0.15
+            size_hint_y:0.055
+            pos_hint:{"x":.5-(self.size_hint_x/2), "y":0.4}
+            background_color:.225,0.225,.225,.4
+            on_release:
                 root.manager.transition = NoTransition()
                 app.root.current = "file_chose"
 
-        Label : 
-            id : l_sexe
-            color :  192,192,192,1
-            text : "Sexe"
-            pos_hint : {"x" : 0, "y" : -.15}
-            font_size : 25
+        Label:
+            id:l_sexe
+            color:192,192,192,1
+            text:"Sexe"
+            pos_hint:{"x":0, "y":-.15}
+            font_size:25
 
-        Label : 
-            color : 192,192,192,1
-            text : "Homme"
-            font_size : 15
-            
-            pos_hint : {"x" : -.1, "y" : -.195}
+        Label:
+            color:192,192,192,1
+            text:"Homme"
+            font_size:15
 
-        Label : 
-            color : 192,192,192,1
-            text : "Femme"
-            font_size : 15
-            
-            pos_hint : {"x" : .1, "y" : -.195}
+            pos_hint:{"x":-.1, "y":-.195}
 
-        BoxLayout : 
-            orientation : "horizontal"
-            size_hint_x : 0.1
-            size_hint_y : .1
-            pos_hint :  {"x": .45, "y": .27}
-            spacing : 20
-            CheckBox :  
-                id : ck_h
-                color : 1,0,1,1
-                pos_hint : {"x": -.03, "y": -.15}
-                size_hint_x : 1 
-                on_press : app.solo_check2()
-            CheckBox : 
-                id : ck_f 
-                color : 1,0,1,1
-                pos_hint : {"x":  .01,"y": -.15}
-                size_hint_x : 1
-                on_press : app.solo_check()
+        Label:
+            color:192,192,192,1
+            text:"Femme"
+            font_size:15
 
-        Label : 
-            id : l_year
-            color :  192,192,192,1
-            text : "Année d'étude"
-            pos_hint : {"x" : 0, "y" : -.25}
-            font_size : 25
+            pos_hint:{"x":.1, "y":-.195}
 
-        TextInput : 
-            id : i_year
-            pos_hint : {"x" : .5-(self.size_hint_x/2), "y" : 0.15}
-            size_hint_x : .10
-            size_hint_y : .06
-            halign : "center"
-            font_size : 20
+        BoxLayout:
+            orientation:"horizontal"
+            size_hint_x:0.1
+            size_hint_y:.1
+            pos_hint:{"x":.45, "y":.27}
+            spacing:20
+            CheckBox:
+                id:ck_h
+                color:1,0,1,1
+                pos_hint:{"x":-.03, "y":-.15}
+                size_hint_x:1
+                on_press:app.solo_check2()
+            CheckBox:
+                id:ck_f
+                color:1,0,1,1
+                pos_hint:{"x": .01,"y":-.15}
+                size_hint_x:1
+                on_press:app.solo_check()
 
-        Button : 
-            text : "Valider"
-            background_color : .225,0.225,.225,.4
-            size_hint_x : 0.3
-            size_hint_y : 0.07
-            pos_hint : {"x" : 0.35, "y" : 0.05}
+        Label:
+            id:l_year
+            color:192,192,192,1
+            text:"Année d'étude"
+            pos_hint:{"x":0, "y":-.25}
+            font_size:25
 
-        Button :
-            text : "Retour"
-            background_color : .225,0.225,.225,.4
-            size_hint_x : 0.18
-            size_hint_y : 0.055
-            pos_hint : {"x" : 0.02 , "y" : .95}
-            on_press :  
+        TextInput:
+            id:i_year
+            pos_hint:{"x":.5-(self.size_hint_x/2), "y":0.15}
+            size_hint_x:.10
+            size_hint_y:.06
+            halign:"center"
+            font_size:20
+
+        Button:
+            text:"Valider"
+            background_color:.225,0.225,.225,.4
+            size_hint_x:0.3
+            size_hint_y:0.07
+            pos_hint:{"x":0.35, "y":0.05}
+            on_press:
+                app.add_student()
+                root.manager.transition = NoTransition()
+                app.reset_addstudent()
+
+        Button:
+            text:"Retour"
+            background_color:.225,.225,.225,.4
+            size_hint_x:0.18
+            size_hint_y:0.055
+            pos_hint:{"x":0.02 , "y":.95}
+            on_press:
                 root.manager.transition = NoTransition()
                 app.root.current = "hub"
                 app.reset_addstudent()
 <FileChose>
-    name : "file_chose"
-    id : f_filechose
-    BoxLayout: 
-        orientation: "vertical" 
-        size : root.width, root.height
-        canvas.before : 
+    name:"file_chose"
+    id:f_filechose
+    BoxLayout:
+        orientation:"vertical"
+        size:root.width, root.height
+        canvas.before:
             Color:
-                rgba: 0,0,0,1
-            Rectangle :      
-                pos: self.pos
-                size: self.size
-        padding: 50
-        spacing : 20
-    
+                rgba:0,0,0,1
+            Rectangle:
+                pos:self.pos
+                size:self.size
+        padding:50
+        spacing:20
+
         Image:
-            id : i_image
-            source : ""
-            background_color : 0,0,0,1
+            id:i_image
+            source:""
+            background_color:0,0,0,1
 
         FileChooserIconView:
-            id: filechoser
-            on_selection : root.selected(filechoser.selection) 
-            
-            
-        BoxLayout : 
-            orientation : "horizontal"
-            spacing : 1
+            id:filechoser
+            filters:[lambda folder, filename:not filename.endswith('.txt')]
+            on_selection:root.selected(filechoser.selection)
 
-            size_hint_y: .3
-            Button : 
-                text : "Fermé" 
-                size_hint_x : .6
-                size_hint_y : .5
-                on_release : 
+
+        BoxLayout:
+            orientation:"horizontal"
+            spacing:1
+            size_hint_y:.3
+            Button:
+                text:"Quitter"
+                size_hint_x:.6
+                size_hint_y:.5
+                on_release:
                     root.manager.transition = NoTransition()
                     app.root.current = "addstudent"
-            Button : 
-                text : "Valider" 
-                size_hint_x : .6
-                size_hint_y : .5
-                on_release :  
-                    app.save_image(filechoser.selection) 
+            Button:
+                text:"Valider"
+                size_hint_x:.6
+                size_hint_y:.5
+                on_release:
+                    app.save_image(filechoser.selection)
                     root.manager.transition = NoTransition()
                     app.root.current = "addstudent"
-        
 
 <TeachWindow>
+
+<AdminWindow>
+    name: "admin"
+
+    BoxLayout:
+        orientation:"vertical"
+        size:root.width, root.height
+
+        canvas.before:
+            Color:
+                rgba:1,1,1,1
+            Rectangle:
+                pos:self.pos
+                size:self.size
+        Button:
+            text:"Retour"
+            background_color:.225,.225,.225,.4
+            size_hint_x:0.18
+            size_hint_y:0.055
+            pos_hint:{"x":0.02 , "y":.95}
+            on_press:
+                root.manager.transition = NoTransition()
+                app.root.current = "hub"
+
+        GridLayout:
+            cols: 6
+            size_hint_y:1.75
+
+            Label:
+                text:"Photo"
+                color:192,192,192,1
+                font_size:20
+            Label:
+                text:"Nom"
+                color:192,192,192,1
+                font_size:20
+            Label:
+                text:"Prénom"
+                color:192,192,192,1
+                font_size:20
+            Label:
+                text:"Année"
+                color:192,192,192,1
+                font_size:20
+            Label:
+                text:"Sexe"
+                color:192,192,192,1
+                font_size:20
+            Label:
+                text:"Status"
+                color:192,192,192,1
+                font_size:20
+            Label:
+                text:"test"
+                color:192,192,192,1
+                font_size:20
+        GridLayout:
+            id:grid_etu
+            cols: 6
+            spacing:1
+            size_hint_y:0

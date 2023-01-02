@@ -1,0 +1,3 @@
+* text=auto
+*.opt text eol=lf
+ib_buffer_pool text eol=lf

@@ -1,0 +1,15 @@
+{
+    "cSpell.words": [
+        "addstudent",
+        "identif",
+        "mariadb",
+        "motdp",
+        "mysql",
+        "rehashage",
+        "resetchamp",
+        "screenmanager",
+        "universite"
+    ],
+    "python.linting.flake8Enabled": true,
+    "python.linting.enabled": true
+}

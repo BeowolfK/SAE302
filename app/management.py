@@ -61,7 +61,7 @@ def prof_nom(res):
     return final
 
 
-def panel_note(id):
+def panel_note(id: int):
     """Renvoie une liste contenant une liste [matiere, [prof], moyenne]
         list [prof] renvoie une liste de tout les profs enseignant la matiere
 
@@ -81,7 +81,7 @@ def panel_note(id):
     return res
 
 
-def matiere(id):
+def matiere(id: int) -> list:
     cur.execute(
         f"SELECT matiere.id_matiere, matiere.nom FROM etudiant \
         INNER JOIN matiere ON etudiant.annee = matiere.annee \
@@ -91,14 +91,25 @@ def matiere(id):
     return res
 
 
-def convertToBinaryData(filename):
+def convertToBinaryData(filename: str):
     # Convert digital data to binary format
     with open(filename, "rb") as file:
         binaryData = file.read()
+    # Return the binary format
     return binaryData
 
 
 def new_etudiant(nom, prenom, annee, sexe, filename):
+    """ajoute un étudiant dans la base de données
+
+    Args:
+        nom (str): nom de l'étudiant
+        prenom (str): prenom de l'étudiant
+        annee (int): annee de l'étudiant
+        sexe (str): sexe de l'étudiant
+        filename (str): chemin d’accès de la photo de l'étudiant
+        mdp (str): mdp de l'étudiant
+    """
     assert isinstance(nom, str)
     assert isinstance(prenom, str)
     assert isinstance(annee, int)
@@ -117,7 +128,15 @@ def new_etudiant(nom, prenom, annee, sexe, filename):
         print(e)
 
 
-def add_note(note, id_matiere, id_etu):
+def add_note(note: float, id_matiere: int, id_etu: int):
+    """ajoute une note dans la base de données en fonction
+    de la matiere et de l'étudiant
+
+    Args:
+        note (float): note obtenue par un etudiant dans une matiere
+        id_matiere (int): id de la matiere
+        id_etu (int): id de l'etudiant
+    """
     try:
         cur.execute(
             f"INSERT INTO note (note, id_matiere, id_etudiant) \
@@ -128,12 +147,14 @@ def add_note(note, id_matiere, id_etu):
         print(e)
 
 
+def liste_etu():
+    cur.execute(
+        "SELECT nom, prenom, annee, sexe, status FROM login \
+        INNER JOIN etudiant ON login.id_personne = etudiant.id_etudiant \
+        WHERE login.type = 'etu';"
+    )
+    return cur.fetchall()
+
+
 if __name__ == "__main__":
-    # new_etudiant(
-    #     "photo",
-    #     "photo",
-    #     1,
-    #     "F",
-    #     r"C:\Users\Sarah\Kenan\SIMCom GPS DEMO V1.07\Image\log1.png",
-    # )
-    add_note(13, 2, 1)
+    print(liste_etu())

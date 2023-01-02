@@ -473,28 +473,28 @@ WindowManager:
             id:l_sexe
             color:192,192,192,1
             text:"Sexe"
-            pos_hint:{"x":0, "y":-.15}
-            font_size:25
+            pos_hint:{"x":0, "y":-.12}
+            font_size:23
 
         Label:
             color:192,192,192,1
             text:"Homme"
             font_size:15
 
-            pos_hint:{"x":-.1, "y":-.195}
+            pos_hint:{"x":-.1, "y":-.155}
 
         Label:
             color:192,192,192,1
             text:"Femme"
             font_size:15
 
-            pos_hint:{"x":.1, "y":-.195}
+            pos_hint:{"x":.1, "y":-.155}
 
         BoxLayout:
             orientation:"horizontal"
             size_hint_x:0.1
             size_hint_y:.1
-            pos_hint:{"x":.45, "y":.27}
+            pos_hint:{"x":.45, "y":.31}
             spacing:20
             CheckBox:
                 id:ck_h
@@ -513,23 +513,53 @@ WindowManager:
             id:l_year
             color:192,192,192,1
             text:"Année d'étude"
-            pos_hint:{"x":0, "y":-.25}
-            font_size:25
+            pos_hint:{"x":0, "y":-.20}
+            font_size:23
 
         TextInput:
             id:i_year
-            pos_hint:{"x":.5-(self.size_hint_x/2), "y":0.15}
+            pos_hint:{"x":.5-(self.size_hint_x/2), "y":0.21}
             size_hint_x:.10
             size_hint_y:.06
             halign:"center"
             font_size:20
+
+        Label : 
+            color:192,192,192,1
+            text : "Mot de passe" 
+            pos_hint: {"x":0, "y":-.31}
+            font_size: 23    
+
+        TextInput:
+            id: t_mdp
+            pos_hint:{"x":.5-(self.size_hint_x/2), "y":0.10}  
+            size_hint_x:.20
+            size_hint_y:.06
+            halign:"center"
+            font_size:20 
+            password : True
+            password_mask:'•' 
+        
+        # Button : 
+        #     id : sh_hd 
+        #     text : "Show"
+        #     background_color:255, 255, 255 , 1
+        #     border:1,1,1,1
+        #     color:0,0,0,.5
+        #     font_size:15
+        #     size_hint_x:0.12
+        #     size_hint_y:0.03
+        #     pos_hint:{"x":0.6, "y":0.12}
+        #     halign:"right"
+        #     on_release : 
+        #         app.show_to_hide_password()
 
         Button:
             text:"Valider"
             background_color:.225,0.225,.225,.4
             size_hint_x:0.3
             size_hint_y:0.07
-            pos_hint:{"x":0.35, "y":0.05}
+            pos_hint:{"x":0.35, "y":0.02}
             on_press:
                 app.add_student()
                 root.manager.transition = NoTransition()
@@ -545,6 +575,8 @@ WindowManager:
                 root.manager.transition = NoTransition()
                 app.root.current = "hub"
                 app.reset_addstudent()
+
+
 <FileChose>
     name:"file_chose"
     id:f_filechose

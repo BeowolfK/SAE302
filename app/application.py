@@ -1,4 +1,4 @@
-from login import verify
+from login import verify, new_account
 from management import info_etu, liste_etu
 from kivy.app import App
 from kivy.uix.label import Label
@@ -107,8 +107,6 @@ class Application(App):
             else:
                 self.resetchamp(False)
 
-    def add_student(self):
-        print(self.root.get_screen("addstudent").ids.t_nom.text)
 
     def reset_addstudent(self):
         self.root.get_screen("addstudent").ids.t_nom.text = ""
@@ -117,11 +115,19 @@ class Application(App):
         self.root.get_screen("addstudent").ids.ck_h.active = False
         self.root.get_screen("addstudent").ids.ck_f.active = False
         self.root.get_screen("addstudent").ids.i_year.text = ""
+        mdp = self.root.get_screen("addstudent").ids.t_mdp.text = ""
 
     def save_image(self, filename):
         try:
             self.root.get_screen("addstudent").ids.i_etu.source = filename[0]
-            print(filename[0])
+            photo = filename[0]
+            nom = self.root.get_screen("addstudent").ids.t_nom.text
+            prenom = self.root.get_screen("addstudent").ids.t_prenom.text
+            sexe = 'M' if self.root.get_screen("addstudent").ids.ck_h.active else 'F'
+            annee =  self.root.get_screen("addstudent").ids.i_year.text
+            mdp = self.root.get_screen("addstudent").ids.t_mdp.text
+            
+            
         except Exception as e:
             print(e)
     """

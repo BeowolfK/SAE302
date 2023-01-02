@@ -99,7 +99,7 @@ def convertToBinaryData(filename: str):
     return binaryData
 
 
-def new_etudiant(nom, prenom, annee, sexe, filename):
+def new_etudiant(nom, prenom, annee, sexe, filename, mdp):
     """ajoute un étudiant dans la base de données
 
     Args:

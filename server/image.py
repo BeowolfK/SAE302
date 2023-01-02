@@ -18,9 +18,12 @@ cur = con.cursor()
 
 
 def main():
+    # SQL Query
     cur.execute("SELECT * FROM etudiant")
+    # Fetch result
     res = cur.fetchall()
     for people in res:
+        # Filename
         filename = "images/{}-{}-{}.png".format(
             people[0], people[1].upper(), people[2].upper()
         )

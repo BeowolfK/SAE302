@@ -28,6 +28,7 @@ def new_account(username, password, type, id, status):
         password (str): mot de passe
         type (str): only "prof" ou "etu"
         id (str): id de la personne
+        status (int): status du compte (0 inactif 1 actif)
 
     Returns:
         bool: renvoie True seulement quand le compte est créer
@@ -93,8 +94,12 @@ def verify(username, password):
     # On récupère le hash de l'utilisateur on est vérifie les mot de passes
     # Si les mots de passes sont différent on return
 
-    cur.execute(f"SELECT type, id_personne FROM login WHERE username = '{username}'")
+    cur.execute(
+        f"SELECT type, id_personne, status FROM login WHERE username = '{username}'"
+    )
     id = cur.fetchone()
+    if id[2] == 0:
+        return
     return id
     # Sinon, on récupère l'ID de l'étudiant qui va nous servir sur le panel
 

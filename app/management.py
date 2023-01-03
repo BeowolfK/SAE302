@@ -1,5 +1,8 @@
 import mysql.connector
 import sys
+import random
+from login import new_account
+import re
 
 try:
     con = mysql.connector.connect(
@@ -61,7 +64,7 @@ def prof_nom(res):
     return final
 
 
-def panel_note(id: int):
+def panel_note(id):
     """Renvoie une liste contenant une liste [matiere, [prof], moyenne]
         list [prof] renvoie une liste de tout les profs enseignant la matiere
 
@@ -81,7 +84,7 @@ def panel_note(id: int):
     return res
 
 
-def matiere(id: int) -> list:
+def matiere(id):
     cur.execute(
         f"SELECT matiere.id_matiere, matiere.nom FROM etudiant \
         INNER JOIN matiere ON etudiant.annee = matiere.annee \
@@ -91,12 +94,36 @@ def matiere(id: int) -> list:
     return res
 
 
-def convertToBinaryData(filename: str):
+def convertToBinaryData(filename):
     # Convert digital data to binary format
     with open(filename, "rb") as file:
         binaryData = file.read()
     # Return the binary format
     return binaryData
+
+
+def generate_username(name):
+    first_letter = name[0].lower()
+    random_string = ''.join(str(random.randint(0, 9)) for _ in range(8))
+    final_string = first_letter + random_string
+    return final_string
+
+
+def is_name(name):
+    regex = r'^[a-zA-Z-]+$'
+    if re.search(regex, name):
+        return True
+    return
+
+
+
+def uniq_username(name):
+    uniq = True
+    while uniq:
+        username = generate_username(name)
+        cur.execute(f"SELECT * FROM login WHERE username = '{username}';")
+        uniq = cur.fetchone()
+    return username
 
 
 def new_etudiant(nom, prenom, annee, sexe, filename, mdp):
@@ -112,6 +139,8 @@ def new_etudiant(nom, prenom, annee, sexe, filename, mdp):
     """
     assert isinstance(nom, str)
     assert isinstance(prenom, str)
+    # assert is_name(nom)
+    # assert is_name(prenom)
     assert isinstance(annee, int)
     assert annee == 1 or annee == 2
     assert isinstance(sexe, str)
@@ -124,8 +153,16 @@ def new_etudiant(nom, prenom, annee, sexe, filename, mdp):
             (nom, prenom, annee, photo, sexe),
         )
         con.commit()
-    except Exception as e:
-        print(e)
+    except Exception:
+        return
+    username = uniq_username(nom)
+    cur.execute("SELECT LAST_INSERT_ID();")
+    id = int(cur.fetchone()[0])
+    res = new_account(username, mdp, "etu", id, 0)
+    if res:
+        return True
+    return
+
 
 
 def add_note(note: float, id_matiere: int, id_etu: int):
@@ -149,12 +186,18 @@ def add_note(note: float, id_matiere: int, id_etu: int):
 
 def liste_etu():
     cur.execute(
-        "SELECT nom, prenom, annee, sexe, status FROM login \
+        "SELECT username, nom, prenom, annee, sexe, status, id_login \
+        FROM login \
         INNER JOIN etudiant ON login.id_personne = etudiant.id_etudiant \
         WHERE login.type = 'etu';"
     )
     return cur.fetchall()
 
 
+def change_status(status, id):
+    cur.execute(f"UPDATE login SET status={status} WHERE id_login = {id};")
+    con.commit()
+
+
 if __name__ == "__main__":
-    print(liste_etu())
+    print(new_etudiant("nom", "prenom", 2, "M", r"C:\Users\Sarah\Kenan\python\SAE302\app\photo.png", "mdp"))

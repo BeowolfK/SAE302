@@ -1,7 +1,8 @@
-from login import verify, new_account
-from management import info_etu, liste_etu
+from login import verify
+from management import info_etu, liste_etu, change_status, new_etudiant
 from kivy.app import App
 from kivy.uix.label import Label
+from kivy.uix.button import Button
 from kivy.uix.screenmanager import ScreenManager, Screen
 
 
@@ -19,7 +20,6 @@ class FileChose(Screen):
 
         try:
             self.ids.i_image.source = filename[0]
-            print(filename[0])
         except Exception as e:
             print(e)
 
@@ -63,6 +63,14 @@ class Application(App):
         if self.root.get_screen("addstudent").ids.ck_f.active:
             self.root.get_screen("addstudent").ids.ck_f.active = False
 
+    def solo_check3(self):
+        if self.root.get_screen("addstudent").ids.ck_1a.active:
+            self.root.get_screen("addstudent").ids.ck_1a.active = False
+
+    def solo_check4(self):
+        if self.root.get_screen("addstudent").ids.ck_2a.active:
+            self.root.get_screen("addstudent").ids.ck_2a.active = False
+
     def create_lbl(self, texte):
         return Label(text=str(texte), color=(192, 192, 192, 1))
 
@@ -102,6 +110,20 @@ class Application(App):
                         grid.add_widget(self.create_lbl(etu[2]))
                         grid.add_widget(self.create_lbl(etu[3]))
                         grid.add_widget(self.create_lbl(etu[4]))
+                        if etu[5]:
+                            btn = Button(
+                                text=f"Désactiver {etu[6]}",
+                                background_color=(1, 0, 0, 1),
+                            )
+                            btn.bind(on_press=self.update_status)
+                            grid.add_widget(btn)
+                        else:
+                            btn = Button(
+                                text=f"Activer {etu[6]}",
+                                background_color=(0, 1, 0, 1),
+                            )
+                            btn.bind(on_press=self.update_status)
+                            grid.add_widget(btn)
                     return "admin"
             else:
                 self.resetchamp(False)
@@ -109,38 +131,61 @@ class Application(App):
     def clear_stud(self):
         self.root.get_screen("admin").ids.grid_etu.clear_widgets()
 
+    def update_status(self, instance):
+        texte, id = instance.text.split()
+        if texte == "Désactiver":
+            change_status(0, id)
+            instance.text = f"Activer {id}"
+            instance.background_color = (0, 1, 0, 1)
+        elif texte == "Activer":
+            change_status(1, id)
+            instance.text = f"Désactiver {id}"
+            instance.background_color = (1, 0, 0, 1)
+        else:
+            print("Error")
+
     def reset_addstudent(self):
         self.root.get_screen("addstudent").ids.t_nom.text = ""
         self.root.get_screen("addstudent").ids.t_prenom.text = ""
         self.root.get_screen("addstudent").ids.i_etu.source = ""
         self.root.get_screen("addstudent").ids.ck_h.active = False
         self.root.get_screen("addstudent").ids.ck_f.active = False
-        self.root.get_screen("addstudent").ids.i_year.text = ""
-        mdp = self.root.get_screen("addstudent").ids.t_mdp.text = ""
+        self.root.get_screen("addstudent").ids.ck_1a.active = False
+        self.root.get_screen("addstudent").ids.ck_2a.active = False
+        self.root.get_screen("addstudent").ids.t_mdp.text = ""
 
     def save_image(self, filename):
         try:
             self.root.get_screen("addstudent").ids.i_etu.source = filename[0]
-            photo = filename[0]
-            nom = self.root.get_screen("addstudent").ids.t_nom.text
-            prenom = self.root.get_screen("addstudent").ids.t_prenom.text
-            sexe = 'M' if self.root.get_screen("addstudent").ids.ck_h.active else 'F'
-            annee =  self.root.get_screen("addstudent").ids.i_year.text
-            mdp = self.root.get_screen("addstudent").ids.t_mdp.text
-            
-            
         except Exception as e:
             print(e)
-    
+
+    def add_student(self):
+        try:
+            filename = self.root.get_screen("addstudent").ids.i_etu.source
+            nom = self.root.get_screen("addstudent").ids.t_nom.text
+            prenom = self.root.get_screen("addstudent").ids.t_prenom.text
+            sexe = "M" if self.root.get_screen("addstudent").ids.ck_h.active \
+                else "F"
+            annee = 1 if self.root.get_screen("addstudent").ids.ck_1a.active \
+                else 2
+            mdp = self.root.get_screen("addstudent").ids.t_mdp.text
+            res = new_etudiant(nom, prenom, annee, sexe, filename, mdp)
+            print(res)
+            if not res:
+                print("Error")
+
+        except Exception as e:
+            print(e)
+
     def show_to_hide_password(self):
-        if self.root.get_screen("addstudent").ids.sh_hd.text == "Show" : 
-            print(self.root.get_screen("addstudent").ids.sh_hd.text)
+        if self.root.get_screen("addstudent").ids.sh_hd.text == "Show":
             self.root.get_screen("addstudent").ids.t_mdp.password = False
-            self.root.get_screen("addstudent").ids.sh_hd.text = "Hide"  
-            print(self.root.get_screen("addstudent").ids.sh_hd.text )
-        elif self.root.get_screen("addstudent").ids.sh_hd.text == "Hide" :
+            self.root.get_screen("addstudent").ids.sh_hd.text = "Hide"
+        elif self.root.get_screen("addstudent").ids.sh_hd.text == "Hide":
             self.root.get_screen("addstudent").ids.t_mdp.password = True
             self.root.get_screen("addstudent").ids.sh_hd.text = "Show"
+
 
 if __name__ == "__main__":
     app = Application()

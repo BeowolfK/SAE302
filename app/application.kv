@@ -8,6 +8,8 @@ WindowManager:
     FileChose:
     AdminWindow:
     AdminEtuWindow:
+    MatiereWindow:
+    ProfWindow:
 
 <FirstWindow>
     name:"hub"
@@ -759,18 +761,62 @@ WindowManager:
             text:"Liste des matières"
             background_color:.225,.225,.225,.4
             size_hint: 0.3, 0.1
-            pos_hint:{"x":0.35 , "top":.8}
+            pos_hint:{"x":0.35 , "top":.7}
             on_press:
                 root.manager.transition = NoTransition()
-                app.root.current = "liste_etu"
+                app.root.current = "liste_mat"
                 app.get_stud()
 
         Button:
             text:"Liste des professeurs"
             background_color:.225,.225,.225,.4
             size_hint: 0.3, 0.1
-            pos_hint:{"x":0.35 , "top":.8}
+            pos_hint:{"x":0.35 , "top":.6}
             on_press:
                 root.manager.transition = NoTransition()
-                app.root.current = "liste_etu"
+                app.root.current = "liste_prof"
                 app.get_stud()
+
+<MatiereWindow>
+    name:"liste_mat"
+
+    FloatLayout:
+        orientation:"vertical"
+        size:root.width, root.height
+
+        canvas.before:
+            Color:
+                rgba:1,1,1,1
+            Rectangle:
+                pos:self.pos
+                size:self.size
+        Button:
+            text:"Retour"
+            background_color:.225,.225,.225,.4
+            size_hint: 0.3, 0.1
+            pos_hint:{"x":0.02 , "top":1}
+            on_press:
+                root.manager.transition = NoTransition()
+                app.root.current = "admin"
+
+<ProfWindow>
+    name:"liste_prof"
+
+    FloatLayout:
+        orientation:"vertical"
+        size:root.width, root.height
+
+        canvas.before:
+            Color:
+                rgba:1,1,1,1
+            Rectangle:
+                pos:self.pos
+                size:self.size
+        Button:
+            text:"Retour"
+            background_color:.225,.225,.225,.4
+            size_hint: 0.3, 0.1
+            pos_hint:{"x":0.02 , "top":1}
+            on_press:
+                root.manager.transition = NoTransition()
+                app.root.current = "admin"

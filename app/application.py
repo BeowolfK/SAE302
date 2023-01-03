@@ -40,6 +40,14 @@ class AddStudent(Screen):
     pass
 
 
+class MatiereWindow(Screen):
+    pass
+
+
+class ProfWindow(Screen):
+    pass
+
+
 class WindowManager(ScreenManager):
     pass
 

@@ -104,17 +104,16 @@ def convertToBinaryData(filename):
 
 def generate_username(name):
     first_letter = name[0].lower()
-    random_string = ''.join(str(random.randint(0, 9)) for _ in range(8))
+    random_string = "".join(str(random.randint(0, 9)) for _ in range(8))
     final_string = first_letter + random_string
     return final_string
 
 
 def is_name(name):
-    regex = r'^[a-zA-Z-]+$'
+    regex = r"^[a-zA-Z-]+$"
     if re.search(regex, name):
         return True
     return
-
 
 
 def uniq_username(name):
@@ -164,7 +163,6 @@ def new_etudiant(nom, prenom, annee, sexe, filename, mdp):
     return
 
 
-
 def add_note(note: float, id_matiere: int, id_etu: int):
     """ajoute une note dans la base de données en fonction
     de la matiere et de l'étudiant
@@ -200,4 +198,13 @@ def change_status(status, id):
 
 
 if __name__ == "__main__":
-    print(new_etudiant("nom", "prenom", 2, "M", r"C:\Users\Sarah\Kenan\python\SAE302\app\photo.png", "mdp"))
+    print(
+        new_etudiant(
+            "nom",
+            "prenom",
+            2,
+            "M",
+            r"C:\Users\Sarah\Kenan\python\SAE302\app\photo.png",
+            "mdp",
+        )
+    )

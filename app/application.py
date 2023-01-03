@@ -165,10 +165,8 @@ class Application(App):
             filename = self.root.get_screen("addstudent").ids.i_etu.source
             nom = self.root.get_screen("addstudent").ids.t_nom.text
             prenom = self.root.get_screen("addstudent").ids.t_prenom.text
-            sexe = "M" if self.root.get_screen("addstudent").ids.ck_h.active \
-                else "F"
-            annee = 1 if self.root.get_screen("addstudent").ids.ck_1a.active \
-                else 2
+            sexe = "M" if self.root.get_screen("addstudent").ids.ck_h.active else "F"
+            annee = 1 if self.root.get_screen("addstudent").ids.ck_1a.active else 2
             mdp = self.root.get_screen("addstudent").ids.t_mdp.text
             res = new_etudiant(nom, prenom, annee, sexe, filename, mdp)
             print(res)

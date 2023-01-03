@@ -7,6 +7,7 @@ WindowManager:
     TeachWindow:
     FileChose:
     AdminWindow:
+    AdminEtuWindow:
 
 <FirstWindow>
     name:"hub"
@@ -411,7 +412,6 @@ WindowManager:
 <AddStudent>
     name:"addstudent"
 
-
     FloatLayout:
         size:root.width, root.height
 
@@ -648,8 +648,8 @@ WindowManager:
 
 <TeachWindow>
 
-<AdminWindow>
-    name: "admin"
+<AdminEtuWindow>
+    name: "liste_etu"
 
     FloatLayout:
         orientation:"vertical"
@@ -668,7 +668,7 @@ WindowManager:
             pos_hint:{"x":0.02 , "top":1}
             on_press:
                 root.manager.transition = NoTransition()
-                app.root.current = "hub"
+                app.root.current = "admin"
                 app.clear_stud()
 
         GridLayout:
@@ -715,3 +715,62 @@ WindowManager:
                 spacing:1
                 row_force_default:True
                 row_default_height:40
+
+<AdminWindow>
+    name: "admin"
+
+    FloatLayout:
+        orientation:"vertical"
+        size:root.width, root.height
+
+        canvas.before:
+            Color:
+                rgba:1,1,1,1
+            Rectangle:
+                pos:self.pos
+                size:self.size
+        Button:
+            text:"Retour"
+            background_color:.225,.225,.225,.4
+            size_hint: 0.3, 0.1
+            pos_hint:{"x":0.02 , "top":1}
+            on_press:
+                root.manager.transition = NoTransition()
+                app.root.current = "hub"
+
+        Label:
+            text:"Bienvenue sur le panel administrateur"
+            color:192,192,192,1
+            font_size:30
+            size_hint: 0.3, 0.1
+            pos_hint:{"x":0.35 , "top":.9}
+
+        Button:
+            text:"Liste des comptes étudiants"
+            background_color:.225,.225,.225,.4
+            size_hint: 0.3, 0.1
+            pos_hint:{"x":0.35 , "top":.8}
+            on_press:
+                root.manager.transition = NoTransition()
+                app.root.current = "liste_etu"
+                app.get_stud()
+
+        Button:
+            text:"Liste des matières"
+            background_color:.225,.225,.225,.4
+            size_hint: 0.3, 0.1
+            pos_hint:{"x":0.35 , "top":.8}
+            on_press:
+                root.manager.transition = NoTransition()
+                app.root.current = "liste_etu"
+                app.get_stud()
+
+        Button:
+            text:"Liste des professeurs"
+            background_color:.225,.225,.225,.4
+            size_hint: 0.3, 0.1
+            pos_hint:{"x":0.35 , "top":.8}
+            on_press:
+                root.manager.transition = NoTransition()
+                app.root.current = "liste_etu"
+                app.get_stud()

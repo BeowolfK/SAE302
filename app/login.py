@@ -117,18 +117,7 @@ def nom_prenom(type, id):
     return cur.fetchone()
 
 
-def create():
-    # ack = new_account("prof", "prof", "prof", 1)
-    # ack = new_account("etu", "etu", "etu", 3)
-    ack = new_account("photo", "photo", "etu", 4, 0)
-    if not ack:
-        print("Erreur")
-    else:
-        print("Votre compte a été créé")
-
-
 if __name__ == "__main__":
-    create()
     id = verify("photo", "photo")
     if not id:
         print("mauvais mot de passe")

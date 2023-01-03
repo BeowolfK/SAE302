@@ -32,6 +32,10 @@ class AdminWindow(Screen):
     pass
 
 
+class AdminEtuWindow(Screen):
+    pass
+
+
 class AddStudent(Screen):
     pass
 
@@ -100,36 +104,37 @@ class Application(App):
                 if verif[0] == "prof":
                     print(verif)
                 if verif[0] == "admin":
-                    liste = liste_etu()
-                    grid = self.root.get_screen("admin").ids.grid_etu
-                    for etu in liste:
-                        print(etu)
-                        grid.add_widget(self.create_lbl("photo"))
-                        grid.add_widget(self.create_lbl(etu[0]))
-                        grid.add_widget(self.create_lbl(etu[1]))
-                        grid.add_widget(self.create_lbl(etu[2]))
-                        grid.add_widget(self.create_lbl(etu[3]))
-                        grid.add_widget(self.create_lbl(etu[4]))
-                        if etu[5]:
-                            btn = Button(
-                                text=f"Désactiver {etu[6]}",
-                                background_color=(1, 0, 0, 1),
-                            )
-                            btn.bind(on_press=self.update_status)
-                            grid.add_widget(btn)
-                        else:
-                            btn = Button(
-                                text=f"Activer {etu[6]}",
-                                background_color=(0, 1, 0, 1),
-                            )
-                            btn.bind(on_press=self.update_status)
-                            grid.add_widget(btn)
                     return "admin"
             else:
                 self.resetchamp(False)
 
+    def get_stud(self):
+        liste = liste_etu()
+        grid = self.root.get_screen("liste_etu").ids.grid_etu
+        for etu in liste:
+            grid.add_widget(self.create_lbl("photo"))
+            grid.add_widget(self.create_lbl(etu[0]))
+            grid.add_widget(self.create_lbl(etu[1]))
+            grid.add_widget(self.create_lbl(etu[2]))
+            grid.add_widget(self.create_lbl(etu[3]))
+            grid.add_widget(self.create_lbl(etu[4]))
+            if etu[5]:
+                btn = Button(
+                    text=f"Désactiver {etu[6]}",
+                    background_color=(1, 0, 0, 1),
+                )
+                btn.bind(on_press=self.update_status)
+                grid.add_widget(btn)
+            else:
+                btn = Button(
+                    text=f"Activer {etu[6]}",
+                    background_color=(0, 1, 0, 1),
+                )
+                btn.bind(on_press=self.update_status)
+                grid.add_widget(btn)
+
     def clear_stud(self):
-        self.root.get_screen("admin").ids.grid_etu.clear_widgets()
+        self.root.get_screen("liste_etu").ids.grid_etu.clear_widgets()
 
     def update_status(self, instance):
         texte, id = instance.text.split()
@@ -165,8 +170,10 @@ class Application(App):
             filename = self.root.get_screen("addstudent").ids.i_etu.source
             nom = self.root.get_screen("addstudent").ids.t_nom.text
             prenom = self.root.get_screen("addstudent").ids.t_prenom.text
-            sexe = "M" if self.root.get_screen("addstudent").ids.ck_h.active else "F"
-            annee = 1 if self.root.get_screen("addstudent").ids.ck_1a.active else 2
+            sexe = "M" if self.root.get_screen("addstudent").ids.ck_h.active \
+                else "F"
+            annee = 1 if self.root.get_screen("addstudent").ids.ck_1a.active \
+                else 2
             mdp = self.root.get_screen("addstudent").ids.t_mdp.text
             res = new_etudiant(nom, prenom, annee, sexe, filename, mdp)
             print(res)

@@ -199,12 +199,5 @@ def change_status(status, id):
 
 if __name__ == "__main__":
     print(
-        new_etudiant(
-            "nom",
-            "prenom",
-            2,
-            "M",
-            r"C:\Users\Sarah\Kenan\python\SAE302\app\photo.png",
-            "mdp",
-        )
+        matiere(1)
     )

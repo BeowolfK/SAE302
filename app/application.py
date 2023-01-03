@@ -91,22 +91,24 @@ class Application(App):
                 if verif[0] == "admin":
                     liste = liste_etu()
                     grid = self.root.get_screen("admin").ids.grid_etu
-                    # for etu in liste:
-                    #     print(etu)
-                    #     grid.add_widget(Label(text="photo", color=(192, 192, 192, 1)))
-                    #     grid.add_widget(Label(text=etu[0], color=(192, 192, 192, 1)))
-                    #     grid.add_widget(Label(text=etu[1], color=(192, 192, 192, 1)))
-                    #     grid.add_widget(
-                    #         Label(text=str(etu[2]), color=(192, 192, 192, 1))
-                    #     )
-                    #     grid.add_widget(Label(text=etu[3], color=(192, 192, 192, 1)))
-                    #     grid.add_widget(
-                    #         Label(text=str(etu[4]), color=(192, 192, 192, 1))
-                    #     )
+                    for etu in liste:
+                        print(etu)
+                        grid.add_widget(Label(text="photo", color=(192, 192, 192, 1)))
+                        grid.add_widget(Label(text=etu[0], color=(192, 192, 192, 1)))
+                        grid.add_widget(Label(text=etu[1], color=(192, 192, 192, 1)))
+                        grid.add_widget(
+                            Label(text=str(etu[2]), color=(192, 192, 192, 1))
+                        )
+                        grid.add_widget(Label(text=etu[3], color=(192, 192, 192, 1)))
+                        grid.add_widget(
+                            Label(text=str(etu[4]), color=(192, 192, 192, 1))
+                        )
                     return "admin"
             else:
                 self.resetchamp(False)
 
+    def clear_stud(self):
+        self.root.get_screen("admin").ids.grid_etu.clear_widgets()
 
     def reset_addstudent(self):
         self.root.get_screen("addstudent").ids.t_nom.text = ""

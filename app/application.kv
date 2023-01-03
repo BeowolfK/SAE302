@@ -628,7 +628,7 @@ WindowManager:
 <AdminWindow>
     name: "admin"
 
-    BoxLayout:
+    FloatLayout:
         orientation:"vertical"
         size:root.width, root.height
 
@@ -641,16 +641,17 @@ WindowManager:
         Button:
             text:"Retour"
             background_color:.225,.225,.225,.4
-            size_hint_x:0.18
-            size_hint_y:0.055
-            pos_hint:{"x":0.02 , "y":.95}
+            size_hint: 0.3, 0.1
+            pos_hint:{"x":0.02 , "top":1}
             on_press:
                 root.manager.transition = NoTransition()
                 app.root.current = "hub"
+                app.clear_stud()
 
         GridLayout:
             cols: 6
-            size_hint_y:1.75
+            size_hint: 0.9, 0
+            pos_hint:{"x":0.02 , "top":0.8}
 
             Label:
                 text:"Photo"
@@ -676,12 +677,14 @@ WindowManager:
                 text:"Status"
                 color:192,192,192,1
                 font_size:20
-            Label:
-                text:"test"
-                color:192,192,192,1
-                font_size:20
-        GridLayout:
-            id:grid_etu
-            cols: 6
-            spacing:1
-            size_hint_y:0
+        ScrollView:
+            do_scroll_x: False
+            do_scroll_y: True
+            size_hint: 0.9, 0.78
+            pos_hint:{"x":0.02 , "top":0.78}
+            GridLayout:
+                id:grid_etu
+                cols: 6
+                spacing:1
+                row_force_default:True
+                row_default_height:40

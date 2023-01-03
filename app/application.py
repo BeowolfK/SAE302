@@ -63,6 +63,9 @@ class Application(App):
         if self.root.get_screen("addstudent").ids.ck_f.active:
             self.root.get_screen("addstudent").ids.ck_f.active = False
 
+    def create_lbl(self, texte):
+        return Label(text=str(texte), color=(192, 192, 192, 1))
+
     def valider(self):
         """Fait une requête pour savoir si c'est un étudiant, un prof, autre et
         en fonction renvoie la valeur pour switch faire la bonne fenêtre.
@@ -93,16 +96,12 @@ class Application(App):
                     grid = self.root.get_screen("admin").ids.grid_etu
                     for etu in liste:
                         print(etu)
-                        grid.add_widget(Label(text="photo", color=(192, 192, 192, 1)))
-                        grid.add_widget(Label(text=etu[0], color=(192, 192, 192, 1)))
-                        grid.add_widget(Label(text=etu[1], color=(192, 192, 192, 1)))
-                        grid.add_widget(
-                            Label(text=str(etu[2]), color=(192, 192, 192, 1))
-                        )
-                        grid.add_widget(Label(text=etu[3], color=(192, 192, 192, 1)))
-                        grid.add_widget(
-                            Label(text=str(etu[4]), color=(192, 192, 192, 1))
-                        )
+                        grid.add_widget(self.create_lbl("photo"))
+                        grid.add_widget(self.create_lbl(etu[0]))
+                        grid.add_widget(self.create_lbl(etu[1]))
+                        grid.add_widget(self.create_lbl(etu[2]))
+                        grid.add_widget(self.create_lbl(etu[3]))
+                        grid.add_widget(self.create_lbl(etu[4]))
                     return "admin"
             else:
                 self.resetchamp(False)

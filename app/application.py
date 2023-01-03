@@ -130,17 +130,17 @@ class Application(App):
             
         except Exception as e:
             print(e)
-    """
+    
     def show_to_hide_password(self):
         if self.root.get_screen("addstudent").ids.sh_hd.text == "Show" : 
             print(self.root.get_screen("addstudent").ids.sh_hd.text)
             self.root.get_screen("addstudent").ids.t_mdp.password = False
             self.root.get_screen("addstudent").ids.sh_hd.text = "Hide"  
             print(self.root.get_screen("addstudent").ids.sh_hd.text )
-        if self.root.get_screen("addstudent").ids.sh_hd.text == "Hide" :
+        elif self.root.get_screen("addstudent").ids.sh_hd.text == "Hide" :
             self.root.get_screen("addstudent").ids.t_mdp.password = True
             self.root.get_screen("addstudent").ids.sh_hd.text = "Show"
-    """
+
 if __name__ == "__main__":
     app = Application()
     app.run()

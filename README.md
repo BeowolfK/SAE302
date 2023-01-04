@@ -28,16 +28,15 @@ Grace aux volumes persistants, nos bases de données sont dans le dossier `./dat
 
 ## Serveur Web 
 
-Pour installer les paquets nécessaire, nous pouvons faire la commande suivante:
+a venir
 
-```bash
-python -m pip install -r requirements.txt
-```
-
-La page web est ensuite visible, une fois le programme lancé, sur l'ip de la machine (Port 80 par défaut).
-
-Sur serveur Linux, pour lancer le site web en production, il faut utiliser la commande :
-
-```bash
-gunicorn -w -4 --reload -b localhost:80 "web.flask-app:home()"
-```
+## Mise en place d'un serveur
+ouverture des port et firewall
+fail2ban (/etc/fail2ban/jail.conf)
+modifier le mot de passe root
+ajouter un utilisateur pour le phpmyadmin
+ajouter un utilisateur pour se connecter a distance
+    CREATE USER 'sae_kivy'@'%' IDENTIFIED BY 'Sae302!client';
+    GRANT SELECT, INSERT, UPDATE, DELETE ON universite.* TO 'sae_kivy'@'%';
+    FLUSH PRIVILEGES;
+exporter importer notre base de donneés

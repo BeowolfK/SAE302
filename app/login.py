@@ -5,11 +5,12 @@ import argon2
 
 try:
     con = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        port="3307",
-        password="root",
+        host="54.37.226.86",
+        user="sae_kivy",
+        port="3306",
+        password="Sae302!client",
         database="universite",
+        auth_plugin='mysql_native_password'
     )
 except mysql.connector.Error as e:
     print("Exception : ", e)

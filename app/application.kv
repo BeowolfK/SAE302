@@ -77,7 +77,6 @@ WindowManager:
             pos_hint:{"x":0.35, "y":0.15}
             on_press:
                 app.root.current = app.valider()
-              
                 root.manager.transition.direction = "left"
         Button:
             id:new_student
@@ -97,103 +96,104 @@ WindowManager:
 <StudWindow>
     name:"second"
 
-    ScrollView:
-        do_scroll_y:True
-        do_scroll_x:False
+   
+       
+    FloatLayout:
+        id:panel_etu
+        size:root.width, root.height
 
-        FloatLayout:
-            id:panel_etu
-            size:root.width, root.height
+        canvas.before:
+            Color:
+                rgba:1,1,1,1
+            Rectangle:
+                pos:self.pos
+                size:self.size
 
+        Label:
+            id:nom
+            color:192,192,192,1
+            font_size:32
+            pos_hint:{"x":0 , "y":0.35 }
+
+        TextInput:
+            hint_text:"Recherche"
+            multiline:False
+            font_size:25
+            size_hint_x:0.5
+            size_hint_y:.07
+            halign:"center"
+            pos_hint:{"x":0.02 , "y":0.7}
+
+        ScrollView :
+            do_scroll_y : True
+            do_scroll_x : False
+            size_hint_y : .41
+            size_hint_x : .5
+            pos_hint: {"x": .2, "y": 0.18}
+            spacing : 1
+            always_overscroll : True
+            minimum_height : self.height
             canvas.before:
                 Color:
-                    rgba:1,1,1,1
+                    rgba:1,.5,1,1
                 Rectangle:
                     pos:self.pos
                     size:self.size
 
-            Label:
-                id:nom
-                color:192,192,192,1
-                font_size:32
-                pos_hint:{"x":0 , "y":0.35 }
+            GridLayout:
+                cols : 3
+                id: grid1
+                
+                pos_hint : {"x": 0, "y": -0.5}
+                size_hint_x:1
+                size_hint_y: 0
+                spacing : 25
+                padding : 10
+                
 
-            TextInput:
-                hint_text:"Recherche"
-                multiline:False
-                font_size:25
-                size_hint_x:0.5
-                size_hint_y:.07
-                halign:"center"
-                pos_hint:{"x":0.02 , "y":0.7}
-
-            ScrollView :
-                do_scroll_y : True
-                do_scroll_x : False
-                size_hint_y : .41
-                pos_hint: {"x": 0, "y": 0.18}
-                spacing : 1
-                canvas.before:
-                    Color:
-                        rgba:1,.5,1,1
-                    Rectangle:
-                        pos:self.pos
-                        size:self.size
-
-                GridLayout:
-                    cols : 3
-                    id: grid1
+                Label:
+                    id:matiere
+                    color:192,192,192,1
+                    text:"Matière"
+                    font_size:25
+                    size_hint_y : 50
                     
-                    pos_hint : {"x": 0, "y": -0.5}
-                    size_hint_x:1
-                    size_hint_y: 0
-                    spacing : 25
-                    padding : 10
+                Label:
+                    id:prof
+                    color:192,192,192,1
+                    text:"Professeur"
+                    font_size:25
+                    size_hint_y : 50
                     
-
-                    Label:
-                        id:matiere
-                        color:192,192,192,1
-                        text:"Matière"
-                        font_size:25
-                        size_hint_y : 50
-                        
-                    Label:
-                        id:prof
-                        color:192,192,192,1
-                        text:"Professeur"
-                        font_size:25
-                        size_hint_y : 50
-                        
-                    Label:
-                        id:note
-                        color:192,192,192,1
-                        text:"Note"
-                        font_size:25
-                        size_hint_y : 50
-                    
+                Label:
+                    id:note
+                    color:192,192,192,1
+                    text:"Note"
+                    font_size:25
+                    size_hint_y : 50
+                
 
 
-            Button:
-                text:"Planning"
-                background_color:.225,0.225,.225,.3
-                font_size:35
-                size_hint_x:.2
-                size_hint_y:.1
-                pos_hint:{"x":0, "y":.005}
-                on_release: 
-                    app.get_stats()
+        Button:
+            text:"Planning"
+            background_color:.225,0.225,.225,.3
+            font_size:35
+            size_hint_x:.2
+            size_hint_y:.1
+            pos_hint:{"x":0, "y":.005}
+            on_release: 
+                app.get_stats()
 
-            Button:
-                text:"Déconnexion"
-                background_color:.225,0.225,.225,.3
-                font_size:25
-                size_hint_x:.2
-                size_hint_y:.1
-                pos_hint:{"x":.8, "y":0.005}
-                on_press:
-                    app.root.current = "hub"
-                    root.manager.transition.direction = "right"
+        Button:
+            text:"Déconnexion"
+            background_color:.225,0.225,.225,.3
+            font_size:25
+            size_hint_x:.2
+            size_hint_y:.1
+            pos_hint:{"x":.8, "y":0.005}
+            on_press:
+                app.root.current = "hub"
+                root.manager.transition.direction = "right"
 
 <AddStudent>
     name:"addstudent"

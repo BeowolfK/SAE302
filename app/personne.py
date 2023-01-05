@@ -1,20 +1,20 @@
 class Personne:
     def __init__(self, *args):
         if len(args) > 0:
-            print(args[0])
-            self.__prenom = args[0]
+            
+            self.__id = args[0]
+        else:
+            self.__id = None
+
+        if len(args) > 1:
+            self.__prenom = args[1]
         else:
             self.__prenom = ""
 
-        if len(args) > 1:
-            self.__nom = args[1]
+        if len(args) > 2:
+            self.__nom = args[2]
         else:
             self.__nom = ""
-
-        if len(args) > 2:
-            self.__email = args[2]
-        else:
-            self.__email = ""
 
     def set_prenom(self, x):
         self.__prenom = x
@@ -28,11 +28,11 @@ class Personne:
     def get_nom(self):
         return self.__nom
 
-    def set_email(self, x):
-        self.__email = x
+    def set_id(self, x):
+        self.__id = x
 
-    def get_email(self):
-        return self.__email
+    def get_id(self):
+        return self.__id
 
     def afficher(self):
-        return f"{self.__prenom} {self.__nom} {self.__email}"
+        return f"{self.__prenom} {self.__nom} {self.__id}"

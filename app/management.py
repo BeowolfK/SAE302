@@ -198,6 +198,17 @@ def change_status(status, id):
     con.commit()
 
 
+def get_id(nom, prenom):
+    """Renvoie l'id correspondant au nom et prénom demandé
+
+    Args:
+        nom (str): nom de l'etudiant
+        prenom (str): prenom de l'etudiant
+        
+    """
+    cur.execute(f"SELECT id_etudiant from etudiant WHERE nom = '{nom}' and prenom = '{prenom}'")
+    id= cur.fetchone()
+    return id 
 if __name__ == "__main__":
     print(
         matiere(1)

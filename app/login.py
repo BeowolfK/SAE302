@@ -102,6 +102,7 @@ def verify(username, password):
     id = cur.fetchone()
     if id[2] == 0:
         return
+    
     return id
     # Sinon, on récupère l'ID de l'étudiant qui va nous servir sur le panel
 

@@ -5,7 +5,7 @@ class Etudiant(Personne):
     def __init__(self, *args):
         Personne.__init__(self, *args)
 
-        if type(int(args[3])) == int:
+        if len(args) > 3 and type(int(args[3])) == int:
 
             self.__annee = int(args[3])
         else:

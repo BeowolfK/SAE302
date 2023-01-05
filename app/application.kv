@@ -124,18 +124,19 @@ WindowManager:
             halign:"center"
             pos_hint:{"x":0.02 , "y":0.7}
 
-            ScrollView :
-                do_scroll_y : True
-                do_scroll_x : False
-                size_hint_y : .41
-                pos_hint: {"x": 0, "y": 0.18}
-                spacing : 1
-                canvas.before:
-                    Color:
-                        rgba:1,.5,1,1
-                    Rectangle:
-                        pos:self.pos
-                        size:self.size
+        ScrollView :
+            do_scroll_y : True
+            do_scroll_x : False
+            size_hint_y : .41
+            pos_hint: {"x": 0, "y": 0.18}
+            spacing : 1
+            
+            canvas.before:
+                Color:
+                    rgba:1,.5,1,1
+                Rectangle:
+                    pos:self.pos
+                    size:self.size
 
             GridLayout:
                 cols : 3
@@ -143,7 +144,9 @@ WindowManager:
                 
                 pos_hint : {"x": 0, "y": -0.5}
                 size_hint_x:1
-                size_hint_y: 0
+                size_hint_y: None
+                height : self.minimum_height
+                width : self.minimum_width
                 spacing : 25
                 padding : 10
                 
@@ -501,7 +504,9 @@ WindowManager:
             GridLayout:
                 id:grid_etu
                 cols: 7
-                size_hint_y : 0 
+                size_hint_y : None
+                height : self.minimum_height
+                width : self.minimum_width
                 spacing:10
                 row_force_default:True
                 row_default_height:40

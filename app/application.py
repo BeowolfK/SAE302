@@ -110,6 +110,7 @@ class Application(App):
                     self.root.get_screen("second").ids.nom.text = pres
                     self.resetchamp(True)
                     self.user = Etudiant(verif[1])
+                    self.get_stats()
                     return "second"
                 if verif[0] == "prof":
                     print(verif)

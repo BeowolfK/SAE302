@@ -124,21 +124,18 @@ WindowManager:
             halign:"center"
             pos_hint:{"x":0.02 , "y":0.7}
 
-        ScrollView :
-            do_scroll_y : True
-            do_scroll_x : False
-            size_hint_y : .41
-            size_hint_x : .5
-            pos_hint: {"x": .2, "y": 0.18}
-            spacing : 1
-            always_overscroll : True
-            minimum_height : self.height
-            canvas.before:
-                Color:
-                    rgba:1,.5,1,1
-                Rectangle:
-                    pos:self.pos
-                    size:self.size
+            ScrollView :
+                do_scroll_y : True
+                do_scroll_x : False
+                size_hint_y : .41
+                pos_hint: {"x": 0, "y": 0.18}
+                spacing : 1
+                canvas.before:
+                    Color:
+                        rgba:1,.5,1,1
+                    Rectangle:
+                        pos:self.pos
+                        size:self.size
 
             GridLayout:
                 cols : 3

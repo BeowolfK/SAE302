@@ -124,27 +124,28 @@ class Application(App):
     def get_stud(self):
         liste = liste_etu()
         grid = self.root.get_screen("liste_etu").ids.grid_etu
-        for etu in liste:
-            grid.add_widget(self.create_lbl("photo"))
-            grid.add_widget(self.create_lbl(etu[0]))
-            grid.add_widget(self.create_lbl(etu[1]))
-            grid.add_widget(self.create_lbl(etu[2]))
-            grid.add_widget(self.create_lbl(etu[3]))
-            grid.add_widget(self.create_lbl(etu[4]))
-            if etu[5]:
-                btn = Button(
-                    text=f"Désactiver {etu[6]}",
-                    background_color=(1, 0, 0, 1),
-                )
-                btn.bind(on_press=self.update_status)
-                grid.add_widget(btn)
-            else:
-                btn = Button(
-                    text=f"Activer {etu[6]}",
-                    background_color=(0, 1, 0, 1),
-                )
-                btn.bind(on_press=self.update_status)
-                grid.add_widget(btn)
+        for i in range(10):
+            for etu in liste:
+                grid.add_widget(self.create_lbl("photo"))
+                grid.add_widget(self.create_lbl(etu[0]))
+                grid.add_widget(self.create_lbl(etu[1]))
+                grid.add_widget(self.create_lbl(etu[2]))
+                grid.add_widget(self.create_lbl(etu[3]))
+                grid.add_widget(self.create_lbl(etu[4]))
+                if etu[5]:
+                    btn = Button(
+                        text=f"Désactiver {etu[6]}",
+                        background_color=(1, 0, 0, 1),
+                    )
+                    btn.bind(on_press=self.update_status)
+                    grid.add_widget(btn)
+                else:
+                    btn = Button(
+                        text=f"Activer {etu[6]}",
+                        background_color=(0, 1, 0, 1),
+                    )
+                    btn.bind(on_press=self.update_status)
+                    grid.add_widget(btn)
 
     def clear_stud(self):
         self.root.get_screen("liste_etu").ids.grid_etu.clear_widgets()
@@ -208,7 +209,6 @@ class Application(App):
         return Label(text=str(texte), color=(192, 192, 192, 1), font_size=(20))
 
     def get_stats(self):
-         
         id = self.user.get_id()
         
         note = panel_note(id)

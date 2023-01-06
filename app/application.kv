@@ -96,8 +96,8 @@ WindowManager:
 <StudWindow>
     name:"second"
 
-   
-       
+
+
     FloatLayout:
         id:panel_etu
         size:root.width, root.height
@@ -125,9 +125,9 @@ WindowManager:
             pos_hint:{"x":0.02 , "y":0.7}
 
         GridLayout:
-            cols : 3
-            id : grid0
-            pos_hint : {"x" : 0 , "y" : 0.12}
+            cols:3
+            id:grid0
+            pos_hint:{"x":0 , "y":0.12}
             size_hint_x:1
 
             Label:
@@ -135,51 +135,51 @@ WindowManager:
                 color:192,192,192,1
                 text:"Matière"
                 font_size:25
-                size_hint_y : 50
-                
+                size_hint_y:50
+
             Label:
                 id:prof
                 color:192,192,192,1
                 text:"Professeur"
                 font_size:25
-                size_hint_y : 50
-                
+                size_hint_y:50
+
             Label:
                 id:note
                 color:192,192,192,1
                 text:"Note"
                 font_size:25
-                size_hint_y : 50
+                size_hint_y:50
 
         ScrollView :
-            do_scroll_y : True
-            do_scroll_x : False
-            size_hint_y : .41
+            do_scroll_y:True
+            do_scroll_x:False
+            size_hint_y:.41
             pos_hint: {"x": 0, "y": 0.18}
-            spacing : 1
-            
+            spacing:1
+
             canvas.before:
                 Color:
                     rgba:0,0,0,.1
                 Rectangle:
                     pos:self.pos
                     size:self.size
-                
+
             GridLayout:
-                cols : 3
+                cols:3
                 id: grid1
-                
-                pos_hint : {"x": 0, "y": -0.5}
+
+                pos_hint:{"x": 0, "y": -0.5}
                 size_hint_x:1
                 size_hint_y: None
-                height : self.minimum_height
-                width : self.minimum_width
-                spacing : 25
-                padding : 10
-                
+                height:self.minimum_height
+                width:self.minimum_width
+                spacing:25
+                padding:10
 
-                
-                
+
+
+
 
 
         Button:
@@ -189,7 +189,7 @@ WindowManager:
             size_hint_x:.2
             size_hint_y:.1
             pos_hint:{"x":0, "y":.005}
-            on_release: 
+            on_release:
                 app.get_stats()
 
         Button:
@@ -344,22 +344,22 @@ WindowManager:
 
         Label:
             color:192,192,192,1
-            text:"Mot de passe" 
+            text:"Mot de passe"
             pos_hint: {"x":0, "y":-.31}
             font_size: 23
 
         TextInput:
             id: t_mdp
-            pos_hint:{"x":.5-(self.size_hint_x/2), "y":0.10}  
+            pos_hint:{"x":.5-(self.size_hint_x/2), "y":0.10}
             size_hint_x:.20
             size_hint_y:.06
             halign:"center"
-            font_size:20 
+            font_size:20
             password:True
-            password_mask:'•' 
-        
+            password_mask:'•'
+
         Button:
-            id:sh_hd 
+            id:sh_hd
             text:"Show"
             background_color:255, 255, 255 , 1
             border:1,1,1,1
@@ -443,10 +443,10 @@ WindowManager:
                     app.root.current = "addstudent"
 
 <TeachWindow>
-    name : "teacher"
+    name:"teacher"
 
 
-    FloatLayout : 
+    FloatLayout:
         orientation:"vertical"
         size:root.width, root.height
 
@@ -457,37 +457,37 @@ WindowManager:
                 pos:self.pos
                 size:self.size
 
-     
-        Button : 
-            text : "Espace Note"
-            pos_hint : {"x" : 0, "y" : .7}
-            size_hint_x : .2
-            size_hint_y : .1
+
+        Button:
+            text:"Espace Note"
+            pos_hint:{"x":0, "y":.7}
+            size_hint_x:.2
+            size_hint_y:.1
             background_color:.225,0.225,.225,.3
             font_size:25
-            on_release : app.espace_note()
+            on_release:app.espace_note()
 
-        ScrollView : 
-            
-            GridLayout : 
-                cols : 1        
+        ScrollView:
 
-        Button : 
-            text : "Liste élève"
-            pos_hint : {"x" : 0, "y" : .6}
-            size_hint_x : .2
-            size_hint_y : .1
+            GridLayout:
+                cols:1
+
+        Button:
+            text:"Liste élève"
+            pos_hint:{"x":0, "y":.6}
+            size_hint_x:.2
+            size_hint_y:.1
             background_color:.225,0.225,.225,.3
-            font_size:25   
-        Button : 
-            text : "Vie Scolaire"
-            pos_hint : {"x" : 0, "y" : .5}
-            size_hint_x : .2
-            size_hint_y : .1
+            font_size:25
+        Button:
+            text:"Vie Scolaire"
+            pos_hint:{"x":0, "y":.5}
+            size_hint_x:.2
+            size_hint_y:.1
             background_color:.225,0.225,.225,.3
-            font_size:25     
-        
-        
+            font_size:25
+
+
         Button:
             text:"Déconnexion"
             background_color:.225,0.225,.225,.3
@@ -571,9 +571,9 @@ WindowManager:
             GridLayout:
                 id:grid_etu
                 cols: 7
-                size_hint_y : None
-                height : self.minimum_height
-                width : self.minimum_width
+                size_hint_y:None
+                height:self.minimum_height
+                width:self.minimum_width
                 spacing:10
                 row_force_default:True
                 row_default_height:40

@@ -9,6 +9,7 @@
         "rehashage",
         "resetchamp",
         "screenmanager",
+        "scrollview",
         "universite"
     ],
     "python.linting.flake8Enabled": true,

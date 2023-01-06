@@ -6,7 +6,7 @@ from kivy.uix.button import Button
 from kivy.uix.screenmanager import ScreenManager, Screen
 from etudiant import Etudiant
 from kivy.uix.scrollview import ScrollView
-from kivy.app import runTouchApp
+
 
 # CREATION DES CLASS REPRÉSENTANT NOS WINDOWS
 class FirstWindow(Screen):

@@ -1,2 +1,3 @@
 .vscode/
 database/
+app/__pycache__/

@@ -31,12 +31,16 @@ Grace aux volumes persistants, nos bases de données sont dans le dossier `./dat
 a venir
 
 ## Mise en place d'un serveur
-ouverture des port et firewall
-fail2ban (/etc/fail2ban/jail.conf)
-modifier le mot de passe root
-ajouter un utilisateur pour le phpmyadmin
-ajouter un utilisateur pour se connecter a distance
-    CREATE USER 'sae_kivy'@'%' IDENTIFIED BY 'Sae302!client';
-    GRANT SELECT, INSERT, UPDATE, DELETE ON universite.* TO 'sae_kivy'@'%';
-    FLUSH PRIVILEGES;
-exporter importer notre base de donneés
+
+- ouverture des port et firewall
+- fail2ban (/etc/fail2ban/jail.conf)
+- modifier le mot de passe root
+- ajouter un utilisateur pour le phpmyadmin
+- ajouter un utilisateur pour se connecter a distance
+> CREATE USER 'sae_kivy'@'%' IDENTIFIED BY 'Sae302!client';
+> GRANT SELECT, INSERT, UPDATE, DELETE ON universite.* TO 'sae_kivy'@'%';
+> FLUSH PRIVILEGES;  
+- exporter importer notre base de donneés
+- crontab pour notre recupearation d'image
+- systemd pour le serveur http python
+

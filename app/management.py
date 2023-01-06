@@ -39,6 +39,26 @@ def info_etu(id):
     info = cur.fetchone()
     return f"{info[0].title()} - {info[1]}"
 
+def info_prof(id):
+    """Renvoie les informations du prof 
+
+    Args:
+        id (int): id du prof dans la base de données
+
+    Returns:
+        list: [Mr/Mme Nom Prenom, annee]
+    """
+    assert isinstance(id, int)
+    cur.execute(
+        f"SELECT CASE sexe \
+        WHEN 'M' THEN CONCAT('Mr', ' ', nom, ' ', prenom) \
+        ELSE CONCAT('Mme', ' ', nom, ' ', prenom) END \
+        FROM etudiant WHERE id_etudiant = {id};"
+    )
+    info = cur.fetchone()
+    return f"{info[0].title()}"
+
+
 
 def prof_nom(res):
     """_summary_

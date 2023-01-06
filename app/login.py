@@ -120,8 +120,9 @@ def nom_prenom(type, id):
 
 
 if __name__ == "__main__":
-    id = verify("photo", "photo")
+    id = verify("etu", "etu")
     if not id:
         print("mauvais mot de passe")
     else:
+
         print(id)

@@ -41,7 +41,7 @@ WindowManager:
             pos_hint:{"x":0, "y":0.5}
         TextInput:
             id:identif
-            text:"etu"
+            text:"prof"
             multiline:False
             font_size:25
             size_hint_x:0.5
@@ -58,7 +58,7 @@ WindowManager:
             pos_hint:{"x":0, "y":0.3}
         TextInput:
             id:mdp
-            text:"etu"
+            text:"prof"
             multiline:False
             font_size:25
             size_hint_x:0.5
@@ -160,7 +160,7 @@ WindowManager:
             
             canvas.before:
                 Color:
-                    rgba:1,.5,1,1
+                    rgba:0,0,0,.1
                 Rectangle:
                     pos:self.pos
                     size:self.size
@@ -438,10 +438,68 @@ WindowManager:
                 size_hint_y:.5
                 on_release:
                     app.save_image(filechoser.selection)
-                    root.manager.transition = NoTransition()
+                    root.manager.transition = NoTra
+                    nsition()
                     app.root.current = "addstudent"
 
 <TeachWindow>
+    name : "teacher"
+
+
+    FloatLayout : 
+        orientation:"vertical"
+        size:root.width, root.height
+
+        canvas.before:
+            Color:
+                rgba:1,1,1,1
+            Rectangle:
+                pos:self.pos
+                size:self.size
+
+     
+        Button : 
+            text : "Espace Note"
+            pos_hint : {"x" : 0, "y" : .7}
+            size_hint_x : .2
+            size_hint_y : .1
+            background_color:.225,0.225,.225,.3
+            font_size:25
+            on_release : app.espace_note()
+
+        ScrollView : 
+            
+            GridLayout : 
+                cols : 1        
+
+        Button : 
+            text : "Liste élève"
+            pos_hint : {"x" : 0, "y" : .6}
+            size_hint_x : .2
+            size_hint_y : .1
+            background_color:.225,0.225,.225,.3
+            font_size:25   
+        Button : 
+            text : "Vie Scolaire"
+            pos_hint : {"x" : 0, "y" : .5}
+            size_hint_x : .2
+            size_hint_y : .1
+            background_color:.225,0.225,.225,.3
+            font_size:25     
+        
+        
+        Button:
+            text:"Déconnexion"
+            background_color:.225,0.225,.225,.3
+            font_size:25
+            size_hint_x:.2
+            size_hint_y:.1
+            pos_hint:{"x":.8, "y":0.005}
+            on_press:
+                app.root.current = "hub"
+                root.manager.transition.direction = "right"
+                app.clear_note()
+
 
 <AdminEtuWindow>
     name: "liste_etu"

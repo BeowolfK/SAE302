@@ -1,5 +1,5 @@
 from login import verify
-from management import info_etu, liste_etu, change_status, new_etudiant,panel_note, get_id
+from management import *
 from kivy.app import App
 from kivy.uix.label import Label
 from kivy.uix.button import Button
@@ -114,7 +114,11 @@ class Application(App):
                     self.get_stats()
                     return "second"
                 if verif[0] == "prof":
-                    print(verif)
+                    id = verif [1]
+                    info = info_prof(id)
+                    self.resetchamp(True)
+                    return("teacher")
+                    
                 if verif[0] == "admin":
                     return "admin"
             else:
@@ -124,28 +128,28 @@ class Application(App):
     def get_stud(self):
         liste = liste_etu()
         grid = self.root.get_screen("liste_etu").ids.grid_etu
-        for i in range(10):
-            for etu in liste:
-                grid.add_widget(self.create_lbl("photo"))
-                grid.add_widget(self.create_lbl(etu[0]))
-                grid.add_widget(self.create_lbl(etu[1]))
-                grid.add_widget(self.create_lbl(etu[2]))
-                grid.add_widget(self.create_lbl(etu[3]))
-                grid.add_widget(self.create_lbl(etu[4]))
-                if etu[5]:
-                    btn = Button(
-                        text=f"Désactiver {etu[6]}",
-                        background_color=(1, 0, 0, 1),
-                    )
-                    btn.bind(on_press=self.update_status)
-                    grid.add_widget(btn)
-                else:
-                    btn = Button(
-                        text=f"Activer {etu[6]}",
-                        background_color=(0, 1, 0, 1),
-                    )
-                    btn.bind(on_press=self.update_status)
-                    grid.add_widget(btn)
+        
+        for etu in liste:
+            grid.add_widget(self.create_lbl("photo"))
+            grid.add_widget(self.create_lbl(etu[0]))
+            grid.add_widget(self.create_lbl(etu[1]))
+            grid.add_widget(self.create_lbl(etu[2]))
+            grid.add_widget(self.create_lbl(etu[3]))
+            grid.add_widget(self.create_lbl(etu[4]))
+            if etu[5]:
+                btn = Button(
+                    text=f"Désactiver {etu[6]}",
+                    background_color=(1, 0, 0, 1),
+                )
+                btn.bind(on_press=self.update_status)
+                grid.add_widget(btn)
+            else:
+                btn = Button(
+                    text=f"Activer {etu[6]}",
+                    background_color=(0, 1, 0, 1),
+                )
+                btn.bind(on_press=self.update_status)
+                grid.add_widget(btn)
 
     def clear_stud(self):
         self.root.get_screen("liste_etu").ids.grid_etu.clear_widgets()
@@ -220,6 +224,10 @@ class Application(App):
             grid.add_widget(self.create_lbl(grade[2]))
     def clear_note(self):
         self.root.get_screen("second").ids.grid1.clear_widgets()
+
+
+    def espace_note(self): 
+        self.root.add_widget(ScrollView(size_hint=(.3, 2)))
 
 if __name__ == "__main__":
     app = Application()

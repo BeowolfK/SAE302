@@ -124,6 +124,33 @@ WindowManager:
             halign:"center"
             pos_hint:{"x":0.02 , "y":0.7}
 
+        GridLayout:
+            cols : 3
+            id : grid0
+            pos_hint : {"x" : 0 , "y" : 0.12}
+            size_hint_x:1
+
+            Label:
+                id:matiere
+                color:192,192,192,1
+                text:"Matière"
+                font_size:25
+                size_hint_y : 50
+                
+            Label:
+                id:prof
+                color:192,192,192,1
+                text:"Professeur"
+                font_size:25
+                size_hint_y : 50
+                
+            Label:
+                id:note
+                color:192,192,192,1
+                text:"Note"
+                font_size:25
+                size_hint_y : 50
+
         ScrollView :
             do_scroll_y : True
             do_scroll_x : False
@@ -137,7 +164,7 @@ WindowManager:
                 Rectangle:
                     pos:self.pos
                     size:self.size
-
+                
             GridLayout:
                 cols : 3
                 id: grid1
@@ -151,26 +178,7 @@ WindowManager:
                 padding : 10
                 
 
-                Label:
-                    id:matiere
-                    color:192,192,192,1
-                    text:"Matière"
-                    font_size:25
-                    size_hint_y : 50
-                    
-                Label:
-                    id:prof
-                    color:192,192,192,1
-                    text:"Professeur"
-                    font_size:25
-                    size_hint_y : 50
-                    
-                Label:
-                    id:note
-                    color:192,192,192,1
-                    text:"Note"
-                    font_size:25
-                    size_hint_y : 50
+                
                 
 
 
@@ -194,6 +202,7 @@ WindowManager:
             on_press:
                 app.root.current = "hub"
                 root.manager.transition.direction = "right"
+                app.clear_note()
 
 <AddStudent>
     name:"addstudent"

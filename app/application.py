@@ -215,10 +215,11 @@ class Application(App):
         print(note)
         grid = self.root.get_screen("second").ids.grid1
         for grade in note : 
-            grid.add_widget(self.create_lbl(grade[0]))
-            grid.add_widget(self.create_lbl(grade[1]))
+            grid.add_widget(self.create_lbl(grade[0].title()))
+            grid.add_widget(self.create_lbl(",".join(grade[1])))
             grid.add_widget(self.create_lbl(grade[2]))
-
+    def clear_note(self):
+        self.root.get_screen("second").ids.grid1.clear_widgets()
 
 if __name__ == "__main__":
     app = Application()

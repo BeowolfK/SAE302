@@ -257,7 +257,16 @@ def get_student(study):
     all_student = cur.fetchall()
     return all_student
 
-
+def prof_enseigne(id): 
+    cur.execute(
+        f"Select id_matiere from enseigne where id_prof = {id}"
+    )  
+    matiere = cur.fetchall()
+    nom_matiere = []
+    for id_mat in matiere : 
+        cur.execute(f"select nom from matiere where id_matiere = {id_mat[0]}")
+        nom_matiere.append(cur.fetchone()[0])
+    return nom_matiere
 
 if __name__ == "__main__":
     print(

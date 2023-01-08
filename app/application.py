@@ -1,5 +1,5 @@
 from login import verify
-# from management import *
+from management import *
 from management import liste_etu, info_etu, info_prof, change_status, \
     new_etudiant, panel_note
 from kivy.app import App

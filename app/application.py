@@ -278,7 +278,8 @@ class Application(App):
     def clear_note(self):
         self.root.get_screen("second").ids.grid1.clear_widgets()
 
-    def espace_note(self):
+
+    def espace_note(self): 
         self.root.add_widget(ScrollView(size_hint=(.3, 2)))
 
 

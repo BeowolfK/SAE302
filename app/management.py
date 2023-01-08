@@ -39,8 +39,9 @@ def info_etu(id):
     info = cur.fetchone()
     return f"{info[0].title()} - {info[1]}"
 
+
 def info_prof(id):
-    """Renvoie les informations du prof 
+    """Renvoie les informations du prof
 
     Args:
         id (int): id du prof dans la base de données
@@ -57,7 +58,6 @@ def info_prof(id):
     )
     info = cur.fetchone()
     return f"{info[0].title()}"
-
 
 
 def prof_nom(res):
@@ -214,7 +214,8 @@ def add_note(note: float, id_matiere: int, id_etu: int):
 
 def liste_etu():
     cur.execute(
-        "SELECT username, nom, prenom, annee, sexe, status, id_login \
+        "SELECT username, nom, prenom, annee, \
+        sexe, status, id_login, id_personne \
         FROM login \
         INNER JOIN etudiant ON login.id_personne = etudiant.id_etudiant \
         WHERE login.type = 'etu';"
@@ -233,7 +234,6 @@ def get_id(nom, prenom):
     Args:
         nom (str): nom de l'etudiant
         prenom (str): prenom de l'etudiant
-        
     """
     cur.execute(f"SELECT id_etudiant from etudiant WHERE nom = '{nom}' and prenom = '{prenom}'")
     id= cur.fetchone()

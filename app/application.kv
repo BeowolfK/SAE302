@@ -41,7 +41,7 @@ WindowManager:
             pos_hint:{"x":0, "y":0.5}
         TextInput:
             id:identif
-            text:"prof"
+            text:"admin"
             multiline:False
             font_size:25
             size_hint_x:0.5
@@ -58,7 +58,7 @@ WindowManager:
             pos_hint:{"x":0, "y":0.3}
         TextInput:
             id:mdp
-            text:"prof"
+            text:"admin"
             multiline:False
             font_size:25
             size_hint_x:0.5
@@ -151,11 +151,11 @@ WindowManager:
                 font_size:25
                 size_hint_y:50
 
-        ScrollView :
+        ScrollView:
             do_scroll_y:True
             do_scroll_x:False
             size_hint_y:.41
-            pos_hint: {"x": 0, "y": 0.18}
+            pos_hint:{"x":0, "y":0.18}
             spacing:1
 
             canvas.before:
@@ -167,11 +167,11 @@ WindowManager:
 
             GridLayout:
                 cols:3
-                id: grid1
+                id:grid1
 
-                pos_hint:{"x": 0, "y": -0.5}
+                pos_hint:{"x":0, "y":-0.5}
                 size_hint_x:1
-                size_hint_y: None
+                size_hint_y:None
                 height:self.minimum_height
                 width:self.minimum_width
                 spacing:25
@@ -224,6 +224,7 @@ WindowManager:
             pos_hint:{"x":0 , "y":0.40 }
 
         Label:
+            id:l_nom
             color:192,192,192,1
             text:"Nom"
             pos_hint:{"x":0, "y":0.31}
@@ -236,6 +237,7 @@ WindowManager:
             halign:"center"
             font_size:20
         Label:
+            id:l_prenom
             color:192,192,192,1
             text:"Prénom"
             pos_hint:{"x":0, "y":0.18}
@@ -300,12 +302,12 @@ WindowManager:
             CheckBox:
                 id:ck_f
                 color:1,0,1,1
-                pos_hint:{"x": .01,"y":-.15}
+                pos_hint:{"x":.01,"y":-.15}
                 size_hint_x:1
                 on_press:app.solo_check()
 
         Label:
-            id:l_year
+            id:l_annee
             color:192,192,192,1
             text:"Année d'étude"
             pos_hint:{"x":0, "y":-.20}
@@ -338,18 +340,19 @@ WindowManager:
             CheckBox:
                 id:ck_2a
                 color:1,0,1,1
-                pos_hint:{"x": .01,"y":-.15}
+                pos_hint:{"x":.01,"y":-.15}
                 size_hint_x:1
                 on_press:app.solo_check3()
 
         Label:
+            id:l_mdp
             color:192,192,192,1
             text:"Mot de passe"
-            pos_hint: {"x":0, "y":-.31}
-            font_size: 23
+            pos_hint:{"x":0, "y":-.31}
+            font_size:23
 
         TextInput:
-            id: t_mdp
+            id:t_mdp
             pos_hint:{"x":.5-(self.size_hint_x/2), "y":0.10}
             size_hint_x:.20
             size_hint_y:.06
@@ -381,7 +384,6 @@ WindowManager:
             on_press:
                 app.add_student()
                 root.manager.transition = NoTransition()
-                app.reset_addstudent()
 
         Button:
             text:"Retour"
@@ -438,8 +440,7 @@ WindowManager:
                 size_hint_y:.5
                 on_release:
                     app.save_image(filechoser.selection)
-                    root.manager.transition = NoTra
-                    nsition()
+                    root.manager.transition = NoTransition()
                     app.root.current = "addstudent"
 
 <TeachWindow>
@@ -562,7 +563,7 @@ WindowManager:
 
 
 <AdminEtuWindow>
-    name: "liste_etu"
+    name:"liste_etu"
 
     FloatLayout:
         orientation:"vertical"
@@ -577,7 +578,7 @@ WindowManager:
         Button:
             text:"Retour"
             background_color:.225,.225,.225,.4
-            size_hint: 0.3, 0.1
+            size_hint:0.3, 0.1
             pos_hint:{"x":0.02 , "top":1}
             on_press:
                 root.manager.transition = NoTransition()
@@ -585,9 +586,9 @@ WindowManager:
                 app.clear_stud()
 
         GridLayout:
-            cols: 7
-            size_hint: 0.9, 0
-            pos_hint:{"x":0.02 , "top":0.8}
+            cols:7
+            size_hint:1 , 0
+            pos_hint:{"x":0 , "top":0.8}
 
             Label:
                 text:"Photo"
@@ -618,19 +619,19 @@ WindowManager:
                 color:192,192,192,1
                 font_size:20
         ScrollView:
-            do_scroll_x: False
-            do_scroll_y: True
-            size_hint: 0.9, 0.78
-            pos_hint:{"x":0.02 , "top":0.78}
+            do_scroll_x:False
+            do_scroll_y:True
+            size_hint:1, 0.75
+            pos_hint:{"x":0 , "top":0.78}
             canvas.before:
                 Color:
-                    rgba:1,0,1,1
+                    rgba:0,0,0,.1
                 Rectangle:
                     pos:self.pos
                     size:self.size
             GridLayout:
                 id:grid_etu
-                cols: 7
+                cols:7
                 size_hint_y:None
                 height:self.minimum_height
                 width:self.minimum_width
@@ -639,7 +640,7 @@ WindowManager:
                 row_default_height:40
 
 <AdminWindow>
-    name: "admin"
+    name:"admin"
 
     FloatLayout:
         orientation:"vertical"
@@ -654,7 +655,7 @@ WindowManager:
         Button:
             text:"Retour"
             background_color:.225,.225,.225,.4
-            size_hint: 0.3, 0.1
+            size_hint:0.3, 0.1
             pos_hint:{"x":0.02 , "top":1}
             on_press:
                 root.manager.transition = NoTransition()
@@ -664,13 +665,13 @@ WindowManager:
             text:"Bienvenue sur le panel administrateur"
             color:192,192,192,1
             font_size:30
-            size_hint: 0.3, 0.1
+            size_hint:0.3, 0.1
             pos_hint:{"x":0.35 , "top":.9}
 
         Button:
             text:"Liste des comptes étudiants"
             background_color:.225,.225,.225,.4
-            size_hint: 0.3, 0.1
+            size_hint:0.3, 0.1
             pos_hint:{"x":0.35 , "top":.8}
             on_press:
                 root.manager.transition = NoTransition()
@@ -680,7 +681,7 @@ WindowManager:
         Button:
             text:"Liste des matières"
             background_color:.225,.225,.225,.4
-            size_hint: 0.3, 0.1
+            size_hint:0.3, 0.1
             pos_hint:{"x":0.35 , "top":.7}
             on_press:
                 root.manager.transition = NoTransition()
@@ -690,7 +691,7 @@ WindowManager:
         Button:
             text:"Liste des professeurs"
             background_color:.225,.225,.225,.4
-            size_hint: 0.3, 0.1
+            size_hint:0.3, 0.1
             pos_hint:{"x":0.35 , "top":.6}
             on_press:
                 root.manager.transition = NoTransition()
@@ -713,7 +714,7 @@ WindowManager:
         Button:
             text:"Retour"
             background_color:.225,.225,.225,.4
-            size_hint: 0.3, 0.1
+            size_hint:0.3, 0.1
             pos_hint:{"x":0.02 , "top":1}
             on_press:
                 root.manager.transition = NoTransition()
@@ -735,7 +736,7 @@ WindowManager:
         Button:
             text:"Retour"
             background_color:.225,.225,.225,.4
-            size_hint: 0.3, 0.1
+            size_hint:0.3, 0.1
             pos_hint:{"x":0.02 , "top":1}
             on_press:
                 root.manager.transition = NoTransition()

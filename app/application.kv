@@ -477,7 +477,7 @@ WindowManager:
             spacing : 1
             canvas.before:
                 Color:
-                    rgba:1,0,1,1
+                    rgba:0,0,0,.15
                 Rectangle:
                     pos:self.pos
                     size:self.size
@@ -489,9 +489,10 @@ WindowManager:
                 size_hint_y : None
                 height : self.minimum_height
                 width : self.minimum_width
-                spacing : 30
+                spacing : 32
                 padding : 10
 
+        
                 
 
         Button:
@@ -501,6 +502,43 @@ WindowManager:
             size_hint_y:.1
             background_color:.225,0.225,.225,.3
             font_size:25
+            on_release : app.liste_etudiant()
+
+        ScrollView:
+            id : s_liste_eleve
+            do_scroll_y:True
+            do_scroll_x:False
+            size_hint_x : 0
+            size_hint_y : 0
+            pos_hint : {"x": 1.2, "y" : 1.2}
+            spacing : 1
+            canvas.before:
+                Color:
+                    rgba:0,0,0,.15
+                Rectangle:
+                    pos:self.pos
+                    size:self.size
+            GridLayout:
+                id : gl_liste_eleve
+                cols:1
+                pos_hint: {"x": 0, "y" :-0.1 }
+                size_hint_x : 1
+                size_hint_y : None
+                height : self.minimum_height
+                width : self.minimum_width
+                spacing : 32
+                padding : 10
+
+                Button : 
+                    text : "test"
+                    size : (0.55,0.6)
+                    font_size : 20 
+                    background_color : 0,0,0,1
+                    on_release : 
+                        print("t")
+        
+
+
         Button:
             text:"Vie Scolaire"
             pos_hint:{"x":0, "y":.5}

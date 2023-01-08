@@ -2,5 +2,4 @@ from management import *
 from etudiant import * 
 from login import *
 
-print(verify("prof","prof"))
-print(info_prof(1))
+get_student("r309")

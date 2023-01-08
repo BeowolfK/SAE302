@@ -83,7 +83,16 @@ def prof_nom(res):
             list_name.append(tuple_name[0])
         final.append([tup[1], list_name, *tup[2:]])
     return final
-
+def prof_enseigne(id): 
+    cur.execute(
+        f"Select id_matiere from enseigne where id_prof = {id}"
+    )  
+    matiere = cur.fetchall()
+    nom_matiere = []
+    for id_mat in matiere : 
+        cur.execute(f"select nom from matiere where id_matiere = {id_mat[0]}")
+        nom_matiere.append(cur.fetchone()[0])
+    return nom_matiere
 
 def panel_note(id):
     """Renvoie une liste contenant une liste [matiere, [prof], moyenne]
@@ -229,6 +238,27 @@ def get_id(nom, prenom):
     cur.execute(f"SELECT id_etudiant from etudiant WHERE nom = '{nom}' and prenom = '{prenom}'")
     id= cur.fetchone()
     return id 
+
+# Fonction pannel prof
+
+def get_student(study):
+
+    cur.execute(
+        f"Select annee from matiere where matiere.nom = '{study}' ")
+    anne_mat = cur.fetchone()[0]
+    print(anne_mat)
+
+    cur.execute(
+        f"Select etudiant.id_etudiant,etudiant.nom,prenom,etudiant.annee \
+        from etudiant \
+        inner join matiere \
+        where matiere.annee = etudiant.annee and etudiant.annee = {anne_mat} and matiere.nom = '{study}' "
+    )
+    all_student = cur.fetchall()
+    return all_student
+
+
+
 if __name__ == "__main__":
     print(
         matiere(1)

@@ -6,7 +6,8 @@ from kivy.uix.button import Button
 from kivy.uix.screenmanager import ScreenManager, Screen
 from etudiant import Etudiant
 from kivy.uix.scrollview import ScrollView
-
+from prof import Prof
+from functools import partial
 
 # CREATION DES CLASS REPRÉSENTANT NOS WINDOWS
 class FirstWindow(Screen):
@@ -116,7 +117,12 @@ class Application(App):
                 if verif[0] == "prof":
                     id = verif[1]
                     info = info_prof(id)
+                    info_liste = info.split()
+                    
                     self.resetchamp(True)
+                    
+                    self.user = Prof(id, info_liste[1],info_liste[2], prof_enseigne(id))
+                    
                     return("teacher")
                     
                 if verif[0] == "admin":
@@ -225,22 +231,55 @@ class Application(App):
     def clear_note(self):
         self.root.get_screen("second").ids.grid1.clear_widgets()
 
-    def add_button(self, textd, sizee, police_size): 
-        return Button(text=(str(textd)), size_hint=(sizee), font_size=(police_size))
+    def add_button(self, textd, sizee, police_size, col): 
+        return Button(text=(str(textd)), size_hint=(sizee), font_size=(police_size), background_color=(col))
+
+    def add_button_event(self, textd, sizee, police_size, col,event): 
+        return Button(text=(str(textd)), size_hint=(sizee), font_size=(police_size), background_color=(col), on_release=(event))
+
     def espace_note(self): 
         racine = self.root.get_screen("teacher")
+        racine.ids.s_liste_eleve.size_hint = (0, 0 )
+        racine.ids.s_liste_eleve.pos_hint = {"x" : 1.2,"y" :1.2}
+        racine.ids.gl_liste_eleve.clear_widgets()
+
         if racine.ids.s_espace_note.pos_hint == {"x": 1.2, "y" : 1.2 }: 
-            racine.ids.s_espace_note.size_hint = (.25, .2 )
-            racine.ids.s_espace_note.pos_hint = {"x" : .2,"y" :.6}
-            racine.ids.gl_espace_note.add_widget(self.add_button("MATIERE 1",(.055,0.6), 20))
+            racine.ids.s_espace_note.size_hint = (.25, .15 )
+            racine.ids.s_espace_note.pos_hint = {"x" : .2,"y" :.65}
+            for i in self.user.get_enseigne(): 
+                racine.ids.gl_espace_note.add_widget(self.add_button(f"{i}",(.055,0.6), 20,(0,0,0,0)))
 
             
-        elif racine.ids.s_espace_note.pos_hint == {"x" : .2,"y" :.6} : 
+        elif racine.ids.s_espace_note.pos_hint == {"x" : .2,"y" :.65} : 
             racine.ids.s_espace_note.size_hint = (0, 0 )
             racine.ids.s_espace_note.pos_hint = {"x" : 1.2,"y" :1.2}
+            racine.ids.gl_espace_note.clear_widgets()
 
-        
+    def liste_etudiant(self): 
+        racine = self.root.get_screen("teacher")
+
+        racine.ids.s_espace_note.size_hint = (0, 0 )
+        racine.ids.s_espace_note.pos_hint = {"x" : 1.2,"y" :1.2}
+        racine.ids.gl_espace_note.clear_widgets()
+
+        if racine.ids.s_liste_eleve.pos_hint == {"x": 1.2, "y" : 1.2 }: 
+            racine.ids.s_liste_eleve.size_hint = (.25, .15 )
+            racine.ids.s_liste_eleve.pos_hint = {"x" : .2,"y" :.55}
+            for i in self.user.get_enseigne(): 
+                btn = self.add_button(f"{i}",(.055,0.6), 20,(0,0,0,0))
+                btn.bind(on_release=self.show_studiant_liste)
+                racine.ids.gl_liste_eleve.add_widget(btn)
+
             
+        elif racine.ids.s_liste_eleve.pos_hint == {"x" : .2,"y" :.25} : 
+            racine.ids.s_liste_eleve.size_hint = (0, 0 )
+            racine.ids.s_liste_eleve.pos_hint = {"x" : 1.2,"y" :1.2}
+            racine.ids.gl_liste_eleve.clear_widgets()
+
+    def show_studiant_liste(self, *args): 
+        print("g")
+        self.root.current = 'hub'
+    
 if __name__ == "__main__":
     app = Application()
     app.run()

@@ -114,7 +114,7 @@ class Application(App):
                     self.get_stats()
                     return "second"
                 if verif[0] == "prof":
-                    id = verif [1]
+                    id = verif[1]
                     info = info_prof(id)
                     self.resetchamp(True)
                     return("teacher")
@@ -225,10 +225,22 @@ class Application(App):
     def clear_note(self):
         self.root.get_screen("second").ids.grid1.clear_widgets()
 
-
+    def add_button(self, textd, sizee, police_size): 
+        return Button(text=(str(textd)), size_hint=(sizee), font_size=(police_size))
     def espace_note(self): 
-        self.root.add_widget(ScrollView(size_hint=(.3, 2)))
+        racine = self.root.get_screen("teacher")
+        if racine.ids.s_espace_note.pos_hint == {"x": 1.2, "y" : 1.2 }: 
+            racine.ids.s_espace_note.size_hint = (.25, .2 )
+            racine.ids.s_espace_note.pos_hint = {"x" : .2,"y" :.6}
+            racine.ids.gl_espace_note.add_widget(self.add_button("MATIERE 1",(.055,0.6), 20))
 
+            
+        elif racine.ids.s_espace_note.pos_hint == {"x" : .2,"y" :.6} : 
+            racine.ids.s_espace_note.size_hint = (0, 0 )
+            racine.ids.s_espace_note.pos_hint = {"x" : 1.2,"y" :1.2}
+
+        
+            
 if __name__ == "__main__":
     app = Application()
     app.run()

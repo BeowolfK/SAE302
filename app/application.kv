@@ -468,9 +468,31 @@ WindowManager:
             on_release:app.espace_note()
 
         ScrollView:
-
+            id : s_espace_note
+            do_scroll_y:True
+            do_scroll_x:False
+            size_hint_x : 0
+            size_hint_y : 0
+            pos_hint : {"x": 1.2, "y" : 1.2}
+            spacing : 1
+            canvas.before:
+                Color:
+                    rgba:1,0,1,1
+                Rectangle:
+                    pos:self.pos
+                    size:self.size
             GridLayout:
+                id : gl_espace_note
                 cols:1
+                pos_hint: {"x": 0, "y" :-0.1 }
+                size_hint_x : 1
+                size_hint_y : None
+                height : self.minimum_height
+                width : self.minimum_width
+                spacing : 30
+                padding : 10
+
+                
 
         Button:
             text:"Liste élève"

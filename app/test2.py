@@ -1,9 +1,6 @@
 from management import * 
 from etudiant import * 
+from login import *
 
-
-etu = Etudiant(4,"te")
-
-print(etu.get_id())
-print(etu.get_prenom())
-add_note(5,1,3)
+print(verify("prof","prof"))
+print(info_prof(1))

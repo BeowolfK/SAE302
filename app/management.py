@@ -53,7 +53,7 @@ def info_prof(id):
         f"SELECT CASE sexe \
         WHEN 'M' THEN CONCAT('Mr', ' ', nom, ' ', prenom) \
         ELSE CONCAT('Mme', ' ', nom, ' ', prenom) END \
-        FROM etudiant WHERE id_etudiant = {id};"
+        FROM prof WHERE id_prof = {id};"
     )
     info = cur.fetchone()
     return f"{info[0].title()}"

@@ -268,7 +268,7 @@ class Application(App):
             self.root.get_screen("addstudent").ids.sh_hd.text = "Show"
 
     def create_lbl_custom(self, texte, font_s):
-        return Label(text=str(texte), color=(192, 192, 192, 1), font_size=(20))
+        return Label(text=str(texte), color=(192, 192, 192, 1), font_size=(font_s))
 
     def get_stats(self):
         id = self.user.get_id()
@@ -284,11 +284,11 @@ class Application(App):
     def clear_note(self):
         self.root.get_screen("second").ids.grid1.clear_widgets()
 
-    def add_button(self, textd, sizee, police_size, col): 
-        return Button(text=(str(textd)), size_hint=(sizee), font_size=(police_size), background_color=(col))
+    def add_button(self, textd, sizee,heightt, police_size, col): 
+        return Button(text=(str(textd)), size_hint=(sizee),height=(heightt), font_size=(police_size), background_color=(col))
 
-    def add_button_event(self, textd, sizee, police_size, col,event): 
-        return Button(text=(str(textd)), size_hint=(sizee), font_size=(police_size), background_color=(col), on_release=(event))
+    def add_button_event(self, textd, sizee,heightt, police_size, col,event): 
+        return Button(text=(str(textd)), size_hint=(sizee),height=(heightt), font_size=(police_size), background_color=(col), on_release=(event))
 
     def espace_note(self): 
         racine = self.root.get_screen("teacher")
@@ -297,10 +297,10 @@ class Application(App):
         racine.ids.gl_liste_eleve.clear_widgets()
 
         if racine.ids.s_espace_note.pos_hint == {"x": 1.2, "y" : 1.2 }: 
-            racine.ids.s_espace_note.size_hint = (.25, .15 )
+            racine.ids.s_espace_note.size_hint = (.20 , .15 )
             racine.ids.s_espace_note.pos_hint = {"x" : .2,"y" :.65}
             for i in self.user.get_enseigne(): 
-                racine.ids.gl_espace_note.add_widget(self.add_button(f"{i}",(.055,0.6), 20,(0,0,0,0)))
+                racine.ids.gl_espace_note.add_widget(self.add_button(f"{i}",(.055,None),35, 22,(0,0,0,0)))
 
             
         elif racine.ids.s_espace_note.pos_hint == {"x" : .2,"y" :.65} : 
@@ -316,23 +316,29 @@ class Application(App):
         racine.ids.gl_espace_note.clear_widgets()
 
         if racine.ids.s_liste_eleve.pos_hint == {"x": 1.2, "y" : 1.2 }: 
-            racine.ids.s_liste_eleve.size_hint = (.25, .15 )
+            racine.ids.s_liste_eleve.size_hint = (.20, .15 )
             racine.ids.s_liste_eleve.pos_hint = {"x" : .2,"y" :.55}
             for i in self.user.get_enseigne(): 
-                btn = self.add_button(f"{i}",(.055,0.6), 20,(0,0,0,0))
-                btn.bind(on_release=self.show_studiant_liste)
+                btn = self.add_button(f"{i}",(.06,None), 35,22,(0,0,0,0))
+                btn.bind(on_release=partial(self.show_studiant_liste, i))
                 racine.ids.gl_liste_eleve.add_widget(btn)
 
             
-        elif racine.ids.s_liste_eleve.pos_hint == {"x" : .2,"y" :.25} : 
+        elif racine.ids.s_liste_eleve.pos_hint == {"x" : .2,"y" :.55} : 
             racine.ids.s_liste_eleve.size_hint = (0, 0 )
             racine.ids.s_liste_eleve.pos_hint = {"x" : 1.2,"y" :1.2}
             racine.ids.gl_liste_eleve.clear_widgets()
 
     def show_studiant_liste(self, *args): 
-        print("g")
-        self.root.current = 'hub'
-    
+        
+        etudiant = get_student(args[0])
+        racine = self.root.get_screen("teacher")
+        racine.ids.gl_nom_eleve.clear_widgets()
+        racine.ids.gl_nom_eleve.add_widget(self.create_lbl_custom("Nom", 25))
+        racine.ids.gl_nom_eleve.add_widget(self.create_lbl_custom("Prénom", 25))
+        for etu in etudiant :
+            racine.ids.gl_nom_eleve.add_widget(self.create_lbl(etu[1]))
+            racine.ids.gl_nom_eleve.add_widget(self.create_lbl(etu[2]))
 if __name__ == "__main__":
     app = Application()
     app.run()

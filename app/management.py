@@ -246,7 +246,7 @@ def get_student(study):
     cur.execute(
         f"Select annee from matiere where matiere.nom = '{study}' ")
     anne_mat = cur.fetchone()[0]
-    print(anne_mat)
+   
 
     cur.execute(
         f"Select etudiant.id_etudiant,etudiant.nom,prenom,etudiant.annee \

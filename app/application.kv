@@ -459,7 +459,7 @@ WindowManager:
                 size:self.size
         
         ScrollView : 
-            id : s_nom_eleve
+            id : s_write_space
             canvas.before:
                 Color:
                     rgba:0,0,0,.1
@@ -470,7 +470,7 @@ WindowManager:
             size_hint_y: .72
             pos_hint : {"x" : .3, "y" :.12}        
             GridLayout:
-                id : gl_nom_eleve
+                id : gl_write_space
                 cols:2
                 pos_hint: {"x": 0, "y" :-0.5 }
                 size_hint_x : 1
@@ -559,7 +559,71 @@ WindowManager:
             size_hint_y:.1
             background_color:.225,0.225,.225,.3
             font_size:25
+            on_release: app.vie_scolaire()
 
+        TextInput:
+            id : ti_find_student_nom
+            hint_text:"Nom"
+            multiline:False
+            font_size:20
+            size_hint_x:0.2
+            size_hint_y:.055
+            halign:"center"
+            pos_hint:{"x":3   , "y":85}
+        
+        TextInput:
+            id : ti_find_student_prenom
+            hint_text:"Prénom"
+            multiline:False
+            font_size:20
+            size_hint_x:0.2
+            size_hint_y:.055
+            halign:"center"
+            pos_hint:{"x":51   , "y":85}
+            
+        BoxLayout:
+            id : box_check
+            orientation:"horizontal"
+            size_hint_x:0.1
+            size_hint_y:.1
+            pos_hint:{"x":78, "y":84}
+            spacing:20
+            CheckBox:
+                id:ck_1a
+                color:0,0,0,.8
+                pos_hint:{"x":-.03, "y":-.15}
+                size_hint_x:1
+                on_press:app.solo_check_2A()
+            CheckBox:
+                id:ck_2a
+                color:0,0,0,.8
+                pos_hint:{"x":.01,"y":-.15}
+                size_hint_x:1
+                on_press:app.solo_check_1A()
+
+
+        Label:
+            id : anne1
+            color:192,192,192,1
+            text:"1A"
+            font_size:15
+            pos_hint:{"x":27, "y":376}
+
+        Label:
+            id : anne2
+            color:192,192,192,1
+            text:"2A"
+            font_size:15
+            pos_hint:{"x":336, "y":376}
+            
+        Button : 
+            id : recherche
+            text: "Valider"
+            pos_hint:{"x":89, "y":845}
+            size_hint_x:.1
+            size_hint_y:.05
+            background_color:.225,0.225,.225,.3
+            font_size:15
 
         Button:
             text:"Déconnexion"

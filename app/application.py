@@ -88,6 +88,14 @@ class Application(App):
     def solo_check4(self):
         if self.root.get_screen("addstudent").ids.ck_2a.active:
             self.root.get_screen("addstudent").ids.ck_2a.active = False
+    
+    def solo_check_1A(self):
+        if self.root.get_screen("teacher").ids.ck_1a.active:
+            self.root.get_screen("teacher").ids.ck_1a.active = False
+
+    def solo_check_2A(self):
+        if self.root.get_screen("teacher").ids.ck_2a.active:
+            self.root.get_screen("teacher").ids.ck_2a.active = False
 
     def create_lbl(self, texte):
         return Label(text=str(texte), color=(192, 192, 192, 1))
@@ -291,7 +299,10 @@ class Application(App):
         return Button(text=(str(textd)), size_hint=(sizee),height=(heightt), font_size=(police_size), background_color=(col), on_release=(event))
 
     def espace_note(self): 
+        
         racine = self.root.get_screen("teacher")
+        if racine.ids.ti_find_student_nom.pos_hint == {"x":0.3   , "y":0.85}:
+            self.clear_vie_scolaire()
         racine.ids.s_liste_eleve.size_hint = (0, 0 )
         racine.ids.s_liste_eleve.pos_hint = {"x" : 1.2,"y" :1.2}
         racine.ids.gl_liste_eleve.clear_widgets()
@@ -310,7 +321,7 @@ class Application(App):
 
     def liste_etudiant(self): 
         racine = self.root.get_screen("teacher")
-
+        
         racine.ids.s_espace_note.size_hint = (0, 0 )
         racine.ids.s_espace_note.pos_hint = {"x" : 1.2,"y" :1.2}
         racine.ids.gl_espace_note.clear_widgets()
@@ -333,12 +344,50 @@ class Application(App):
         
         etudiant = get_student(args[0])
         racine = self.root.get_screen("teacher")
-        racine.ids.gl_nom_eleve.clear_widgets()
-        racine.ids.gl_nom_eleve.add_widget(self.create_lbl_custom("Nom", 25))
-        racine.ids.gl_nom_eleve.add_widget(self.create_lbl_custom("Prénom", 25))
+        if racine.ids.ti_find_student_nom.pos_hint == {"x":0.3   , "y":0.85}:
+            self.clear_vie_scolaire()
+        racine.ids.gl_write_space.clear_widgets()
+        racine.ids.gl_write_space.add_widget(self.create_lbl_custom("Nom", 25))
+        racine.ids.gl_write_space.add_widget(self.create_lbl_custom("Prénom", 25))
         for etu in etudiant :
-            racine.ids.gl_nom_eleve.add_widget(self.create_lbl(etu[1]))
-            racine.ids.gl_nom_eleve.add_widget(self.create_lbl(etu[2]))
+            racine.ids.gl_write_space.add_widget(self.create_lbl(etu[1]))
+            racine.ids.gl_write_space.add_widget(self.create_lbl(etu[2]))
+
+
+    def vie_scolaire(self): 
+        
+        racine = self.root.get_screen("teacher") 
+        if racine.ids.s_liste_eleve.pos_hint == {"x" : .2,"y" :.55} :
+            racine.ids.s_liste_eleve.size_hint = (0, 0 )
+            racine.ids.s_liste_eleve.pos_hint = {"x" : 1.2,"y" :1.2}
+            racine.ids.gl_liste_eleve.clear_widgets()
+
+        elif racine.ids.s_espace_note.pos_hint == {"x" : .2,"y" :.65} :
+            racine.ids.s_espace_note.size_hint = (0, 0 )
+            racine.ids.s_espace_note.pos_hint = {"x" : 1.2,"y" :1.2}
+            racine.ids.gl_espace_note.clear_widgets()
+
+        racine.ids.gl_write_space.clear_widgets()
+        racine.ids.gl_write_space.add_widget
+        racine.ids.ti_find_student_nom.pos_hint = {"x":0.3   , "y":0.85}
+        racine.ids.ti_find_student_prenom.pos_hint = {"x":0.51   , "y":0.85}
+        racine.ids.box_check.pos_hint = {"x":.78, "y":.84}
+        racine.ids.anne1.pos_hint = {"x":.27, "y":.376}
+        racine.ids.anne2.pos_hint = {"x":.336, "y":.376}
+        racine.ids.recherche.pos_hint = {"x":.89, "y":.845}
+
+        
+
+    def clear_vie_scolaire(self): 
+        racine = self.root.get_screen("teacher") 
+        racine.ids.ti_find_student_nom.pos_hint = {"x":3   , "y":85}
+        racine.ids.ti_find_student_prenom.pos_hint = {"x":51   , "y":85}
+        racine.ids.box_check.pos_hint = {"x":78, "y":84}
+        racine.ids.anne1.pos_hint = {"x":27, "y":376}
+        racine.ids.anne2.pos_hint = {"x":336, "y":376}
+        racine.ids.recherche.pos_hint = {"x":89, "y":845}
+
+
 if __name__ == "__main__":
     app = Application()
     app.run()

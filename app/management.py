@@ -268,17 +268,14 @@ def prof_enseigne(id):
         nom_matiere.append(cur.fetchone()[0])
     return nom_matiere
 
-def get_student_vie_scolaire(name,first_name,year, study):
-    cur.execute(
-        f"Select annee from matiere where matiere.nom = '{study}' ")
-    anne_mat = cur.fetchone()[0]
+def get_student_vie_scolaire(name,first_name,year):
    
 
     cur.execute(
         f"Select * \
         from etudiant \
         inner join matiere \
-        where matiere.annee = etudiant.annee and etudiant.annee = {anne_mat} and etudiant.nom = '{name}' and etudiant.prenom = '{first_name}' and etudiant.annee = '{year}' and matiere.nom = '{study}'"
+        where matiere.annee = etudiant.annee and etudiant.nom = '{name}' and etudiant.prenom = '{first_name}' and etudiant.annee = '{year}'"
     )
     all_student = cur.fetchall()
     return all_student

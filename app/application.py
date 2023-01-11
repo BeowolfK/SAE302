@@ -386,6 +386,39 @@ class Application(App):
         racine.ids.anne1.pos_hint = {"x":27, "y":376}
         racine.ids.anne2.pos_hint = {"x":336, "y":376}
         racine.ids.recherche.pos_hint = {"x":89, "y":845}
+        racine.ids.ti_find_student_nom.text = ""
+        racine.ids.ti_find_student_prenom.text = ""
+        racine.ids.ck_1a.active = False
+        racine.ids.ck_2a.active = False
+        
+
+    def recherche_vie_sco(self): 
+        racine = self.root.get_screen("teacher") 
+        racine.ids.gl_write_space.clear_widgets()
+        if racine.ids.ti_find_student_nom.text != "" and racine.ids.ti_find_student_prenom.text != "" and (racine.ids.ck_1a.active == True or racine.ids.ck_2a.active == True):
+            if racine.ids.ck_1a.active == True:
+                one_stud = get_student_vie_scolaire(racine.ids.ti_find_student_nom.text, racine.ids.ti_find_student_prenom.text,1)
+            elif racine.ids.ck_2a.active == True:
+                one_stud = get_student_vie_scolaire(racine.ids.ti_find_student_nom.text, racine.ids.ti_find_student_prenom.text,2)
+
+            for etu in one_stud : 
+               
+                racine.ids.gl_write_space.cols = 5
+                racine.ids.gl_write_space.spacing = 10
+                pp = AsyncImage(
+                    source="http://54.37.226.86:8000/{}-{}-{}.png".format(
+                        etu[0],
+                        etu[1].upper(),
+                        etu[2].upper()
+                    )
+                )
+                print(pp.source)
+                racine.ids.gl_write_space.add_widget(pp)
+                racine.ids.gl_write_space.add_widget(self.create_lbl(etu[1]))
+                racine.ids.gl_write_space.add_widget(self.create_lbl(etu[2]))       
+                racine.ids.gl_write_space.add_widget(self.create_lbl(etu[3]))
+                
+                
 
 
 if __name__ == "__main__":

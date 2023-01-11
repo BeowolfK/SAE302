@@ -5,12 +5,15 @@ from management import liste_etu, info_etu, info_prof, change_status, \
 from kivy.app import App
 from kivy.uix.label import Label
 from kivy.uix.button import Button
+from kivy.uix.textinput import TextInput
 from kivy.uix.image import AsyncImage
 from kivy.uix.screenmanager import ScreenManager, Screen
 from etudiant import Etudiant
 from kivy.uix.scrollview import ScrollView
+from kivy.uix.gridlayout import GridLayout
 from prof import Prof
 from functools import partial
+from datetime import * 
 
 # CREATION DES CLASS REPRÉSENTANT NOS WINDOWS
 class FirstWindow(Screen):
@@ -403,7 +406,7 @@ class Application(App):
 
             for etu in one_stud : 
                
-                racine.ids.gl_write_space.cols = 5
+                racine.ids.gl_write_space.cols = 4
                 racine.ids.gl_write_space.spacing = 10
                 pp = AsyncImage(
                     source="http://54.37.226.86:8000/{}-{}-{}.png".format(
@@ -418,9 +421,59 @@ class Application(App):
                 racine.ids.gl_write_space.add_widget(self.create_lbl(etu[2]))       
                 racine.ids.gl_write_space.add_widget(self.create_lbl(etu[3]))
                 
+                btn_a = self.add_button("Abscence",(.1,None),35, 15, (0,0,0,.15))
+                btn_a.bind(on_release=partial(self.add_abscence, etu))
+                racine.ids.gl_write_space.add_widget(btn_a)
+
+                btn_r = self.add_button("Retard",(.1,None),35, 15, (0,0,0,.15))
+                racine.ids.gl_write_space.add_widget(btn_r)
                 
+                btn_e = self.add_button("Exclusion",(.1,None),35, 15, (0,0,0,.15))
+
+                racine.ids.gl_write_space.add_widget(btn_e)
+    def create_text_input(self,message,widthe):
+        return TextInput(hint_text=f"{message}", halign="center",multiline=False, font_size = 15, size_hint=(None,None), height=38, width=widthe)
+
+    def add_abscence(self,*args):
+        racine = self.root.get_screen("teacher")
+        etu = args[0]
+        racine.ids.gl_write_space.clear_widgets()
+        racine.ids.gl_write_space.cols = 1
+        layout = GridLayout(cols=4)
+
+        pp = AsyncImage(
+                        source="http://54.37.226.86:8000/{}-{}-{}.png".format(
+                            etu[0],
+                            etu[1].upper(),
+                            etu[2].upper()
+                        )
+                    )
+        layout.add_widget(pp)
+        layout.add_widget(self.create_lbl(etu[1]))
+        layout.add_widget(self.create_lbl(etu[2]))       
+        layout.add_widget(self.create_lbl(etu[3]))
+
+        racine.ids.gl_write_space.add_widget(layout)
+
+        layout2 = GridLayout(cols=3, spacing=10)
+        layout2.add_widget(self.create_text_input("Date",100))
+        layout2.add_widget(self.create_text_input("Heure",100))
+        layout2.add_widget(self.create_text_input("Commentaire",150))
+        
+        
+        btn_today = self.add_button("Aujourd'hui",(.08,None),35, 15, (0,0,0,.15))
+        btn_today.bind(on_release=partial(self.input_today))
+        layout2.add_widget(btn_today)
+
+        layout2.add_widget(self.add_button("Heure en cour",(.08,None),35, 15, (0,0,0,.15)))
+        layout2.add_widget(self.add_button("Valider",(.08,None),35, 15, (0,0,0,.15)))
+        racine.ids.gl_write_space.add_widget(layout2)
 
 
+    def input_today(self, *args):
+        today = datetime.now()
+        tt = today.split()
+        today = tt.split("-")
 if __name__ == "__main__":
     app = Application()
     app.run()

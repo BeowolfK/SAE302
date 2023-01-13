@@ -10,7 +10,7 @@ try:
         port="3306",
         password="Sae302!client",
         database="universite",
-        auth_plugin='mysql_native_password'
+        auth_plugin="mysql_native_password",
     )
 except mysql.connector.Error as err:
     if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
@@ -24,9 +24,9 @@ except mysql.connector.Error as err:
 cur = con.cursor()
 
 cur.execute(
-        "SELECT username, nom, prenom, annee, sexe, status, id_login \
+    "SELECT username, nom, prenom, annee, sexe, status, id_login \
         FROM login \
         INNER JOIN etudiant ON login.id_personne = etudiant.id_etudiant \
         WHERE login.type = 'etu';"
-    )
+)
 print(cur.fetchall())

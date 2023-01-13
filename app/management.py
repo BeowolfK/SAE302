@@ -11,7 +11,7 @@ try:
         port="3306",
         password="Sae302!client",
         database="universite",
-        auth_plugin='mysql_native_password'
+        auth_plugin="mysql_native_password",
     )
 except mysql.connector.Error as e:
     print("Exception : ", e)
@@ -83,16 +83,17 @@ def prof_nom(res):
             list_name.append(tuple_name[0])
         final.append([tup[1], list_name, *tup[2:]])
     return final
-def prof_enseigne(id): 
-    cur.execute(
-        f"Select id_matiere from enseigne where id_prof = {id}"
-    )  
+
+
+def prof_enseigne(id):
+    cur.execute(f"Select id_matiere from enseigne where id_prof = {id}")
     matiere = cur.fetchall()
     nom_matiere = []
-    for id_mat in matiere : 
+    for id_mat in matiere:
         cur.execute(f"select nom from matiere where id_matiere = {id_mat[0]}")
         nom_matiere.append(cur.fetchone()[0])
     return nom_matiere
+
 
 def panel_note(id):
     """Renvoie une liste contenant une liste [matiere, [prof], moyenne]
@@ -235,18 +236,20 @@ def get_id(nom, prenom):
         nom (str): nom de l'etudiant
         prenom (str): prenom de l'etudiant
     """
-    cur.execute(f"SELECT id_etudiant from etudiant WHERE nom = '{nom}' and prenom = '{prenom}'")
-    id= cur.fetchone()
-    return id 
+    cur.execute(
+        f"SELECT id_etudiant from etudiant WHERE nom = '{nom}' and prenom = '{prenom}'"
+    )
+    id = cur.fetchone()
+    return id
+
 
 # Fonction pannel prof
 
+
 def get_student(study):
 
-    cur.execute(
-        f"Select annee from matiere where matiere.nom = '{study}' ")
+    cur.execute(f"Select annee from matiere where matiere.nom = '{study}' ")
     anne_mat = cur.fetchone()[0]
-   
 
     cur.execute(
         f"Select etudiant.id_etudiant,etudiant.nom,prenom,etudiant.annee \
@@ -257,19 +260,18 @@ def get_student(study):
     all_student = cur.fetchall()
     return all_student
 
-def prof_enseigne(id): 
-    cur.execute(
-        f"Select id_matiere from enseigne where id_prof = {id}"
-    )  
+
+def prof_enseigne(id):
+    cur.execute(f"Select id_matiere from enseigne where id_prof = {id}")
     matiere = cur.fetchall()
     nom_matiere = []
-    for id_mat in matiere : 
+    for id_mat in matiere:
         cur.execute(f"select nom from matiere where id_matiere = {id_mat[0]}")
         nom_matiere.append(cur.fetchone()[0])
     return nom_matiere
 
-def get_student_vie_scolaire(name,first_name,year):
-   
+
+def get_student_vie_scolaire(name, first_name, year):
 
     cur.execute(
         f"Select * \
@@ -279,7 +281,7 @@ def get_student_vie_scolaire(name,first_name,year):
     )
     all_student = cur.fetchall()
     return all_student
+
+
 if __name__ == "__main__":
-    print(
-        matiere(1)
-    )
+    print(matiere(1))

@@ -1,7 +1,7 @@
 class Personne:
     def __init__(self, *args):
         if len(args) > 0:
-            
+
             self.__id = args[0]
         else:
             self.__id = None

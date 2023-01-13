@@ -41,7 +41,7 @@ WindowManager:
             pos_hint:{"x":0, "y":0.5}
         TextInput:
             id:identif
-            text:"prof"
+            text:"admin"
             multiline:False
             font_size:25
             size_hint_x:0.5
@@ -58,7 +58,7 @@ WindowManager:
             pos_hint:{"x":0, "y":0.3}
         TextInput:
             id:mdp
-            text:"prof"
+            text:"admin"
             multiline:False
             font_size:25
             size_hint_x:0.5
@@ -767,7 +767,6 @@ WindowManager:
             on_press:
                 root.manager.transition = NoTransition()
                 app.root.current = "liste_mat"
-                app.get_stud()
 
         Button:
             text:"Liste des professeurs"
@@ -777,7 +776,6 @@ WindowManager:
             on_press:
                 root.manager.transition = NoTransition()
                 app.root.current = "liste_prof"
-                app.get_stud()
 
 <MatiereWindow>
     name:"liste_mat"

@@ -7,6 +7,9 @@ from management import (
     change_status,
     new_etudiant,
     panel_note,
+    list_mat,
+    delete_mat,
+    add_mat
 )
 from kivy.app import App
 from kivy.uix.label import Label
@@ -170,21 +173,25 @@ class Application(App):
             grid.add_widget(self.create_lbl(etu[4]))
             if etu[5]:
                 btn = Button(
-                    text="Désactivé",
-                    background_color=(1, 0, 0, 1),
-                )
-                btn.bind(on_press=partial(self.update_status, etu[6]))
-                grid.add_widget(btn)
-            else:
-                btn = Button(
                     text="Activé",
                     background_color=(0, 1, 0, 1),
                 )
                 btn.bind(on_press=partial(self.update_status, etu[6]))
                 grid.add_widget(btn)
+            else:
+                btn = Button(
+                    text="Désactivé",
+                    background_color=(1, 0, 0, 1),
+                )
+                btn.bind(on_press=partial(self.update_status, etu[6]))
+                grid.add_widget(btn)
+
 
     def clear_stud(self):
         self.root.get_screen("liste_etu").ids.grid_etu.clear_widgets()
+
+    def clear_mat(self):
+        self.root.get_screen("liste_mat").ids.grid_mat.clear_widgets()
 
     def update_status(self, id, instance):
         texte = instance.text
@@ -196,18 +203,65 @@ class Application(App):
             change_status(0, id)
             instance.text = "Désactivé"
             instance.background_color = (1, 0, 0, 1)
-        else:
-            print("Error")
+
+    def delete_matiere(self, id, instance):
+        delete_mat(id)
+        self.clear_mat()
+        self.get_mat()
+
+    def get_mat(self):
+        liste = list_mat()
+        grid = self.root.get_screen("liste_mat").ids.grid_mat
+        for matiere in liste:
+            grid.add_widget(self.create_lbl(matiere[1]))
+            grid.add_widget(self.create_lbl("\n".join(matiere[2])))
+            grid.add_widget(self.create_lbl(matiere[3]))
+            btn = Button(
+                    text="Supprimer",
+                    background_color=(1, 0, 0, 1),
+            )
+            btn.bind(on_press=partial(self.delete_matiere, matiere[0]))
+            grid.add_widget(btn)
+
+    def reset_matiere(self):
+        screen = self.root.get_screen("liste_mat")
+        screen.ids.lbl_annee.color = (0, 0, 0, 1)
+        screen.ids.lbl_matiere.color = (0, 0, 0, 1)
+        screen.ids.ck_1a.active = False
+        screen.ids.ck_2a.active = False
+        screen.ids.matiere.text = ""
+
+    def add_matiere(self):
+        screen = self.root.get_screen("liste_mat")
+        nom = screen.ids.matiere.text
+        annee = 1 if screen.ids.ck_1a.active else 2
+        flag = True
+        if not screen.ids.ck_1a.active and not screen.ids.ck_2a.active:
+            screen.ids.lbl_annee.color = (1, 0, 0, 1)
+            flag = False
+        if nom == "":
+            screen.ids.lbl_matiere.color = (1, 0, 0, 1)
+            flag = False
+        if flag:
+            add_mat(nom, annee)
+            self.reset_matiere()
+            self.clear_mat()
+            self.get_mat()
+
+
+    def get_prof(self):
+        print("get_prof")
 
     def reset_addstudent(self):
-        self.root.get_screen("addstudent").ids.t_nom.text = ""
-        self.root.get_screen("addstudent").ids.t_prenom.text = ""
-        self.root.get_screen("addstudent").ids.i_etu.source = ""
-        self.root.get_screen("addstudent").ids.ck_h.active = False
-        self.root.get_screen("addstudent").ids.ck_f.active = False
-        self.root.get_screen("addstudent").ids.ck_1a.active = False
-        self.root.get_screen("addstudent").ids.ck_2a.active = False
-        self.root.get_screen("addstudent").ids.t_mdp.text = ""
+        screen = self.root.get_screen("addstudent")
+        screen.ids.t_nom.text = ""
+        screen.ids.t_prenom.text = ""
+        screen.ids.i_etu.source = ""
+        screen.ids.ck_h.active = False
+        screen.ids.ck_f.active = False
+        screen.ids.ck_1a.active = False
+        screen.ids.ck_2a.active = False
+        screen.ids.t_mdp.text = ""
 
     def save_image(self, filename):
         try:
@@ -238,12 +292,12 @@ class Application(App):
             nom = screen.ids.t_nom.text
             prenom = screen.ids.t_prenom.text
             sexe = "M" if screen.ids.ck_h.active else "F"
+            mdp = screen.ids.t_mdp.text
             if not screen.ids.ck_h.active and not screen.ids.ck_h.active:
                 sexe = ""
             annee = 1 if screen.ids.ck_1a.active else 2
             if not screen.ids.ck_1a.active and not screen.ids.ck_2a.active:
                 annee = ""
-            mdp = screen.ids.t_mdp.text
             flag = True
             if filename == "":
                 flag = False
@@ -489,7 +543,7 @@ class Application(App):
 
                 racine.ids.gl_write_space.add_widget(btn_e)
 
-    def create_text_input(self, message, widthe):
+    def create_text_input(self, message, width):
         return TextInput(
             hint_text=f"{message}",
             halign="center",
@@ -497,7 +551,7 @@ class Application(App):
             font_size=15,
             size_hint=(None, None),
             height=38,
-            width=widthe,
+            width=width,
         )
 
     def add_absence(self, *args):

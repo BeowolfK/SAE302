@@ -1,9 +1,13 @@
 {
     "cSpell.words": [
         "addstudent",
+        "anne",
         "Aujourd'hui",
         "eleve",
         "filechose",
+        "gridlayout",
+        "halign",
+        "heightt",
         "identif",
         "lastrowid",
         "lbls",
@@ -14,6 +18,8 @@
         "resetchamp",
         "screenmanager",
         "scrollview",
+        "sizee",
+        "textd",
         "universite"
     ],
     "python.linting.flake8Enabled": true,

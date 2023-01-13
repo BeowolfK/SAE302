@@ -60,37 +60,23 @@ def info_prof(id):
     return f"{info[0].title()}"
 
 
-def prof_nom(res):
-    """_summary_
-
-    Args:
-        res (list): _description_
-
-    Returns:
-        list: _description_
-    """
-    final = []
-    for tup in res:
-        cur.execute(
-            f"SELECT CASE prof.sexe \
-            WHEN 'M' THEN CONCAT('Mr', ' ', prof.nom, ' ', prof.prenom) \
-            ELSE CONCAT('Mme', ' ', prof.nom, ' ', prof.prenom) END \
-            FROM enseigne INNER JOIN prof ON enseigne.id_prof = prof.id_prof \
-            WHERE id_matiere = {tup[0]};"
-        )
-        list_name = []
-        for tuple_name in cur.fetchall():
-            list_name.append(tuple_name[0])
-        final.append([tup[1], list_name, *tup[2:]])
-    return final
+def prof_nom(id):
+    cur.execute(
+        f"SELECT CASE prof.sexe \
+        WHEN 'M' THEN CONCAT('Mr', ' ', prof.nom, ' ', prof.prenom) \
+        ELSE CONCAT('Mme', ' ', prof.nom, ' ', prof.prenom) END \
+        FROM enseigne INNER JOIN prof ON enseigne.id_prof = prof.id_prof \
+        WHERE id_matiere = {id};"
+    )
+    return cur.fetchall()
 
 
 def prof_enseigne(id):
-    cur.execute(f"Select id_matiere from enseigne where id_prof = {id}")
+    cur.execute(f"SELECT id_matiere FROM enseigne WHERE id_prof = {id}")
     matiere = cur.fetchall()
     nom_matiere = []
     for id_mat in matiere:
-        cur.execute(f"select nom from matiere where id_matiere = {id_mat[0]}")
+        cur.execute(f"SELECT nom FROM matiere WHERE id_matiere = {id_mat[0]}")
         nom_matiere.append(cur.fetchone()[0])
     return nom_matiere
 
@@ -111,8 +97,15 @@ def panel_note(id):
         INNER JOIN matiere ON note.id_matiere = matiere.id_matiere \
         WHERE note.id_etudiant = {id} GROUP BY note.id_matiere;"
     )
-    res = prof_nom(cur.fetchall())
-    return res
+    res = cur.fetchall()
+    final = []
+    for tup in res:
+        noms = prof_nom(tup[0])
+        list_name = []
+        for tuple_name in noms:
+            list_name.append(tuple_name[0])
+        final.append([tup[1], list_name, *tup[2:]])
+    return final
 
 
 def matiere(id):
@@ -230,58 +223,68 @@ def change_status(status, id):
 
 
 def get_id(nom, prenom):
-    """Renvoie l'id correspondant au nom et prénom demandé
+    """Renvoie l'id correspondant au nom et prénom demANDé
 
     Args:
         nom (str): nom de l'etudiant
         prenom (str): prenom de l'etudiant
     """
     cur.execute(
-        f"SELECT id_etudiant from etudiant WHERE nom = '{nom}' and prenom = '{prenom}'"
+        f"SELECT id_etudiant FROM etudiant \
+        WHERE nom = '{nom}' AND prenom = '{prenom}'"
     )
     id = cur.fetchone()
     return id
 
 
-# Fonction pannel prof
-
-
 def get_student(study):
-
-    cur.execute(f"Select annee from matiere where matiere.nom = '{study}' ")
-    anne_mat = cur.fetchone()[0]
+    cur.execute(f"SELECT annee FROM matiere WHERE matiere.nom = '{study}' ")
+    annee_mat = cur.fetchone()[0]
 
     cur.execute(
-        f"Select etudiant.id_etudiant,etudiant.nom,prenom,etudiant.annee \
-        from etudiant \
-        inner join matiere \
-        where matiere.annee = etudiant.annee and etudiant.annee = {anne_mat} and matiere.nom = '{study}' "
+        f"SELECT etudiant.id_etudiant,etudiant.nom,prenom,etudiant.annee \
+        FROM etudiant \
+        INNER JOIN matiere \
+        WHERE matiere.annee = etudiant.annee \
+        AND etudiant.annee = {annee_mat} \
+        AND matiere.nom = '{study}' "
     )
     all_student = cur.fetchall()
     return all_student
-
-
-def prof_enseigne(id):
-    cur.execute(f"Select id_matiere from enseigne where id_prof = {id}")
-    matiere = cur.fetchall()
-    nom_matiere = []
-    for id_mat in matiere:
-        cur.execute(f"select nom from matiere where id_matiere = {id_mat[0]}")
-        nom_matiere.append(cur.fetchone()[0])
-    return nom_matiere
 
 
 def get_student_vie_scolaire(name, first_name, year):
-
     cur.execute(
-        f"Select * \
-        from etudiant \
-        inner join matiere \
-        where matiere.annee = etudiant.annee and etudiant.nom = '{name}' and etudiant.prenom = '{first_name}' and etudiant.annee = '{year}'"
+        f"SELECT * FROM etudiant INNER JOIN matiere \
+        WHERE matiere.annee = etudiant.annee \
+        AND etudiant.nom = '{name}' \
+        AND etudiant.prenom = '{first_name}' \
+        AND etudiant.annee = '{year}'"
     )
-    all_student = cur.fetchall()
-    return all_student
+    return cur.fetchall()
+
+
+def list_mat():
+    cur.execute("SELECT * FROM matiere")
+    matiere = []
+    for id in cur.fetchall():
+        noms = [tup[0].title() for tup in prof_nom(id[0])]
+        matiere.append([id[0], id[1], noms, id[2]])
+    return matiere
+
+
+def add_mat(name, annee):
+    cur.execute(
+        f"INSERT INTO matiere (nom, annee) \
+        VALUES ('{name}', '{annee}')"
+        )
+    con.commit()
+
+
+def delete_mat(id, *args):
+    cur.execute(f"DELETE FROM matiere WHERE id_matiere = {id}")
+    con.commit()
 
 
 if __name__ == "__main__":
-    print(matiere(1))
+    print(list_mat())

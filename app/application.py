@@ -393,7 +393,9 @@ class Application(App):
         racine.ids.ti_find_student_prenom.text = ""
         racine.ids.ck_1a.active = False
         racine.ids.ck_2a.active = False
-        
+        racine.ids.gl_write_space.spacing = 25
+        racine.ids.gl_write_space.padding = 10
+        racine.ids.gl_write_space.cols = 2
 
     def recherche_vie_sco(self): 
         racine = self.root.get_screen("teacher") 
@@ -473,7 +475,8 @@ class Application(App):
     def input_today(self, *args):
         today = datetime.now()
         tt = today.split()
-        today = tt.split("-")
+        today = tt.split()
+        
 if __name__ == "__main__":
     app = Application()
     app.run()

@@ -396,6 +396,8 @@ class Application(App):
         racine.ids.gl_write_space.spacing = 25
         racine.ids.gl_write_space.padding = 10
         racine.ids.gl_write_space.cols = 2
+        racine.ids.gl_write_space.row_force_default = False
+        racine.ids.gl_write_space.clear_widgets()
 
     def recherche_vie_sco(self): 
         racine = self.root.get_screen("teacher") 
@@ -442,6 +444,7 @@ class Application(App):
         racine.ids.gl_write_space.clear_widgets()
         racine.ids.gl_write_space.cols = 1
         layout = GridLayout(cols=4)
+        racine.ids.gl_write_space.row_force_default = True
 
         pp = AsyncImage(
                         source="http://54.37.226.86:8000/{}-{}-{}.png".format(
@@ -458,25 +461,35 @@ class Application(App):
         racine.ids.gl_write_space.add_widget(layout)
 
         layout2 = GridLayout(cols=3, spacing=10)
-        layout2.add_widget(self.create_text_input("Date",100))
-        layout2.add_widget(self.create_text_input("Heure",100))
+        btn_date = self.create_text_input("Date",100)
+        
+        layout2.add_widget(btn_date)
+        
+        btn_heure = self.create_text_input("Heure",100)
+        layout2.add_widget(btn_heure)
         layout2.add_widget(self.create_text_input("Commentaire",150))
         
         
         btn_today = self.add_button("Aujourd'hui",(.08,None),35, 15, (0,0,0,.15))
-        btn_today.bind(on_release=partial(self.input_today))
+        btn_today.bind(on_release=partial(self.input_today, btn_date))
         layout2.add_widget(btn_today)
+        
+        btn_hours = self.add_button("Heure en cour",(.08,None),35, 15, (0,0,0,.15))
+        btn_hours.bind(on_release=partial(self.input_hour, btn_heure))
+        layout2.add_widget(btn_hours)
 
-        layout2.add_widget(self.add_button("Heure en cour",(.08,None),35, 15, (0,0,0,.15)))
         layout2.add_widget(self.add_button("Valider",(.08,None),35, 15, (0,0,0,.15)))
         racine.ids.gl_write_space.add_widget(layout2)
 
 
     def input_today(self, *args):
-        today = datetime.now()
-        tt = today.split()
-        today = tt.split()
-        
+        racine = self.root.get_screen("teacher")
+        today = datetime.now().date()
+        args[0].text = str(today)
+
+    def input_hour(self, *args): 
+        hours = datetime.now().strftime("%H")
+        args[0].text = str(hours)
 if __name__ == "__main__":
     app = Application()
     app.run()

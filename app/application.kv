@@ -479,6 +479,8 @@ WindowManager:
                 width : self.minimum_width
                 spacing : 25
                 padding: 10
+                row_force_default:False
+                row_default_height:40
 
         Button:
             text:"Espace Note"
@@ -638,6 +640,7 @@ WindowManager:
                 app.root.current = "hub"
                 root.manager.transition.direction = "right"
                 app.clear_note()
+                app.clear_vie_scolaire()
 
 
 <AdminEtuWindow>

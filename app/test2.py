@@ -1,7 +1,8 @@
 from management import * 
 from etudiant import * 
 from login import *
+from datetime import *
 
-print(prof_enseigne(1))
-print(get_student("r309"))
-print(get_student_vie_scolaire("etu","etu",1))
+
+today = datetime.now().date()
+print(today)

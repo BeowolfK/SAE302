@@ -10,6 +10,7 @@ WindowManager:
     AdminEtuWindow:
     MatiereWindow:
     ProfWindow:
+    MatiereProfWindow:
 
 <FirstWindow>
     name:"hub"
@@ -764,6 +765,17 @@ WindowManager:
                 app.root.current = "liste_prof"
                 app.get_prof()
 
+        Button:
+            text:"Associer Matière/Professeur"
+            background_color:.225,.225,.225,.4
+            size_hint:0.3, 0.1
+            pos_hint:{"x":0.35, "top":.5}
+            on_press:
+                root.manager.transition = NoTransition()
+                app.root.current = "mat_prof"
+                app.edition_mat()
+
+
 <MatiereWindow>
     name:"liste_mat"
 
@@ -910,44 +922,29 @@ WindowManager:
             on_press:
                 root.manager.transition = NoTransition()
                 app.root.current = "admin"
+                app.clear_prof()
 
         GridLayout:
-            cols:7
+            cols:3
             size_hint:1, 0
             pos_hint:{"x":0, "top":0.8}
             Label:
-                text:"Photo"
+                text:"Professeurs"
                 color:192,192,192,1
                 font_size:20
             Label:
-                text:"Username"
+                text:"Matières"
                 color:192,192,192,1
                 font_size:20
             Label:
-                text:"Nom"
-                color:192,192,192,1
-                font_size:20
-            Label:
-                text:"Prénom"
-                color:192,192,192,1
-                font_size:20
-            Label:
-                text:"Année"
-                color:192,192,192,1
-                font_size:20
-            Label:
-                text:"Sexe"
-                color:192,192,192,1
-                font_size:20
-            Label:
-                text:"Status"
+                text:""
                 color:192,192,192,1
                 font_size:20
         ScrollView:
             do_scroll_x:False
             do_scroll_y:True
-            size_hint:1, 0.75
-            pos_hint:{"x":0, "top":0.78}
+            size_hint:0.94, 0.4
+            pos_hint:{"x":0.03, "top":0.78}
             canvas.before:
                 Color:
                     rgba:0,0,0,.1
@@ -955,11 +952,144 @@ WindowManager:
                     pos:self.pos
                     size:self.size
             GridLayout:
-                id:grid_etu
-                cols:7
+                id:grid_prof
+                cols:3
                 size_hint_y:None
                 height:self.minimum_height
                 width:self.minimum_width
                 spacing:10
                 row_force_default:True
                 row_default_height:40
+        GridLayout:
+            cols:4
+            size_hint:0.94, 0.2
+            spacing:5
+            pos_hint:{"x":0.03, "top":0.4}
+            Label:
+                id:lbl_nom
+                text:"Nom"
+                color:192,192,192,1
+                font_size:20
+            Label:
+                id:lbl_prenom
+                text:"Prénom"
+                color:192,192,192,1
+                font_size:20
+            Label:
+                id:lbl_annee
+                text:"Sexe"
+                color:192,192,192,1
+                font_size:20
+            Label: 
+                text:""
+                font_size:20
+            TextInput:
+                id:nom
+                multiline:False
+                font_size:20
+            TextInput:
+                id:prenom
+                multiline:False
+                font_size:20
+            GridLayout:
+                cols:2
+                size_hint_x:0.1
+                size_hint_y:.1
+                pos_hint:{"x":.45, "y":.31}
+                spacing:20
+                Label:
+                    color:192,192,192,1
+                    text:"M"
+                    font_size:15
+                    pos_hint:{"x":-.1, "y":-.25}
+
+                Label:
+                    color:192,192,192,1
+                    text:"F"
+                    font_size:15
+                    pos_hint:{"x":.1, "y":-.25}
+                CheckBox:
+                    id:ck_m
+                    color:1,0,1,1
+                    pos_hint:{"x":-.03, "y":-.15}
+                    size_hint_x:1
+                    group:"sexe"
+                CheckBox:
+                    id:ck_f
+                    color:1,0,1,1
+                    pos_hint:{"x":.01,"y":-.15}
+                    size_hint_x:1
+                    group:"sexe"
+            Button:
+                text:"Valider"
+                background_color:.225,.225,.225,.4
+                size_hint:0.3, 0.1
+                pos_hint:{"x":0.35, "top":.3}
+                on_press:
+                    app.add_new_prof()
+
+<MatiereProfWindow>
+    name:"mat_prof"
+
+    FloatLayout:
+        orientation:"vertical"
+        size:root.width, root.height
+
+        canvas.before:
+            Color:
+                rgba:1,1,1,1
+            Rectangle:
+                pos:self.pos
+                size:self.size
+        Button:
+            text:"Retour"
+            background_color:.225,.225,.225,.4
+            size_hint:0.3, 0.1
+            pos_hint:{"x":0.02, "top":1}
+            on_press:
+                root.manager.transition = NoTransition()
+                app.root.current = "admin"
+                app.reset_mat_prof()
+
+        ScrollView:
+            do_scroll_x:False
+            do_scroll_y:True
+            size_hint:0.2, 0.7
+            pos_hint:{"x":0.03, "top":0.78}
+            canvas.before:
+                Color:
+                    rgba:0,0,0,.1
+                Rectangle:
+                    pos:self.pos
+                    size:self.size
+            GridLayout:
+                id:grid_prof
+                cols:1
+                size_hint_y:None
+                height:self.minimum_height
+                width:self.minimum_width
+                spacing:10
+                row_force_default:True
+                row_default_height:40
+        ScrollView:
+            do_scroll_x:False
+            do_scroll_y:True
+            size_hint:0.74, 0.7
+            pos_hint:{"x":0.23, "top":0.78}
+            canvas.before:
+                Color:
+                    rgba:0,0,0,.1
+                Rectangle:
+                    pos:self.pos
+                    size:self.size
+            GridLayout:
+                id:grid_mat
+                cols:1
+                size_hint_y:None
+                height:self.minimum_height
+                width:self.minimum_width
+                spacing:10
+                row_force_default:True
+                row_default_height:40
+
+

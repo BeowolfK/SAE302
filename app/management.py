@@ -286,5 +286,72 @@ def delete_mat(id, *args):
     con.commit()
 
 
+def mat_by_prof(id):
+    cur.execute(
+        f"SELECT matiere.id_matiere, matiere.nom FROM matiere \
+        INNER JOIN enseigne ON matiere.id_matiere = enseigne.id_matiere \
+        WHERE enseigne.id_prof = {id};")
+    return cur.fetchall()
+
+
+def all_prof():
+    cur.execute(
+        "SELECT id_prof, \
+        CASE prof.sexe \
+        WHEN 'M' THEN CONCAT('Mr', ' ', prof.nom, ' ', prof.prenom) \
+        ELSE CONCAT('Mme', ' ', prof.nom, ' ', prof.prenom) \
+        END \
+        FROM prof;"
+    )
+    return cur.fetchall()
+
+
+def list_prof():
+    res = all_prof()
+    prof = []
+    for id in res:
+        mat = mat_by_prof(id[0])
+        prof.append(
+            [id[0],
+             id[1],
+             [nom[1].title() for nom in mat]]
+            )
+    return prof
+
+
+def delete_prof(id, *args):
+    cur.execute(f"DELETE FROM prof WHERE id_prof = {id}")
+    con.commit()
+
+
+def add_prof(nom, prenom, sexe):
+    try:
+        cur.execute(
+            f"INSERT INTO prof (nom, prenom, sexe) \
+            VALUES ('{nom}', '{prenom}', '{sexe}')"
+        )
+    except Exception:
+        return False
+    else:
+        return True
+
+
+def all_mat():
+    cur.execute("SELECT * FROM matiere")
+    return cur.fetchall()
+
+
+def assign_mat_prof(id_prof, id_mat):
+    cur.execute(f"SELECT id_prof FROM enseigne WHERE id_matiere = {id_mat}")
+    res = [id[0] for id in cur.fetchall()]
+    if id_prof in res:
+        cur.execute(f"DELETE FROM enseigne WHERE id_prof = {id_prof}")
+    else:
+        cur.execute(
+            f"INSERT INTO enseigne (id_prof, id_matiere) \
+            VALUES ({id_prof}, {id_mat})")
+    con.commit()
+
+
 if __name__ == "__main__":
-    print(list_mat())
+    print(assign_mat_prof(1, 2))

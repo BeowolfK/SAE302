@@ -1,5 +1,5 @@
 from login import verify
-from management import *
+# from management import *
 from management import (
     liste_etu,
     info_etu,
@@ -7,9 +7,19 @@ from management import (
     change_status,
     new_etudiant,
     panel_note,
+    prof_enseigne,
+    get_student_vie_scolaire,
+    get_student,
     list_mat,
     delete_mat,
-    add_mat
+    add_mat,
+    list_prof,
+    delete_prof,
+    add_prof,
+    all_prof,
+    all_mat,
+    mat_by_prof,
+    assign_mat_prof
 )
 from kivy.app import App
 from kivy.uix.label import Label
@@ -59,6 +69,10 @@ class AddStudent(Screen):
 
 
 class MatiereWindow(Screen):
+    pass
+
+
+class MatiereProfWindow(Screen):
     pass
 
 
@@ -186,12 +200,16 @@ class Application(App):
                 btn.bind(on_press=partial(self.update_status, etu[6]))
                 grid.add_widget(btn)
 
-
     def clear_stud(self):
         self.root.get_screen("liste_etu").ids.grid_etu.clear_widgets()
 
     def clear_mat(self):
         self.root.get_screen("liste_mat").ids.grid_mat.clear_widgets()
+        self.reset_matiere()
+
+    def clear_prof(self):
+        self.root.get_screen("liste_prof").ids.grid_prof.clear_widgets()
+        self.reset_prof()
 
     def update_status(self, id, instance):
         texte = instance.text
@@ -213,7 +231,7 @@ class Application(App):
         liste = list_mat()
         grid = self.root.get_screen("liste_mat").ids.grid_mat
         for matiere in liste:
-            grid.add_widget(self.create_lbl(matiere[1]))
+            grid.add_widget(self.create_lbl(matiere[1].title()))
             grid.add_widget(self.create_lbl("\n".join(matiere[2])))
             grid.add_widget(self.create_lbl(matiere[3]))
             btn = Button(
@@ -248,9 +266,56 @@ class Application(App):
             self.clear_mat()
             self.get_mat()
 
+    def reset_prof(self):
+        screen = self.root.get_screen("liste_prof")
+        screen.ids.lbl_nom.color = (0, 0, 0, 1)
+        screen.ids.lbl_prenom.color = (0, 0, 0, 1)
+        screen.ids.ck_m.active = False
+        screen.ids.ck_f.active = False
+        screen.ids.nom.text = ""
+        screen.ids.prenom.text = ""
+
+    def delete_prof(self, id, instance):
+        delete_prof(id)
+        self.clear_prof()
+        self.get_prof()
+
+    def add_new_prof(self):
+        screen = self.root.get_screen("liste_prof")
+        nom = screen.ids.nom.text
+        prenom = screen.ids.prenom.text
+        sexe = 'M' if screen.ids.ck_m.active else 'F'
+        flag = True
+        if not screen.ids.ck_m.active and not screen.ids.ck_f.active:
+            screen.ids.lbl_annee.color = (1, 0, 0, 1)
+            flag = False
+        if nom == "":
+            screen.ids.lbl_nom.color = (1, 0, 0, 1)
+            flag = False
+        if prenom == "":
+            screen.ids.lbl_prenom.color = (1, 0, 0, 1)
+            flag = False
+        if flag:
+            res = add_prof(nom, prenom, sexe)
+            if not res:
+                screen.ids.lbl_nom.color = (1, 0, 0, 1)
+                screen.ids.lbl_prenom.color = (1, 0, 0, 1)
+            self.reset_prof()
+            self.clear_prof()
+            self.get_prof()
 
     def get_prof(self):
-        print("get_prof")
+        liste = list_prof()
+        grid = self.root.get_screen("liste_prof").ids.grid_prof
+        for prof in liste:
+            grid.add_widget(self.create_lbl(prof[1].title()))
+            grid.add_widget(self.create_lbl("\n".join(prof[2]).title()))
+            btn = Button(
+                    text="Supprimer",
+                    background_color=(1, 0, 0, 1),
+            )
+            btn.bind(on_press=partial(self.delete_prof, prof[0]))
+            grid.add_widget(btn)
 
     def reset_addstudent(self):
         screen = self.root.get_screen("addstudent")
@@ -262,6 +327,46 @@ class Application(App):
         screen.ids.ck_1a.active = False
         screen.ids.ck_2a.active = False
         screen.ids.t_mdp.text = ""
+
+    def reset_mat_prof(self):
+        screen = self.root.get_screen("mat_prof")
+        screen.ids.grid_prof.clear_widgets()
+        screen.ids.grid_mat.clear_widgets()
+
+    def edition_mat(self):
+        screen = self.root.get_screen("mat_prof")
+        grid = screen.ids.grid_prof
+        profs = all_prof()
+        for prof in profs:
+            btn = Button(
+                    text=prof[1].title(),
+            )
+            btn.bind(on_press=partial(self.list_mat_prof, prof[0]))
+            grid.add_widget(btn)
+
+    def list_mat_prof(self, id, *args):
+        screen = self.root.get_screen("mat_prof")
+        grid = screen.ids.grid_mat
+        grid.clear_widgets()
+        mats = all_mat()
+        mat_prof = [mat[0] for mat in mat_by_prof(id)]
+
+        for mat in mats:
+            btn = Button(
+                        text=mat[1].title(),
+                    )
+            btn.bind(on_press=partial(self.edit_mat_prof, mat[0], id))
+            if mat[0] in mat_prof:
+                btn.background_color = (0, 1, 0, 1)
+            else:
+                btn.background_color = (1, 0, 0, 1)
+            grid.add_widget(btn)
+
+    def edit_mat_prof(self, id_mat, id_prof, instance):
+        screen = self.root.get_screen("mat_prof")
+        assign_mat_prof(id_prof, id_mat)
+        screen.ids.grid_mat.clear_widgets()
+        self.list_mat_prof(id_prof)
 
     def save_image(self, filename):
         try:

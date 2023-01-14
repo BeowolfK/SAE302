@@ -42,7 +42,7 @@ WindowManager:
             pos_hint:{"x":0, "y":0.5}
         TextInput:
             id:identif
-            text:"admin"
+            text:"prof"
             multiline:False
             font_size:25
             size_hint_x:0.5
@@ -59,7 +59,7 @@ WindowManager:
             pos_hint:{"x":0, "y":0.3}
         TextInput:
             id:mdp
-            text:"admin"
+            text:"prof"
             multiline:False
             font_size:25
             size_hint_x:0.5
@@ -446,13 +446,15 @@ WindowManager:
 
         ScrollView:
             id:s_write_space
+            do_scroll_x:False
             canvas.before:
                 Color:
                     rgba:0,0,0,.1
                 Rectangle:
                     pos:self.pos
                     size:self.size
-            size_hint_x:.8
+            size_hint_x:None
+            width : 560
             size_hint_y: .72
             pos_hint:{"x":.3, "y" :.12}
             GridLayout:

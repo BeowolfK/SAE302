@@ -19,7 +19,12 @@ from management import (
     all_prof,
     all_mat,
     mat_by_prof,
-    assign_mat_prof
+    assign_mat_prof,
+    add_abscence_vie_scolaire,
+    add_retard_vie_scolaire,
+    add_exclusion_vie_scolaire,
+    get_id_mat,
+    add_note
 )
 from kivy.app import App
 from kivy.uix.label import Label
@@ -453,7 +458,7 @@ class Application(App):
         id = self.user.get_id()
 
         note = panel_note(id)
-        print(note)
+        
         grid = self.root.get_screen("second").ids.grid1
         for grade in note:
             grid.add_widget(self.create_lbl(grade[0].title()))
@@ -479,13 +484,13 @@ class Application(App):
             height=(heightt),
             font_size=(police_size),
             background_color=(col),
-            on_release=(event),
+            on_release=(partial(self.espace_add_note, event))
         )
 
     def espace_note(self):
         racine = self.root.get_screen("teacher")
-        if racine.ids.ti_find_student_nom.pos_hint == {"x": 0.3, "y": 0.85}:
-            self.clear_vie_scolaire()
+       
+        self.clear_vie_scolaire()
         racine.ids.s_liste_eleve.size_hint = (0, 0)
         racine.ids.s_liste_eleve.pos_hint = {"x": 1.2, "y": 1.2}
         racine.ids.gl_liste_eleve.clear_widgets()
@@ -495,12 +500,13 @@ class Application(App):
             racine.ids.s_espace_note.pos_hint = {"x": 0.2, "y": 0.65}
             for i in self.user.get_enseigne():
                 racine.ids.gl_espace_note.add_widget(
-                    self.add_button(
+                    self.add_button_event(
                         f"{i}",
                         (0.055, None),
                         35,
                         22,
-                        (0, 0, 0, 0)
+                        (0, 0, 0, 0),
+                        i
                     )
                 )
 
@@ -509,7 +515,98 @@ class Application(App):
             racine.ids.s_espace_note.pos_hint = {"x": 1.2, "y": 1.2}
             racine.ids.gl_espace_note.clear_widgets()
 
+    def add_note_panel(self, *args):
+
+       
+        id_etu = args[0]
+        nom = args[1]
+        prenom = args[2]
+        id_matiere = args[3]
+        etu = args[4]
+        racine = self.root.get_screen("teacher")
+        racine.ids.gl_write_space.clear_widgets()
+        racine.ids.gl_write_space.cols = 1
+        racine.ids.gl_write_space.spacing = 10
+        
+        layout = GridLayout(cols=4, width=racine.ids.gl_write_space.width)
+
+        
+        pp = AsyncImage(
+            source="http://54.37.226.86:8000/{}-{}-{}.png".format(
+                etu[0], etu[1].upper(), etu[2].upper()
+            )
+        )
+        
+        layout.add_widget(pp)
+        layout.add_widget(self.create_lbl(etu[1]))
+        layout.add_widget(self.create_lbl(etu[2]))
+        layout.add_widget(self.create_lbl(etu[3]))
+
+        racine.ids.gl_write_space.add_widget(layout)
+
+
+        layout2 = GridLayout(cols=3, spacing=30, padding=30, width=racine.ids.gl_write_space.width)
+        ti_note = self.create_text_input("Note", 100)
+        
+        layout2.add_widget(ti_note)
+
+        ti_comment = self.create_text_input("Commentaire", 130)
+        layout2.add_widget(ti_comment)
+
+        layout2.add_widget(
+            Button(text="Valider",
+            size_hint=(None,None),
+            height=45,
+            width= 100,
+            font_size=25,
+            background_color=(0,0,0,0.15),
+            on_release=(partial(self.call_add_note, ti_note,ti_comment,id_matiere,etu[0]))
+            )
+        )
+        
+        racine.ids.gl_write_space.add_widget(layout2)
+    def call_add_note(self, *args):
+        print(args[2])
+        note = float(args[0].text)
+        comment = str(args[1].text)
+        id_matiere= int(args[2][0])
+        id_etu = int(args[3])
+        add_note(note,comment,id_matiere, id_etu)
+
+    def espace_add_note(self, *args):
+        etudiant = get_student(args[0])
+        
+        racine = self.root.get_screen("teacher")   
+        racine.ids.gl_write_space.clear_widgets()
+        racine.ids.gl_write_space.cols = 3
+        racine.ids.gl_write_space.spacing = 30
+        racine.ids.gl_write_space.add_widget(
+            self.create_lbl_custom("Nom", 25)
+        )
+        racine.ids.gl_write_space.add_widget(
+            self.create_lbl_custom("Prénom", 25)
+        )
+        racine.ids.gl_write_space.add_widget(
+            self.create_lbl_custom("Ajouter une note", 25)
+        )
+        for etu in etudiant:
+            racine.ids.gl_write_space.add_widget(self.create_lbl(etu[1]))
+            racine.ids.gl_write_space.add_widget(self.create_lbl(etu[2]))
+            racine.ids.gl_write_space.add_widget(Button(text=("Nouvelle note"),
+            size_hint=(.1,None),
+            height=45,
+            width=150,
+            font_size=20,
+            background_color=(0,0,0,0.15),
+            on_release=(partial(self.add_note_panel, etu[0],etu[1],etu[2],get_id_mat(args[0]),etu)
+            
+            ))
+            
+            )
+                    
+
     def liste_etudiant(self):
+        
         racine = self.root.get_screen("teacher")
 
         racine.ids.s_espace_note.size_hint = (0, 0)
@@ -536,6 +633,7 @@ class Application(App):
             racine.ids.gl_liste_eleve.clear_widgets()
 
     def show_student_liste(self, *args):
+        self.clear_vie_scolaire()
         etudiant = get_student(args[0])
         racine = self.root.get_screen("teacher")
         if racine.ids.ti_find_student_nom.pos_hint == {"x": 0.3, "y": 0.85}:
@@ -552,7 +650,7 @@ class Application(App):
             racine.ids.gl_write_space.add_widget(self.create_lbl(etu[2]))
 
     def vie_scolaire(self):
-
+        self.clear_vie_scolaire()
         racine = self.root.get_screen("teacher")
         if racine.ids.s_liste_eleve.pos_hint == {"x": 0.2, "y": 0.55}:
             racine.ids.s_liste_eleve.size_hint = (0, 0)
@@ -640,15 +738,16 @@ class Application(App):
                     15,
                     (0, 0, 0, 0.15)
                 )
+                btn_r.bind(on_release=partial(self.add_retard,etu))
                 racine.ids.gl_write_space.add_widget(btn_r)
 
                 btn_e = self.add_button(
                     "Exclusion", (0.1, None), 35, 15, (0, 0, 0, 0.15)
                 )
-
+                btn_e.bind(on_release=partial(self.add_exlusion, etu))
                 racine.ids.gl_write_space.add_widget(btn_e)
 
-    def create_text_input(self, message, width):
+    def create_text_input(self, message, widthh):
         return TextInput(
             hint_text=f"{message}",
             halign="center",
@@ -656,12 +755,14 @@ class Application(App):
             font_size=15,
             size_hint=(None, None),
             height=38,
-            width=width,
+            width=widthh,
         )
 
     def add_absence(self, *args):
         racine = self.root.get_screen("teacher")
+        
         etu = args[0]
+       
         racine.ids.gl_write_space.clear_widgets()
         racine.ids.gl_write_space.cols = 1
         layout = GridLayout(cols=4)
@@ -679,31 +780,153 @@ class Application(App):
 
         racine.ids.gl_write_space.add_widget(layout)
 
-        layout2 = GridLayout(cols=3, spacing=10)
-        btn_date = self.create_text_input("Date", 100)
+        layout2 = GridLayout(cols=4, spacing=1)
+        ti_date = self.create_text_input("année-mois-jour", 120)
+        
+        layout2.add_widget(ti_date)
 
-        layout2.add_widget(btn_date)
+        ti_heure = self.create_text_input("Heure", 100)
+        layout2.add_widget(ti_heure)
+        
+        ti_matiere =self.create_text_input("Matière",100)
+        layout2.add_widget(ti_matiere)
 
-        btn_heure = self.create_text_input("Heure", 100)
-        layout2.add_widget(btn_heure)
-        layout2.add_widget(self.create_text_input("Commentaire", 150))
+        ti_commentaire = self.create_text_input("Commentaire", 120)
+        layout2.add_widget(ti_commentaire)
 
         btn_today = self.add_button(
             "Aujourd'hui", (0.08, None), 35, 15, (0, 0, 0, 0.15)
         )
-        btn_today.bind(on_release=partial(self.input_today, btn_date))
+        btn_today.bind(on_release=partial(self.input_today, ti_date))
         layout2.add_widget(btn_today)
 
         btn_hours = self.add_button(
             "Heure en cours", (0.08, None), 35, 15, (0, 0, 0, 0.15)
         )
-        btn_hours.bind(on_release=partial(self.input_hour, btn_heure))
+        btn_hours.bind(on_release=partial(self.input_hour, ti_heure))
         layout2.add_widget(btn_hours)
 
-        layout2.add_widget(
-            self.add_button("Valider", (0.08, None), 35, 15, (0, 0, 0, 0.15))
-        )
+        btn_valider = self.add_button("Valider", (0.08, None), 35, 15, (0, 0, 0, 0.15))
+        btn_valider.bind(on_release=partial(self.send_abscence, ti_date,ti_heure,ti_commentaire,ti_matiere,etu[0]))
+        layout2.add_widget(btn_valider)
+
+
         racine.ids.gl_write_space.add_widget(layout2)
+
+
+    def add_retard(self, *args):
+        racine = self.root.get_screen("teacher")
+        
+        etu = args[0]
+       
+        racine.ids.gl_write_space.clear_widgets()
+        racine.ids.gl_write_space.cols = 1
+        layout = GridLayout(cols=4)
+        racine.ids.gl_write_space.row_force_default = True
+
+        pp = AsyncImage(
+            source="http://54.37.226.86:8000/{}-{}-{}.png".format(
+                etu[0], etu[1].upper(), etu[2].upper()
+            )
+        )
+        layout.add_widget(pp)
+        layout.add_widget(self.create_lbl(etu[1]))
+        layout.add_widget(self.create_lbl(etu[2]))
+        layout.add_widget(self.create_lbl(etu[3]))
+
+        racine.ids.gl_write_space.add_widget(layout)
+
+        layout2 = GridLayout(cols=4, spacing=1)
+        ti_date = self.create_text_input("année-mois-jour", 120)
+        
+        layout2.add_widget(ti_date)
+
+        ti_heure = self.create_text_input("Heure:Minute", 100)
+        layout2.add_widget(ti_heure)
+        
+        ti_matiere =self.create_text_input("Matière",100)
+        layout2.add_widget(ti_matiere)
+
+        ti_commentaire = self.create_text_input("Commentaire", 120)
+        layout2.add_widget(ti_commentaire)
+
+        btn_today = self.add_button(
+            "Aujourd'hui", (0.08, None), 35, 15, (0, 0, 0, 0.15)
+        )
+        btn_today.bind(on_release=partial(self.input_today, ti_date))
+        layout2.add_widget(btn_today)
+
+        btn_hours = self.add_button(
+            "Heure en cours", (0.08, None), 35, 15, (0, 0, 0, 0.15)
+        )
+        btn_hours.bind(on_release=partial(self.input_hour_min, ti_heure))
+        layout2.add_widget(btn_hours)
+
+        btn_valider = self.add_button("Valider", (0.08, None), 35, 15, (0, 0, 0, 0.15))
+        btn_valider.bind(on_release=partial(self.send_retard, ti_date,ti_heure,ti_commentaire,ti_matiere,etu[0]))
+        layout2.add_widget(btn_valider)
+
+
+        racine.ids.gl_write_space.add_widget(layout2)
+
+    
+    def add_exlusion(self, *args):
+        racine = self.root.get_screen("teacher")
+        
+        etu = args[0]
+       
+        racine.ids.gl_write_space.clear_widgets()
+        racine.ids.gl_write_space.cols = 1
+        layout = GridLayout(cols=4)
+        racine.ids.gl_write_space.row_force_default = True
+
+        pp = AsyncImage(
+            source="http://54.37.226.86:8000/{}-{}-{}.png".format(
+                etu[0], etu[1].upper(), etu[2].upper()
+            )
+        )
+        layout.add_widget(pp)
+        layout.add_widget(self.create_lbl(etu[1]))
+        layout.add_widget(self.create_lbl(etu[2]))
+        layout.add_widget(self.create_lbl(etu[3]))
+
+        racine.ids.gl_write_space.add_widget(layout)
+
+        layout2 = GridLayout(cols=4, spacing=1)
+        ti_date = self.create_text_input("année-mois-jour", 120)
+        
+        layout2.add_widget(ti_date)
+
+        ti_heure = self.create_text_input("Heure:Minute", 100)
+        layout2.add_widget(ti_heure)
+        
+        ti_matiere =self.create_text_input("Matière",100)
+        layout2.add_widget(ti_matiere)
+
+        ti_commentaire = self.create_text_input("Motif", 120)
+        layout2.add_widget(ti_commentaire)
+
+        btn_today = self.add_button(
+            "Aujourd'hui", (0.08, None), 35, 15, (0, 0, 0, 0.15)
+        )
+        btn_today.bind(on_release=partial(self.input_today, ti_date))
+        layout2.add_widget(btn_today)
+
+        btn_hours = self.add_button(
+            "Heure en cours", (0.08, None), 35, 15, (0, 0, 0, 0.15)
+        )
+        btn_hours.bind(on_release=partial(self.input_hour_min, ti_heure))
+        layout2.add_widget(btn_hours)
+
+        btn_valider = self.add_button("Valider", (0.08, None), 35, 15, (0, 0, 0, 0.15))
+        btn_valider.bind(on_release=partial(self.send_exclusion, ti_date,ti_heure,ti_commentaire,ti_matiere,etu[0]))
+        layout2.add_widget(btn_valider)
+
+
+        racine.ids.gl_write_space.add_widget(layout2)
+
+    
+    
 
     def input_today(self, *args):
         today = datetime.now().date()
@@ -712,7 +935,43 @@ class Application(App):
     def input_hour(self, *args):
         hours = datetime.now().strftime("%H")
         args[0].text = str(hours)
+    def input_hour_min(self, *args):
+        hours = datetime.now().strftime("%H:%M")
+        args[0].text = str(hours)
 
+
+    def send_abscence(self,*args): 
+        if args[0].text != "" and args[1].text != "" and args[2].text != "":
+            date = args[0].text
+            heure = args[1].text
+            matiere = args[2].text
+            if args[2] != "":
+                comment = args[3].text
+            elif args[3] == "":
+                comment = None 
+            add_abscence_vie_scolaire(args[4],self.user.get_id(),matiere,date,heure,comment)
+
+    def send_retard(self,*args): 
+        if args[0].text != "" and args[1].text != "" and args[2].text != "":
+            date = args[0].text
+            heure = args[1].text
+            matiere = args[2].text
+            if args[2] != "":
+                comment = args[3].text
+            elif args[3] == "":
+                comment = None 
+            add_retard_vie_scolaire(args[4],self.user.get_id(),matiere,date,heure,comment)
+    
+    def send_exclusion(self,*args): 
+        if args[0].text != "" and args[1].text != "" and args[2].text != "":
+            date = args[0].text
+            heure = args[1].text
+            matiere = args[2].text
+            if args[2] != "":
+                comment = args[3].text
+            elif args[3] == "":
+                comment = None 
+            add_exclusion_vie_scolaire(args[4],self.user.get_id(),matiere,date,heure,comment)
 
 if __name__ == "__main__":
     app = Application()

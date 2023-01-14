@@ -187,7 +187,7 @@ def new_etudiant(nom, prenom, annee, sexe, filename, mdp):
     return
 
 
-def add_note(note: float, id_matiere: int, id_etu: int):
+def add_note(note: float,commentaire: str ,id_matiere: int, id_etu: int):
     """ajoute une note dans la base de données en fonction
     de la matiere et de l'étudiant
 
@@ -198,8 +198,8 @@ def add_note(note: float, id_matiere: int, id_etu: int):
     """
     try:
         cur.execute(
-            f"INSERT INTO note (note, id_matiere, id_etudiant) \
-            VALUES ({note}, {id_matiere}, {id_etu});"
+            f"INSERT INTO note (note, commentaire, id_matiere, id_etudiant) \
+            VALUES ({note}, '{commentaire}' ,{id_matiere}, {id_etu});"
         )
         con.commit()
     except Exception as e:
@@ -263,6 +263,35 @@ def get_student_vie_scolaire(name, first_name, year):
     )
     return cur.fetchall()
 
+def add_abscence_vie_scolaire(id_etu,id_teacher,mat,dates,hour,comment):
+    """Fait une requête pour insérer des données dans la table absence
+    
+    
+    """
+    cur.execute(
+            f"INSERT INTO absence (id_etudiant, id_prof, matiere, date, heure, commentaire) \
+            VALUES ({id_etu}, {id_teacher},'{mat}','{dates}','{hour}','{comment}');"
+        )
+    con.commit()
+
+def add_retard_vie_scolaire(id_etu,id_teacher,mat,dates,hour,comment):
+    cur.execute(
+        f"INSERT INTO retard (id_etudiant, id_prof, matiere, date, heure,raison) \
+            VALUES ({id_etu}, {id_teacher},'{mat}','{dates}','{hour}','{comment}');"
+    )
+    con.commit()
+def add_exclusion_vie_scolaire(id_etu,id_teacher,mat,dates,hour,comment):
+    cur.execute(
+        f"INSERT INTO exclusion (id_etudiant, id_prof, matiere, date, heure,raison) \
+            VALUES ({id_etu}, {id_teacher},'{mat}','{dates}','{hour}','{comment}');"
+    )
+    con.commit()
+
+def get_id_mat(nom_mat):
+    cur.execute(
+        f"SELECT id_matiere from matiere where nom = '{nom_mat}'"
+    )
+    return cur.fetchone()
 
 def list_mat():
     cur.execute("SELECT * FROM matiere")
@@ -351,6 +380,7 @@ def assign_mat_prof(id_prof, id_mat):
             f"INSERT INTO enseigne (id_prof, id_matiere) \
             VALUES ({id_prof}, {id_mat})")
     con.commit()
+
 
 
 if __name__ == "__main__":

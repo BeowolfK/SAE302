@@ -433,7 +433,7 @@ class Application(App):
                 if not res:
                     print("Error")
             else:
-                print("Tous les champs doivent etre remplis")
+                print("Tous les champs doivent être remplis")
 
         except Exception as e:
             print(e)
@@ -447,7 +447,11 @@ class Application(App):
             self.root.get_screen("addstudent").ids.sh_hd.text = "Show"
 
     def create_lbl_custom(self, texte, size):
-        return Label(text=str(texte), color=(192, 192, 192, 1), font_size=(size))
+        return Label(
+            text=str(texte),
+            color=(192, 192, 192, 1),
+            font_size=(size)
+        )
 
     def get_stats(self):
         id = self.user.get_id()
@@ -536,7 +540,10 @@ class Application(App):
         racine.ids.gl_write_space.add_widget(layout)
 
         layout2 = GridLayout(
-            cols=3, spacing=30, padding=30, width=racine.ids.gl_write_space.width
+            cols=3,
+            spacing=30,
+            padding=30,
+            width=racine.ids.gl_write_space.width
         )
         ti_note = self.create_text_input("Note", 100)
 
@@ -646,7 +653,13 @@ class Application(App):
             racine.ids.s_liste_eleve.size_hint = (0.20, 0.15)
             racine.ids.s_liste_eleve.pos_hint = {"x": 0.2, "y": 0.55}
             for i in self.user.get_enseigne():
-                btn = self.add_button(f"{i}", (0.06, None), 35, 22, (0, 0, 0, 0))
+                btn = self.add_button(
+                    f"{i}",
+                    (0.06, None),
+                    35,
+                    22,
+                    (0, 0, 0, 0)
+                )
                 btn.bind(on_release=partial(self.show_student_liste, i))
                 racine.ids.gl_liste_eleve.add_widget(btn)
 
@@ -664,8 +677,12 @@ class Application(App):
         if racine.ids.ti_find_student_nom.pos_hint == {"x": 0.3, "y": 0.85}:
             self.clear_vie_scolaire()
         racine.ids.gl_write_space.clear_widgets()
-        racine.ids.gl_write_space.add_widget(self.create_lbl_custom("Nom", 25))
-        racine.ids.gl_write_space.add_widget(self.create_lbl_custom("Prénom", 25))
+        racine.ids.gl_write_space.add_widget(
+            self.create_lbl_custom("Nom", 25)
+        )
+        racine.ids.gl_write_space.add_widget(
+            self.create_lbl_custom("Prénom", 25)
+        )
         for etu in etudiant:
             racine.ids.gl_write_space.add_widget(self.create_lbl(etu[1]))
             racine.ids.gl_write_space.add_widget(self.create_lbl(etu[2]))
@@ -745,11 +762,23 @@ class Application(App):
                 racine.ids.gl_write_space.add_widget(self.create_lbl(etu[2]))
                 racine.ids.gl_write_space.add_widget(self.create_lbl(etu[3]))
 
-                btn_a = self.add_button("Absence", (0.1, None), 35, 15, (0, 0, 0, 0.15))
+                btn_a = self.add_button(
+                    "Absence",
+                    (0.1, None),
+                    35,
+                    15,
+                    (0, 0, 0, 0.15)
+                )
                 btn_a.bind(on_release=partial(self.add_absence, etu))
                 racine.ids.gl_write_space.add_widget(btn_a)
 
-                btn_r = self.add_button("Retard", (0.1, None), 35, 15, (0, 0, 0, 0.15))
+                btn_r = self.add_button(
+                    "Retard",
+                    (0.1, None),
+                    35,
+                    15,
+                    (0, 0, 0, 0.15)
+                )
                 btn_r.bind(on_release=partial(self.add_retard, etu))
                 racine.ids.gl_write_space.add_widget(btn_r)
 
@@ -804,7 +833,6 @@ class Application(App):
         # height=38,
         # width=100,
         matieres = [tup[1].title() for tup in mat_by_prof(self.user.get_id())]
-        
         spinner = Spinner(
             halign="center",
             text="Matière",

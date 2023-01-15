@@ -451,8 +451,6 @@ WindowManager:
 
 <TeachWindow>
     name:"teacher"
-
-
     FloatLayout:
         orientation:"vertical"
         size:root.width, root.height
@@ -474,7 +472,7 @@ WindowManager:
                     pos:self.pos
                     size:self.size
             size_hint_x:None
-            width : 560
+            width:560
             size_hint_y: .72
             pos_hint:{"x":.3, "y" :.12}
             GridLayout:
@@ -876,7 +874,7 @@ WindowManager:
                 text:"Année"
                 color:192,192,192,1
                 font_size:20
-            Label: 
+            Label:
                 text:""
                 font_size:20
             TextInput:
@@ -920,8 +918,6 @@ WindowManager:
                 on_press:
                     app.add_matiere()
 
-
-                
 
 <ProfWindow>
     name:"liste_prof"
@@ -1002,7 +998,7 @@ WindowManager:
                 text:"Sexe"
                 color:192,192,192,1
                 font_size:20
-            Label: 
+            Label:
                 text:""
                 font_size:20
             TextInput:
@@ -1113,5 +1109,3 @@ WindowManager:
                 spacing:10
                 row_force_default:True
                 row_default_height:40
-
-

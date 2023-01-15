@@ -649,8 +649,8 @@ class Application(App):
 
         racine.ids.s_espace_note.size_hint = (0, 0)
         racine.ids.s_espace_note.pos_hint = {"x": 1.2, "y": 1.2}
-        racine.ids.gl_espace_note.clear_widgets()
 
+        racine.ids.gl_espace_note.clear_widgets()
         if racine.ids.s_liste_eleve.pos_hint == {"x": 1.2, "y": 1.2}:
             racine.ids.s_liste_eleve.size_hint = (0.20, 0.15)
             racine.ids.s_liste_eleve.pos_hint = {"x": 0.2, "y": 0.55}
@@ -738,57 +738,61 @@ class Application(App):
             and (racine.ids.ck_1a.active or racine.ids.ck_2a.active)
         ):
             if racine.ids.ck_1a.active:
-                one_stud = get_student_vie_scolaire(
+                etu = get_student_vie_scolaire(
                     racine.ids.ti_find_student_nom.text,
                     racine.ids.ti_find_student_prenom.text,
                     1,
-                )
+                )[0]
             elif racine.ids.ck_2a.active:
-                one_stud = get_student_vie_scolaire(
+                etu = get_student_vie_scolaire(
                     racine.ids.ti_find_student_nom.text,
                     racine.ids.ti_find_student_prenom.text,
                     2,
-                )
+                )[0]
 
-            for etu in one_stud:
-
-                racine.ids.gl_write_space.cols = 4
-                racine.ids.gl_write_space.spacing = 10
-                pp = AsyncImage(
-                    source="http://54.37.226.86:8000/{}-{}-{}.png".format(
-                        etu[0], etu[1].upper(), etu[2].upper()
-                    )
+            racine.ids.gl_write_space.cols = 4
+            racine.ids.gl_write_space.spacing = 10
+            pp = AsyncImage(
+                source="http://54.37.226.86:8000/{}-{}-{}.png".format(
+                    etu[0], etu[1].upper(), etu[2].upper()
                 )
-                racine.ids.gl_write_space.add_widget(pp)
-                racine.ids.gl_write_space.add_widget(self.create_lbl(etu[1]))
-                racine.ids.gl_write_space.add_widget(self.create_lbl(etu[2]))
-                racine.ids.gl_write_space.add_widget(self.create_lbl(etu[3]))
+            )
+            racine.ids.gl_write_space.add_widget(pp)
+            racine.ids.gl_write_space.add_widget(
+                self.create_lbl(etu[1].title())
+            )
+            racine.ids.gl_write_space.add_widget(
+                self.create_lbl(etu[2].title())
+            )
+            racine.ids.gl_write_space.add_widget(
+                self.create_lbl(f"{etu[3]}A")
+            )
 
-                btn_a = self.add_button(
-                    "Absence",
-                    (0.1, None),
-                    35,
-                    15,
-                    (0, 0, 0, 0.15)
-                )
-                btn_a.bind(on_release=partial(self.add_absence, etu))
-                racine.ids.gl_write_space.add_widget(btn_a)
+            btn_a = self.add_button(
+                "Absence",
+                (0.1, None),
+                35,
+                15,
+                (0, 0, 0, 0.15)
+            )
+            btn_a.bind(on_release=partial(self.add_absence, etu))
+            racine.ids.gl_write_space.add_widget(btn_a)
 
-                btn_r = self.add_button(
-                    "Retard",
-                    (0.1, None),
-                    35,
-                    15,
-                    (0, 0, 0, 0.15)
-                )
-                btn_r.bind(on_release=partial(self.add_retard, etu))
-                racine.ids.gl_write_space.add_widget(btn_r)
+            btn_r = self.add_button(
+                "Retard",
+                (0.1, None),
+                35,
+                15,
+                (0, 0, 0, 0.15)
+            )
+            btn_r.bind(on_release=partial(self.add_retard, etu))
+            racine.ids.gl_write_space.add_widget(btn_r)
 
-                btn_e = self.add_button(
-                    "Exclusion", (0.1, None), 35, 15, (0, 0, 0, 0.15)
-                )
-                btn_e.bind(on_release=partial(self.add_exclusion, etu))
-                racine.ids.gl_write_space.add_widget(btn_e)
+            btn_e = self.add_button(
+                "Exclusion", (0.1, None), 35, 15, (0, 0, 0, 0.15)
+            )
+            btn_e.bind(on_release=partial(self.add_exclusion, etu))
+            racine.ids.gl_write_space.add_widget(btn_e)
 
     def create_text_input(self, message, width):
         return TextInput(

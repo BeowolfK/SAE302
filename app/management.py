@@ -14,7 +14,7 @@ try:
         auth_plugin="mysql_native_password",
     )
 except mysql.connector.Error as e:
-    print("Exception : ", e)
+    print("Exception : ", e)    
     sys.exit(1)
 
 cur = con.cursor()

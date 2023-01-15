@@ -12,6 +12,7 @@
         "lastrowid",
         "lbls",
         "mariadb",
+        "matieres",
         "motdp",
         "mysql",
         "rehashage",
@@ -20,7 +21,8 @@
         "scrollview",
         "sizee",
         "textd",
-        "universite"
+        "universite",
+        "width"
     ],
     "python.linting.flake8Enabled": true,
     "python.linting.enabled": true

@@ -187,7 +187,7 @@ def new_etudiant(nom, prenom, annee, sexe, filename, mdp):
     return
 
 
-def add_note(note: float,commentaire: str ,id_matiere: int, id_etu: int):
+def add_note(note: float, commentaire: str, id_matiere: int, id_etu: int):
     """ajoute une note dans la base de données en fonction
     de la matiere et de l'étudiant
 
@@ -263,35 +263,42 @@ def get_student_vie_scolaire(name, first_name, year):
     )
     return cur.fetchall()
 
-def add_abscence_vie_scolaire(id_etu,id_teacher,mat,dates,hour,comment):
-    """Fait une requête pour insérer des données dans la table absence
-    
-    
-    """
+
+def add_absence_vie_scolaire(id_etu, id_teacher, mat, dates, hour, comment):
+    """Fait une requête pour insérer des données dans la table absence"""
     cur.execute(
-            f"INSERT INTO absence (id_etudiant, id_prof, matiere, date, heure, commentaire) \
-            VALUES ({id_etu}, {id_teacher},'{mat}','{dates}','{hour}','{comment}');"
-        )
+        f"INSERT INTO absence \
+        (id_etudiant, id_prof, matiere, date, heure, commentaire) \
+        VALUES \
+        ({id_etu}, {id_teacher},'{mat}','{dates}','{hour}','{comment}');"
+    )
     con.commit()
 
-def add_retard_vie_scolaire(id_etu,id_teacher,mat,dates,hour,comment):
+
+def add_retard_vie_scolaire(id_etu, id_teacher, mat, dates, hour, comment):
     cur.execute(
-        f"INSERT INTO retard (id_etudiant, id_prof, matiere, date, heure,raison) \
-            VALUES ({id_etu}, {id_teacher},'{mat}','{dates}','{hour}','{comment}');"
+        f"INSERT INTO retard \
+        (id_etudiant, id_prof, matiere, date, heure,raison) \
+        VALUES \
+        ({id_etu}, {id_teacher},'{mat}','{dates}','{hour}','{comment}');"
     )
     con.commit()
-def add_exclusion_vie_scolaire(id_etu,id_teacher,mat,dates,hour,comment):
+
+
+def add_exclusion_vie_scolaire(id_etu, id_teacher, mat, dates, hour, comment):
     cur.execute(
-        f"INSERT INTO exclusion (id_etudiant, id_prof, matiere, date, heure,raison) \
-            VALUES ({id_etu}, {id_teacher},'{mat}','{dates}','{hour}','{comment}');"
+        f"INSERT INTO exclusion \
+        (id_etudiant, id_prof, matiere, date, heure,raison) \
+        VALUES \
+        ({id_etu}, {id_teacher},'{mat}','{dates}','{hour}','{comment}');"
     )
     con.commit()
+
 
 def get_id_mat(nom_mat):
-    cur.execute(
-        f"SELECT id_matiere from matiere where nom = '{nom_mat}'"
-    )
+    cur.execute(f"SELECT id_matiere from matiere where nom = '{nom_mat}'")
     return cur.fetchone()
+
 
 def list_mat():
     cur.execute("SELECT * FROM matiere")
@@ -306,7 +313,7 @@ def add_mat(name, annee):
     cur.execute(
         f"INSERT INTO matiere (nom, annee) \
         VALUES ('{name}', '{annee}')"
-        )
+    )
     con.commit()
 
 
@@ -319,7 +326,8 @@ def mat_by_prof(id):
     cur.execute(
         f"SELECT matiere.id_matiere, matiere.nom FROM matiere \
         INNER JOIN enseigne ON matiere.id_matiere = enseigne.id_matiere \
-        WHERE enseigne.id_prof = {id};")
+        WHERE enseigne.id_prof = {id};"
+    )
     return cur.fetchall()
 
 
@@ -340,11 +348,7 @@ def list_prof():
     prof = []
     for id in res:
         mat = mat_by_prof(id[0])
-        prof.append(
-            [id[0],
-             id[1],
-             [nom[1].title() for nom in mat]]
-            )
+        prof.append([id[0], id[1], [nom[1].title() for nom in mat]])
     return prof
 
 
@@ -374,14 +378,18 @@ def assign_mat_prof(id_prof, id_mat):
     cur.execute(f"SELECT id_prof FROM enseigne WHERE id_matiere = {id_mat}")
     res = [id[0] for id in cur.fetchall()]
     if id_prof in res:
-        cur.execute(f"DELETE FROM enseigne WHERE id_prof = {id_prof}")
+        cur.execute(
+            f"DELETE FROM enseigne \
+            WHERE id_prof = {id_prof} \
+            AND id_matiere = {id_mat}"
+        )
     else:
         cur.execute(
             f"INSERT INTO enseigne (id_prof, id_matiere) \
-            VALUES ({id_prof}, {id_mat})")
+            VALUES ({id_prof}, {id_mat})"
+        )
     con.commit()
 
 
-
 if __name__ == "__main__":
-    print(assign_mat_prof(1, 2))
+    print(mat_by_prof(1))

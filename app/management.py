@@ -378,7 +378,11 @@ def assign_mat_prof(id_prof, id_mat):
     cur.execute(f"SELECT id_prof FROM enseigne WHERE id_matiere = {id_mat}")
     res = [id[0] for id in cur.fetchall()]
     if id_prof in res:
-        cur.execute(f"DELETE FROM enseigne WHERE id_prof = {id_prof}")
+        cur.execute(
+            f"DELETE FROM enseigne \
+            WHERE id_prof = {id_prof} \
+            AND id_matiere = {id_mat}"
+        )
     else:
         cur.execute(
             f"INSERT INTO enseigne (id_prof, id_matiere) \

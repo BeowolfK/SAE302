@@ -453,12 +453,19 @@ class Application(App):
         id = self.user.get_id()
 
         note = panel_note(id)
+        list_note = []
 
-        grid = self.root.get_screen("second").ids.grid1
+        screen = self.root.get_screen("second")
+        grid = screen.ids.grid1
+
         for grade in note:
             grid.add_widget(self.create_lbl(grade[0].title()))
-            grid.add_widget(self.create_lbl(",".join(grade[1])))
+            grid.add_widget(self.create_lbl(", ".join(grade[1])))
             grid.add_widget(self.create_lbl(grade[2]))
+            list_note.append(grade[2])
+
+        mean = round(sum(list_note) / len(list_note), 2)
+        screen.ids.lbl_moyenne.text = f"{mean}/20"
 
     def clear_note(self):
         self.root.get_screen("second").ids.grid1.clear_widgets()
@@ -500,7 +507,7 @@ class Application(App):
                     )
                 )
 
-        elif racine.ids.s_espace_note.pos_hint == {"x": 0.2, "y": 0.65}:
+        else:
             racine.ids.s_espace_note.size_hint = (0, 0)
             racine.ids.s_espace_note.pos_hint = {"x": 1.2, "y": 1.2}
             racine.ids.gl_espace_note.clear_widgets()
@@ -547,7 +554,13 @@ class Application(App):
                 font_size=25,
                 background_color=(0, 0, 0, 0.15),
                 on_release=(
-                    partial(self.call_add_note, ti_note, ti_comment, id_matiere, etu[0])
+                    partial(
+                        self.call_add_note,
+                        ti_note,
+                        ti_comment,
+                        id_matiere,
+                        etu[0]
+                    )
                 ),
             )
         )
@@ -555,21 +568,45 @@ class Application(App):
         racine.ids.gl_write_space.add_widget(layout2)
 
     def call_add_note(self, *args):
-        note = float(args[0].text)
-        comment = str(args[1].text)
+        # racine = self.root.get_screen("teacher")
+        flag = True
+        note = args[0].text
+        if note == "":
+            flag = False
+            args[0].background_color = (1, 0, 0, 0.3)
+        else:
+            try:
+                note = float(note)
+                if not 0 <= note <= 20:
+                    flag = False
+                    args[0].background_color = (1, 0, 0, 0.3)
+            except ValueError:
+                flag = False
+                args[0].background_color = (1, 0, 0, 0.3)
+        comment = args[1].text
         id_matiere = int(args[2][0])
         id_etu = int(args[3])
-        add_note(note, comment, id_matiere, id_etu)
+        if flag:
+            add_note(note, comment, id_matiere, id_etu)
+            args[0].background_color = (1, 1, 1, 1)
+        args[0].text = ""
+        args[1].text = ""
 
     def espace_add_note(self, *args):
         etudiant = get_student(args[0])
 
         racine = self.root.get_screen("teacher")
+        racine.ids.s_espace_note.size_hint = (0, 0)
+        racine.ids.s_espace_note.pos_hint = {"x": 1.2, "y": 1.2}
         racine.ids.gl_write_space.clear_widgets()
         racine.ids.gl_write_space.cols = 3
         racine.ids.gl_write_space.spacing = 30
-        racine.ids.gl_write_space.add_widget(self.create_lbl_custom("Nom", 25))
-        racine.ids.gl_write_space.add_widget(self.create_lbl_custom("Prénom", 25))
+        racine.ids.gl_write_space.add_widget(
+            self.create_lbl_custom("Nom", 25)
+        )
+        racine.ids.gl_write_space.add_widget(
+            self.create_lbl_custom("Prénom", 25)
+        )
         racine.ids.gl_write_space.add_widget(
             self.create_lbl_custom("Ajouter une note", 25)
         )
@@ -613,7 +650,7 @@ class Application(App):
                 btn.bind(on_release=partial(self.show_student_liste, i))
                 racine.ids.gl_liste_eleve.add_widget(btn)
 
-        elif racine.ids.s_liste_eleve.pos_hint == {"x": 0.2, "y": 0.55}:
+        else:
             racine.ids.s_liste_eleve.size_hint = (0, 0)
             racine.ids.s_liste_eleve.pos_hint = {"x": 1.2, "y": 1.2}
             racine.ids.gl_liste_eleve.clear_widgets()
@@ -622,6 +659,8 @@ class Application(App):
         self.clear_vie_scolaire()
         etudiant = get_student(args[0])
         racine = self.root.get_screen("teacher")
+        racine.ids.s_liste_eleve.size_hint = (0, 0)
+        racine.ids.s_liste_eleve.pos_hint = {"x": 1.2, "y": 1.2}
         if racine.ids.ti_find_student_nom.pos_hint == {"x": 0.3, "y": 0.85}:
             self.clear_vie_scolaire()
         racine.ids.gl_write_space.clear_widgets()

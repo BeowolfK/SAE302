@@ -94,7 +94,7 @@ class Application(App):
         pass
 
     def resetchamp(self, verif):
-        mdp_box = self.root.get_screen("hub").ids.mdp
+        mdp_box = self.root.get_screen("hub").ids.mdp   
         lbl = self.root.get_screen("hub").ids.mdp_lbl
         mdp_box.text = ""
         if not verif:
@@ -603,6 +603,8 @@ class Application(App):
         etudiant = get_student(args[0])
 
         racine = self.root.get_screen("teacher")
+        racine.ids.gl_espace_note.clear_widgets()
+
         racine.ids.s_espace_note.size_hint = (0, 0)
         racine.ids.s_espace_note.pos_hint = {"x": 1.2, "y": 1.2}
         racine.ids.gl_write_space.clear_widgets()

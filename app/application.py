@@ -150,8 +150,7 @@ class Application(App):
                 if verif[0] == "etu":
                     id = verif[1]
                     info = info_etu(id)
-                    pres = f"{id}) {info}"
-                    self.root.get_screen("second").ids.nom.text = pres
+                    self.root.get_screen("second").ids.nom.text = info
                     self.resetchamp(True)
                     self.user = Etudiant(verif[1])
                     self.get_stats()
@@ -403,7 +402,7 @@ class Application(App):
             prenom = screen.ids.t_prenom.text
             sexe = "M" if screen.ids.ck_h.active else "F"
             mdp = screen.ids.t_mdp.text
-            if not screen.ids.ck_h.active and not screen.ids.ck_h.active:
+            if not screen.ids.ck_h.active and not screen.ids.ck_f.active:
                 sexe = ""
             annee = 1 if screen.ids.ck_1a.active else 2
             if not screen.ids.ck_1a.active and not screen.ids.ck_2a.active:
@@ -429,7 +428,13 @@ class Application(App):
                 label_mdp.color = (1, 0, 0, 0.4)
             if flag:
                 self.reset_addstudent()
-                res = new_etudiant(nom, prenom, annee, sexe, filename, mdp)
+                res = new_etudiant(
+                    nom.upper(),
+                    prenom.upper(),
+                    annee,
+                    sexe,
+                    filename,
+                    mdp)
                 if not res:
                     print("Error")
             else:
@@ -464,12 +469,15 @@ class Application(App):
 
         for grade in note:
             grid.add_widget(self.create_lbl(grade[0].title()))
-            grid.add_widget(self.create_lbl(", ".join(grade[1])))
+            grid.add_widget(self.create_lbl(", ".join(grade[1]).title()))
             grid.add_widget(self.create_lbl(grade[2]))
             list_note.append(grade[2])
 
-        mean = round(sum(list_note) / len(list_note), 2)
-        screen.ids.lbl_moyenne.text = f"{mean}/20"
+        try:
+            mean = f"{round(sum(list_note) / len(list_note), 2)}/20"
+            screen.ids.lbl_moyenne.text = mean
+        except ZeroDivisionError:
+            screen.ids.lbl_moyenne.text = "Aucune note"
 
     def clear_note(self):
         self.root.get_screen("second").ids.grid1.clear_widgets()

@@ -212,7 +212,8 @@ def liste_etu():
         sexe, status, id_login, id_personne \
         FROM login \
         INNER JOIN etudiant ON login.id_personne = etudiant.id_etudiant \
-        WHERE login.type = 'etu';"
+        WHERE login.type = 'etu'\
+        ORDER BY nom ASC;"
     )
     return cur.fetchall()
 
@@ -247,7 +248,8 @@ def get_student(study):
         INNER JOIN matiere \
         WHERE matiere.annee = etudiant.annee \
         AND etudiant.annee = {annee_mat} \
-        AND matiere.nom = '{study}' "
+        AND matiere.nom = '{study}' \
+        ORDER BY etudiant.nom ASC;"
     )
     all_student = cur.fetchall()
     return all_student
@@ -259,7 +261,8 @@ def get_student_vie_scolaire(name, first_name, year):
         WHERE matiere.annee = etudiant.annee \
         AND etudiant.nom = '{name}' \
         AND etudiant.prenom = '{first_name}' \
-        AND etudiant.annee = '{year}'"
+        AND etudiant.annee = '{year}' \
+        ORDER BY etudiant.nom ASC;"
     )
     return cur.fetchall()
 
@@ -363,10 +366,14 @@ def add_prof(nom, prenom, sexe):
             f"INSERT INTO prof (nom, prenom, sexe) \
             VALUES ('{nom}', '{prenom}', '{sexe}')"
         )
+        con.commit()
     except Exception:
         return False
     else:
-        return True
+        cur.execute("SELECT LAST_INSERT_ID();")
+        id = int(cur.fetchone()[0])
+        res = new_account(nom, "prof", "prof", id, 1)
+        return res
 
 
 def all_mat():

@@ -43,36 +43,35 @@ def new_account(username, password, type, id, status):
     cur.execute(f"SELECT type FROM login WHERE id_personne = '{id}'")
     # Il peut y avoir un id prof et un id etudiant identique
     # On vérifie donc que selon le type, il n'y a pas de double compte
-
     res = cur.fetchall()
     if res != []:
         for i in res:
             if i[0] == type:
                 return
-    if type == "etu":
-        cur.execute(f"SELECT * FROM etudiant WHERE id_etudiant = '{id}'")
-        if len(cur.fetchall()) != 1:
-            return
+    # if type == "etu":
+    #     cur.execute(f"SELECT * FROM etudiant WHERE id_etudiant = '{id}'")
+    #     if len(cur.fetchall()) >= 1:
+    #         return
     # Pour les étudiants, on vérifie que le compte est bien associé a un élève
     if type == "prof":
         cur.execute(f"SELECT * FROM prof WHERE id_prof= '{id}'")
-        if len(cur.fetchall()) != 1:
+        if len(cur.fetchall()) >= 1:
             return
     # Pareil pour les professeurs on vérifie que c'est bien associé
-
     hash = ph.hash(password)
     if ph.check_needs_rehash(hash):
         hash = ph.hash(password)
     # On hash le mot de passe, car on ne stocke pas de mot de passe brut
     # dans la base de données. Si il y a besoin d'un rehashage, on refait.
-
+    
     try:
         cur.execute(
             f"INSERT INTO login \
             (id_login, username, password, type, id_personne, status) \
             VALUES (NULL, '{username}', '{hash}', '{type}', {id}, {status});"
         )
-    except mysql.connector.Error:
+    except mysql.connector.Error as e:
+        print(e)
         return
     con.commit()
     return True

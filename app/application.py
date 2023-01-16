@@ -513,6 +513,7 @@ class Application(App):
             racine.ids.s_espace_note.size_hint = (0.20, 0.15)
             racine.ids.s_espace_note.pos_hint = {"x": 0.2, "y": 0.65}
             for i in self.user.get_enseigne():
+                
                 racine.ids.gl_espace_note.add_widget(
                     self.add_button_event(
                         f"{i}", (0.055, None), 35, 22, (0, 0, 0, 0), i
@@ -950,6 +951,9 @@ class Application(App):
         racine.ids.gl_write_space.add_widget(layout2)
 
     def input_today(self, *args):
+        """Fonction permetant de motifier l'option 'text' d'un label ou bouton dont l'instance est donné en argument. 
+        
+        """
         today = datetime.now().date().strftime("%d/%m/%Y")
         args[0].text = str(today)
 
@@ -962,6 +966,10 @@ class Application(App):
         args[0].text = str(hours)
 
     def send_absence(self, *args):
+        """Fonction utilisé pour envoyer une absence saisie dans la base de donnée en s'appuyant sur la fonction add_absence_vie_scolaire situé dans le fichier management.py 
+        qui lui s'occupe de la requette vers la base de donné
+
+        """
         if self.valid_vie_sco(args[:4]):
             date = args[0].text
             heure = args[1].text
@@ -973,6 +981,12 @@ class Application(App):
         self.reset_vie_sco(args[:4])
 
     def send_retard(self, *args):
+        """Fonction utilisé pour envoyer un retard saisie dans la base de donnée en s'appuyant sur la fonction add_retard_vie_scolaire situé dans le fichier management.py 
+        qui lui s'occupe de la requette vers la base de donné
+
+        
+        
+        """
         if self.valid_vie_sco(args[:4]):
             date = args[0].text
             heure = args[1].text
@@ -984,6 +998,12 @@ class Application(App):
         self.reset_vie_sco(args[:4])
 
     def send_exclusion(self, *args):
+        """Fonction utilisé pour envoyer une exclusion saisie dans la base de donnée en s'appuyant sur la fonction add_exclusion_vie_scolaire situé dans le fichier management.py 
+        qui lui s'occupe de la requette vers la base de donné
+
+        
+        
+        """
         if self.valid_vie_sco(args[:4]):
             date = args[0].text
             heure = args[1].text

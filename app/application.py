@@ -92,6 +92,7 @@ class WindowManager(ScreenManager):
 class Application(App):
     def build(self):
         pass
+    
 
     def resetchamp(self, verif):
         mdp_box = self.root.get_screen("hub").ids.mdp
@@ -169,6 +170,7 @@ class Application(App):
                     return "teacher"
 
                 if verif[0] == "admin":
+                    self.resetchamp(True)
                     return "admin"
             else:
                 self.resetchamp(False)

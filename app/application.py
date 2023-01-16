@@ -95,6 +95,11 @@ class Application(App):
     
 
     def resetchamp(self, verif):
+        """Fonction qui change la couleur du texte Mot de Passe sur l'interface 'hub' en cas d'erreur de mot de passe
+        et qui rend le champ vide. 
+        
+        
+        """
         mdp_box = self.root.get_screen("hub").ids.mdp
         lbl = self.root.get_screen("hub").ids.mdp_lbl
         mdp_box.text = ""
@@ -106,30 +111,52 @@ class Application(App):
             lbl.underline = False
 
     def solo_check(self):
+        """Fonction permettant la syncronisation entre deux checkbox
+        
+        """
         if self.root.get_screen("addstudent").ids.ck_h.active:
             self.root.get_screen("addstudent").ids.ck_h.active = False
 
     def solo_check2(self):
+        """Fonction permettant la syncronisation entre deux checkbox
+        
+        """
         if self.root.get_screen("addstudent").ids.ck_f.active:
             self.root.get_screen("addstudent").ids.ck_f.active = False
 
     def solo_check3(self):
+        """Fonction permettant la syncronisation entre deux checkbox
+        
+        """
         if self.root.get_screen("addstudent").ids.ck_1a.active:
             self.root.get_screen("addstudent").ids.ck_1a.active = False
 
     def solo_check4(self):
+        """Fonction permettant la syncronisation entre deux checkbox
+        
+        """
         if self.root.get_screen("addstudent").ids.ck_2a.active:
             self.root.get_screen("addstudent").ids.ck_2a.active = False
 
     def solo_check_1A(self):
+        """Fonction permettant la syncronisation entre deux checkbox
+        
+        """
         if self.root.get_screen("teacher").ids.ck_1a.active:
             self.root.get_screen("teacher").ids.ck_1a.active = False
 
     def solo_check_2A(self):
+        """Fonction permettant la syncronisation entre deux checkbox
+        
+        """
         if self.root.get_screen("teacher").ids.ck_2a.active:
             self.root.get_screen("teacher").ids.ck_2a.active = False
 
     def create_lbl(self, texte):
+        """Fonction permettant de créer un label plus rapidement simplement en donnant le texte, les autres 
+        paramètres étant déjà préremplis. 
+        
+        """
         return Label(text=str(texte), color=(192, 192, 192, 1))
 
     def valider(self):

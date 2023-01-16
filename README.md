@@ -26,10 +26,6 @@ Ici, `CONTAINER-ID = sae302-db-1`.
 
 Grace aux volumes persistants, nos bases de données sont dans le dossier `./database`
 
-## Serveur Web 
-
-a venir
-
 ## Mise en place d'un serveur
 
 - ouverture des port et firewall

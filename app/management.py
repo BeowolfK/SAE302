@@ -183,6 +183,7 @@ def new_etudiant(nom, prenom, annee, sexe, filename, mdp):
     id = int(cur.fetchone()[0])
     res = new_account(username, mdp, "etu", id, 0)
     if res:
+        print("="*50, username, "="*50, sep="\n")
         return True
     return
 

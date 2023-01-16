@@ -94,7 +94,7 @@ class Application(App):
         pass
 
     def resetchamp(self, verif):
-        mdp_box = self.root.get_screen("hub").ids.mdp   
+        mdp_box = self.root.get_screen("hub").ids.mdp
         lbl = self.root.get_screen("hub").ids.mdp_lbl
         mdp_box.text = ""
         if not verif:
@@ -840,13 +840,6 @@ class Application(App):
         ti_heure = self.create_text_input("Heure:Minute", 100)
         layout2.add_widget(ti_heure)
 
-        # hint_text=f"{message}",
-        # halign="center",
-        # multiline=False,
-        # font_size=15,
-        # size_hint=(None, None),
-        # height=38,
-        # width=100,
         matieres = [tup[1].title() for tup in mat_by_prof(self.user.get_id())]
         spinner = Spinner(
             halign="center",

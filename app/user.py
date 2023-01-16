@@ -1,3 +1,8 @@
+"""
+Ce fichier ne nous sert qu'as ajouter automatiquement tous les étudiants
+de notre promo a la base de données
+"""
+
 from login import new_account
 from management import convertToBinaryData
 import os
@@ -39,4 +44,3 @@ for filename in os.listdir(dir):
     id = int(cur.fetchone()[0])
     res = new_account(username, "etu", "etu", id, 1)
     print(res)
-

@@ -48,10 +48,10 @@ def new_account(username, password, type, id, status):
         for i in res:
             if i[0] == type:
                 return
-    # if type == "etu":
-    #     cur.execute(f"SELECT * FROM etudiant WHERE id_etudiant = '{id}'")
-    #     if len(cur.fetchall()) >= 1:
-    #         return
+    if type == "etu":
+        cur.execute(f"SELECT * FROM etudiant WHERE id_etudiant = '{id}'")
+        if len(cur.fetchall()) >= 1:
+            return
     # Pour les étudiants, on vérifie que le compte est bien associé a un élève
     if type == "prof":
         cur.execute(f"SELECT * FROM prof WHERE id_prof= '{id}'")
@@ -63,7 +63,7 @@ def new_account(username, password, type, id, status):
         hash = ph.hash(password)
     # On hash le mot de passe, car on ne stocke pas de mot de passe brut
     # dans la base de données. Si il y a besoin d'un rehashage, on refait.
-    
+
     try:
         cur.execute(
             f"INSERT INTO login \
@@ -79,6 +79,16 @@ def new_account(username, password, type, id, status):
 
 
 def verify(username, password):
+    """Vérifie les identifiants d'un utilisateur
+
+    Args:
+        username (str): nom d'utilisateur
+        password (str): mot de passe
+
+    Returns:
+        tuple: renvoie un tuple avec le type de compte, l'id de la personne et
+        le status du compte
+    """
     assert isinstance(username, str)
     assert isinstance(password, str)
 
@@ -106,7 +116,15 @@ def verify(username, password):
     # Sinon, on récupère l'ID de l'étudiant qui va nous servir sur le panel
 
 
-def nom_prenom(type, id):
+def nom_prenom(type: str, id: int) -> tuple:
+    """
+    Args:
+        type (str): type de la personne (etu ou prof)
+        id (int): id de la personne
+
+    Returns:
+        tuple: tuple contenant le nom, le prénom et le sexe de la personne
+    """
     assert isinstance(type, str)
     assert isinstance(int(id), int)
 

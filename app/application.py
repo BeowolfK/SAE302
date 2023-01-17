@@ -769,6 +769,7 @@ class Application(App):
 
     def recherche_vie_sco(self):
         racine = self.root.get_screen("teacher")
+        etu = None
         racine.ids.gl_write_space.clear_widgets()
         if (
             racine.ids.ti_find_student_nom.text != ""
@@ -776,61 +777,68 @@ class Application(App):
             and (racine.ids.ck_1a.active or racine.ids.ck_2a.active)
         ):
             if racine.ids.ck_1a.active:
-                etu = get_student_vie_scolaire(
-                    racine.ids.ti_find_student_nom.text,
-                    racine.ids.ti_find_student_prenom.text,
-                    1,
-                )[0]
+                try:
+                    etu = get_student_vie_scolaire(
+                        racine.ids.ti_find_student_nom.text,
+                        racine.ids.ti_find_student_prenom.text,
+                        1,
+                        )[0]
+                except IndexError: 
+                    print("Pas en 1A")        
             elif racine.ids.ck_2a.active:
-                etu = get_student_vie_scolaire(
-                    racine.ids.ti_find_student_nom.text,
-                    racine.ids.ti_find_student_prenom.text,
-                    2,
-                )[0]
+                try:
 
-            racine.ids.gl_write_space.cols = 4
-            racine.ids.gl_write_space.spacing = 10
-            pp = AsyncImage(
-                source="http://54.37.226.86:8000/{}-{}-{}.png".format(
-                    etu[0], etu[1].upper(), etu[2].upper()
+                    etu = get_student_vie_scolaire(
+                        racine.ids.ti_find_student_nom.text,
+                        racine.ids.ti_find_student_prenom.text,
+                        2,
+                    )[0]
+                except IndexError:
+                    print("Pas en 2A")
+            if etu != None : 
+                racine.ids.gl_write_space.cols = 4
+                racine.ids.gl_write_space.spacing = 10
+                pp = AsyncImage(
+                    source="http://54.37.226.86:8000/{}-{}-{}.png".format(
+                        etu[0], etu[1].upper(), etu[2].upper()
+                    )
                 )
-            )
-            racine.ids.gl_write_space.add_widget(pp)
-            racine.ids.gl_write_space.add_widget(
-                self.create_lbl(etu[1].title())
-            )
-            racine.ids.gl_write_space.add_widget(
-                self.create_lbl(etu[2].title())
-            )
-            racine.ids.gl_write_space.add_widget(
-                self.create_lbl(f"{etu[3]}A")
-            )
+                racine.ids.gl_write_space.add_widget(pp)
+                racine.ids.gl_write_space.add_widget(
+                    self.create_lbl(etu[1].title())
+                )
+                racine.ids.gl_write_space.add_widget(
+                    self.create_lbl(etu[2].title())
+                )
+                racine.ids.gl_write_space.add_widget(
+                    self.create_lbl(f"{etu[3]}A")
+                )
 
-            btn_a = self.add_button(
-                "Absence",
-                (0.1, None),
-                35,
-                15,
-                (0, 0, 0, 0.15)
-            )
-            btn_a.bind(on_release=partial(self.add_absence, etu))
-            racine.ids.gl_write_space.add_widget(btn_a)
+                btn_a = self.add_button(
+                    "Absence",
+                    (0.1, None),
+                    35,
+                    15,
+                    (0, 0, 0, 0.15)
+                )
+                btn_a.bind(on_release=partial(self.add_absence, etu))
+                racine.ids.gl_write_space.add_widget(btn_a)
 
-            btn_r = self.add_button(
-                "Retard",
-                (0.1, None),
-                35,
-                15,
-                (0, 0, 0, 0.15)
-            )
-            btn_r.bind(on_release=partial(self.add_retard, etu))
-            racine.ids.gl_write_space.add_widget(btn_r)
+                btn_r = self.add_button(
+                    "Retard",
+                    (0.1, None),
+                    35,
+                    15,
+                    (0, 0, 0, 0.15)
+                )
+                btn_r.bind(on_release=partial(self.add_retard, etu))
+                racine.ids.gl_write_space.add_widget(btn_r)
 
-            btn_e = self.add_button(
-                "Exclusion", (0.1, None), 35, 15, (0, 0, 0, 0.15)
-            )
-            btn_e.bind(on_release=partial(self.add_exclusion, etu))
-            racine.ids.gl_write_space.add_widget(btn_e)
+                btn_e = self.add_button(
+                    "Exclusion", (0.1, None), 35, 15, (0, 0, 0, 0.15)
+                )
+                btn_e.bind(on_release=partial(self.add_exclusion, etu))
+                racine.ids.gl_write_space.add_widget(btn_e)
 
     def create_text_input(self, message, width):
         return TextInput(
